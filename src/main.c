@@ -1,14 +1,29 @@
 #include "../include/minishell.h"
 
-/*	print current directory
+/*	print username + current directory
  *	to be used as prompt
-*/
+ */
 void	msh_dir(void)
 {
 	char	cwd[1024];
+	char	**split_dir;
+	char	*username;
+	int		count;
 
 	getcwd(cwd, sizeof(cwd));
-	printf("%s", cwd);
+	split_dir = ft_split(cwd, '/');
+	count = 0;
+	while (split_dir[count])
+		count++;
+	count--;
+	username = getenv("USER");
+	printf("%s %s", username, split_dir[count]);
+	while (count >= 0)
+	{
+		free(split_dir[count]);
+		count--;
+	}
+	free(split_dir);
 }
 
 /*	Basic loop of a shell
@@ -27,7 +42,14 @@ static void	msh_loop(void)
 	while (status)
 	{
 		msh_dir();
-		line = readline("> ");
+		line = readline(" % ");
+		if (ft_strlen(line))
+		{
+			add_history(line);
+			lexer(line);
+		}
+		// else //to check for leaks
+		// 	status = 0;
 
 		// TODO lexer, parser, executer
 		//tokens = msh_lexer(line);
@@ -46,5 +68,7 @@ static void	msh_loop(void)
 int	main(int argc, char *argv[])
 {
 	msh_loop();
+	// while (1) //to check for leaks
+	// 	pause();
 	return (EXIT_SUCCESS);
 }
