@@ -10,4 +10,6 @@
 
 # define ERROR "\e[1;31mError: \e[0m"
 
+int		lexer(char *line);
+
 #endif

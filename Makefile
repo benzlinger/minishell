@@ -21,7 +21,8 @@ OBJ_PATH = ./obj/
 UTILS_PATH = ./src/
 
 # SOURCES
-SRC =	$(SRC_PATH)main.c
+SRC =	$(SRC_PATH)main.c \
+		$(SRC_PATH)lexer.c
 
 # OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))
