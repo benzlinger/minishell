@@ -3,7 +3,7 @@
 /*	print username + current directory
  *	to be used as prompt
  */
-void	msh_dir(void)
+static void	msh_dir(void)
 {
 	char	cwd[1024];
 	char	**split_dir;
