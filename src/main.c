@@ -1,5 +1,16 @@
 #include "../include/minishell.h"
 
+/*	print current directory
+ *	to be used as prompt
+*/
+void	msh_dir(void)
+{
+	char	cwd[1024];
+
+	getcwd(cwd, sizeof(cwd));
+	printf("%s", cwd);
+}
+
 /*	Basic loop of a shell
  *	1. Read the command from stdin
  *	2. Separate the command string into a programm and arguments
@@ -15,6 +26,7 @@ static void	msh_loop(void)
 	status = 1;
 	while (status)
 	{
+		msh_dir();
 		line = readline("> ");
 
 		// TODO lexer, parser, executer
