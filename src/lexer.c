@@ -1,6 +1,9 @@
 #include "../include/minishell.h"
 
-// TODO function comment
+/*	initializes the token linked list
+ *	@param literal: the first token of the command prompt
+ *	@return linked list head pointer
+ */
 static t_token_list	*init_token_list(char *literal)
 {
 	t_token_list	*head;
@@ -16,7 +19,11 @@ static t_token_list	*init_token_list(char *literal)
 	return (head);
 }
 
-// TODO function comment
+/*	function to add token nodes to the linked list
+ *	@param literal: complete command prompt
+ *	@param head:	first tokennode of linked list
+ *	@param i:	position in literal
+ */
 static void	add_token_node(char **literal, t_token_list *head, int i)
 {
 	t_token_list	*node;

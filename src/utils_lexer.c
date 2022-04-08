@@ -2,7 +2,7 @@
 
 /*	gets the pipe_index for the tokens starting by 0
  *	first occuring pipe also gets pipe_index == 0
- *	seconde one gets pipe_index == 1 etc.
+ *	second one gets pipe_index == 1 etc.
  *	@param prompt:	command line prompt
  *	@param pos:	index of token in command line prompt (position)
  *	@return the pipe_index
@@ -22,3 +22,9 @@ int	ft_get_pipe_index(char **prompt, int pos)
 	}
 	return (pipe_count);
 }
+
+/*	figures out the classification of a token
+ *	@param literal:	literal (token)string of command prompt
+ *	@return enumarated clasification (int)
+ * 	int	ft_get_type(char *literal);
+ */
