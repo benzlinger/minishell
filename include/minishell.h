@@ -4,11 +4,17 @@
 # include <readline/readline.h> // readline
 # include <readline/history.h> // readline
 # include <stdio.h> // printf, readline
+# include <unistd.h> // write
 # include <stdlib.h>
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
 # include "libft.h"
 
 # define ERROR "\e[1;31mError: \e[0m"
+
+typedef enum e_rror
+{
+	ALLOC
+}		t_rror;
 
 /*	random types from wikipedia for testing
  *	idk what exact types we'll need later
@@ -35,6 +41,13 @@ typedef struct s_token_list{
 	struct s_token_list	*next;
 }		t_token_list;
 
-t_token_list	msh_lexer(char *line);
+t_token_list	*msh_lexer(char *line);
+
+/* utils */
+int		ft_get_pipe_index(char **prompt, int pos);
+int		ft_error(int status);
+
+/* debug functions */
+void		ft_print_list(t_token_list *head);
 
 #endif

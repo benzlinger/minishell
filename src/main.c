@@ -33,10 +33,10 @@ static void	msh_dir(void)
  */
 static void	msh_loop(void)
 {
-	char	*line;
-	char	**tokens;
-	char	*command;
-	int	status;
+	t_token_list	*tokens;
+	char		*line;
+	char		*command;
+	int		status;
 
 	status = 1;
 	while (status)
@@ -46,7 +46,8 @@ static void	msh_loop(void)
 		if (ft_strlen(line))
 		{
 			add_history(line);
-			lexer(line);
+			tokens = msh_lexer(line);
+			ft_print_list(tokens);
 		}
 		// else //to check for leaks
 		// 	status = 0;

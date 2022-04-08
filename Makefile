@@ -22,9 +22,8 @@ UTILS_PATH = ./src/
 
 # SOURCES
 SRC =	$(SRC_PATH)main.c		$(SRC_PATH)lexer.c\
-	$(SRC_PATH)utils_general.c	$(SRC_PATH)utils_lexer.c\
-	$(SRC_PATH)utils_error.c
-
+	$(SRC_PATH)utils_error.c	$(SRC_PATH)utils_lexer.c\
+	$(SRC_PATH)debug.c
 # OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))
 
