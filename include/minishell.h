@@ -1,11 +1,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h> // printf, readline
 # include <readline/readline.h> // readline
 # include <readline/history.h> // readline
-# include <stdio.h> // printf, readline
 # include <unistd.h> // write
-# include <stdlib.h>
+# include <stdlib.h> // malloc, free
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
 # include "libft.h"
 

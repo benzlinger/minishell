@@ -1,9 +1,13 @@
 # EXECUTABLE
 NAME = ./minishell
 
+# READLINE
+LFR = -L$$HOME/.brew/opt/readline/lib -lreadline
+LFRC = -I$$HOME/.brew/opt/readline/include
+
 # FLAGS
 CC = gcc
-CFLAGS = -lreadline -Wall -Wextra #-Werror #-g 
+CFLAGS = -Wall -Wextra #-Werror #-g 
 
 # COLORS
 Y = "\033[33m"
@@ -41,14 +45,14 @@ $(OBJ_PATH)%.o : $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
 	@sleep 0.2
 	@printf $(UP)$(CUT)
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(LFRC) -c -o $@ $< 
 	@echo $(G)Finished [$@]$(X)
 	@sleep 0.2
 	@printf $(UP)$(CUT)
 
 $(NAME): $(OBJ)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) libft/libft.a
+	@$(CC) $(CFLAGS) $(LFR) $(OBJ) -o $(NAME) libft/libft.a
 	@echo $(G)Finished [$(NAME)]$(X)
 
 clean:

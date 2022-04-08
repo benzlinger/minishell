@@ -3,3 +3,4 @@ minishell
 libft/*.o
 libft/libft.a
 README.md
+.DS_Store
