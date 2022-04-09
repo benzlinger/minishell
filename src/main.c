@@ -3,12 +3,13 @@
 /*	print username + current directory
  *	to be used as prompt
  */
-static void	msh_dir(void)
+static char	*msh_dir(void)
 {
 	char	cwd[1024];
 	char	**split_dir;
 	char	*username;
 	int	count;
+	char	*promptline;
 
 	getcwd(cwd, sizeof(cwd));
 	split_dir = ft_split(cwd, '/');
@@ -17,13 +18,17 @@ static void	msh_dir(void)
 		count++;
 	count--;
 	username = getenv("USER");
-	printf("%s %s", username, split_dir[count]);
+	// FIXME really messy solution, might result in leaks
+	username = ft_strjoin(username, " ");
+	promptline = ft_strjoin(username, split_dir[count]);
+	promptline = ft_strjoin(promptline, " % ");
 	while (count >= 0)
 	{
 		free(split_dir[count]);
 		count--;
 	}
 	free(split_dir);
+	return (promptline);
 }
 
 /*	Basic loop of a shell
@@ -33,16 +38,19 @@ static void	msh_dir(void)
  */
 static void	msh_loop(void)
 {
+	// TODO we'll probably need a data struct to hold all the data
 	t_token_list	*tokens;
 	char		*line;
 	char		*command;
 	int		status;
+	char		*promptline;
 
 	status = 1;
 	while (status)
 	{
-		msh_dir();
-		line = readline(" % ");
+		promptline = msh_dir();
+		line = readline(promptline);
+		free(promptline);
 		if (ft_strlen(line))
 		{
 			add_history(line);
