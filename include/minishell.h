@@ -5,16 +5,14 @@
 # include <readline/readline.h> // readline
 # include <readline/history.h> // readline
 # include <unistd.h> // write
-# include <stdlib.h> // malloc, free
+# include <stdlib.h> // malloc, free, exit
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
+# include <errno.h> // errno macro
+# include <string.h> // strerror
+# include <fcntl.h> // system(leaks)
 # include "libft.h"
 
 # define ERROR "\e[1;31mError: \e[0m"
-
-typedef enum e_rror
-{
-	ALLOC
-}		t_rror;
 
 /*	random types from wikipedia for testing
  *	idk what exact types we'll need later
@@ -45,7 +43,8 @@ t_token_list	*msh_lexer(char *line);
 
 /* utils */
 int		ft_get_pipe_index(char **prompt, int pos);
-int		ft_error(int status);
+void		ft_error(char *err_msg);
+void		ft_exit(int err_code);
 
 /* debug functions */
 void		ft_print_list(t_token_list *head);

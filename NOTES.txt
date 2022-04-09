@@ -1,0 +1,3 @@
+-	If you try to terminate the shell with CTRL+D a segfault occures in
+	ft_strlen. Readline probably puts CTRL+D somehow into a string which
+	then segfaults in ft_strlen.

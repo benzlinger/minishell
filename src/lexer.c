@@ -10,7 +10,7 @@ static t_token_list	*init_token_list(char *literal)
 
 	head = ft_calloc(1, sizeof(t_token_list));
 	if (head == NULL)
-		ft_error(ALLOC);
+		ft_error(strerror(errno));
 	// FIXME free head.token
 	head->token = ft_strdup(literal);
 	// head->type function 
@@ -31,7 +31,7 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 
 	node = ft_calloc(1, sizeof(t_token_list));
 	if (node == NULL)
-		ft_error(ALLOC);
+		ft_error(strerror(errno));
 	current = head;
 	while (current->next != NULL)
 		current = current->next;
