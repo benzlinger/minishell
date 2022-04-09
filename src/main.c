@@ -47,6 +47,7 @@ static void	msh_loop(void)
 	int		status;
 	char		*promptline;
 
+	tokens = NULL;
 	status = 1;
 	while (status)
 	{
@@ -67,7 +68,13 @@ static void	msh_loop(void)
 		//command = msh_parser(tokens);
 		//status = msh_execute(command);
 		free(line);
-		//free(tokens);
+		/*
+		if (tokens != NULL)
+		{
+			ft_free_tokens(tokens);
+			free(tokens);
+		}
+		*/
 		//free(command);
 	}
 }
