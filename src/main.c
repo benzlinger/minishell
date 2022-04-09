@@ -10,6 +10,7 @@ static char	*msh_dir(void)
 	char	*username;
 	int	count;
 	char	*promptline;
+	char	*newline;
 
 	getcwd(cwd, sizeof(cwd));
 	split_dir = ft_split(cwd, '/');
@@ -18,17 +19,18 @@ static char	*msh_dir(void)
 		count++;
 	count--;
 	username = getenv("USER");
-	// FIXME really messy solution, might result in leaks
 	username = ft_strjoin(username, " ");
 	promptline = ft_strjoin(username, split_dir[count]);
-	promptline = ft_strjoin(promptline, " % ");
+	free(username);
+	newline = ft_strjoin(promptline, " % ");
+	free(promptline);
 	while (count >= 0)
 	{
 		free(split_dir[count]);
 		count--;
 	}
 	free(split_dir);
-	return (promptline);
+	return (newline);
 }
 
 /*	Basic loop of a shell
