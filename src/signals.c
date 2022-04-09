@@ -14,6 +14,10 @@ static void	handle_sigint(void)
 //	CTRL+Backslash
 static void	handle_sigquit(void)
 {
+	rl_on_new_line();
+	rl_redisplay();
+	write(1, "  \b\b", 4);
+	rl_replace_line("", 0);
 	system("leaks minishell");
 }
 
