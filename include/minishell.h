@@ -9,6 +9,7 @@
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
 # include <errno.h> // errno macro
 # include <string.h> // strerror
+# include <signal.h> // sigaction
 # include <fcntl.h> // system(leaks)
 # include "libft.h"
 
@@ -40,6 +41,7 @@ typedef struct s_token_list{
 }		t_token_list;
 
 t_token_list	*msh_lexer(char *line);
+void		init_signal_handling(void);
 
 /* utils */
 int		ft_get_pipe_index(char **prompt, int pos);

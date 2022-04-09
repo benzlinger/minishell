@@ -8,7 +8,7 @@ static void	msh_dir(void)
 	char	cwd[1024];
 	char	**split_dir;
 	char	*username;
-	int		count;
+	int	count;
 
 	getcwd(cwd, sizeof(cwd));
 	split_dir = ft_split(cwd, '/');
@@ -70,6 +70,7 @@ int	main(int argc, char *argv[])
 {
 	if (argc != 1)
 		ft_error(strerror(E2BIG));
+	init_signal_handling();
 	msh_loop();
 	// while (1) //to check for leaks
 	// 	pause();
