@@ -3,7 +3,10 @@
 //	CTRL+C
 static void	handle_sigint(void)
 {
-	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+	write(1, "  \b\b\n", 5);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
