@@ -14,7 +14,7 @@ static void	handle_sigint(void)
 //	CTRL+Backslash
 static void	handle_sigquit(void)
 {
-	printf("that's ctrl backslash\n");
+	system("leaks minishell");
 }
 
 static void	signal_handler(int sa)
