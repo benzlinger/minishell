@@ -68,6 +68,8 @@ static void	msh_loop(void)
  */
 int	main(int argc, char *argv[])
 {
+	if (argc != 1)
+		ft_error(strerror(E2BIG));
 	msh_loop();
 	// while (1) //to check for leaks
 	// 	pause();
