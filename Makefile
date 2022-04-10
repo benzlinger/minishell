@@ -7,7 +7,7 @@ LFRC = -I$$HOME/.brew/opt/readline/include
 
 # FLAGS
 CC = gcc
-CFLAGS = -Wall -Wextra #-Werror #-g 
+CFLAGS = -Wall -Wextra -g #-Werror
 
 # COLORS
 Y = "\033[33m"

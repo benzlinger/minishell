@@ -47,7 +47,6 @@ static void	msh_loop(void)
 	int		status;
 	char		*promptline;
 
-	tokens = NULL;
 	status = 1;
 	while (status)
 	{
@@ -59,11 +58,13 @@ static void	msh_loop(void)
 			add_history(line);
 			tokens = msh_lexer(line);
 			ft_print_list(tokens);
+			ft_free_tokens(&tokens);
+			system("leaks minishell");
 		}
 		// else //to check for leaks
 		// 	status = 0;
 
-		// TODO lexer, parser, executer
+		// TODO parser, executer
 		//tokens = msh_lexer(line);
 		//command = msh_parser(tokens);
 		//status = msh_execute(command);
