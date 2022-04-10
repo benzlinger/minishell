@@ -59,7 +59,6 @@ static void	msh_loop(void)
 			tokens = msh_lexer(line);
 			ft_print_list(tokens);
 			ft_free_tokens(&tokens);
-			system("leaks minishell");
 		}
 		// else //to check for leaks
 		// 	status = 0;
