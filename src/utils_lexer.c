@@ -1,5 +1,13 @@
 #include "../include/minishell.h"
 
+// TODO add function comment
+bool	ft_check_EOF(char *s)
+{
+	if (s == NULL)
+		ft_exit(EOF);
+	return (true);
+}
+
 /*	gets the pipe_index for the tokens starting by 0
  *	first occuring pipe also gets pipe_index == 0
  *	second one gets pipe_index == 1 etc.

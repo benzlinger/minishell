@@ -3,7 +3,7 @@
 //	TODO function comment
 void	ft_exit(int err_code)
 {
-	system("leaks minishell");
+	//system("leaks minishell");
 	// TODO freeing before exit function for clean shutdown
 	exit(err_code);
 }

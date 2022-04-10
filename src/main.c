@@ -53,7 +53,7 @@ static void	msh_loop(void)
 		promptline = msh_dir();
 		line = readline(promptline);
 		free(promptline);
-		if (ft_strlen(line))
+		if (ft_check_EOF(line) && ft_strlen(line))
 		{
 			add_history(line);
 			tokens = msh_lexer(line);
