@@ -11,7 +11,6 @@ static t_token_list	*init_token_list(char *literal)
 	head = ft_calloc(1, sizeof(t_token_list));
 	if (head == NULL)
 		ft_error(strerror(errno));
-	// FIXME free head.token
 	head->token = ft_strdup(literal);
 	// head->type function 
 	head->pipe_index = 0;
@@ -36,7 +35,6 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = node;
-	// FIXME free node->token
 	node->token = ft_strdup(literal[i]);
 	node->pipe_index = ft_get_pipe_index(literal, i);
 	// node->type function 
