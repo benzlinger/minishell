@@ -1,9 +1,13 @@
 # EXECUTABLE
 NAME = ./minishell
 
+# READLINE
+LFR = -L$$HOME/.brew/opt/readline/lib -lreadline
+LFRC = -I$$HOME/.brew/opt/readline/include
+
 # FLAGS
 CC = gcc
-CFLAGS = -lreadline -Wall -Wextra #-Werror #-g 
+CFLAGS = -Wall -Wextra -g #-Werror
 
 # COLORS
 Y = "\033[33m"
@@ -21,8 +25,10 @@ OBJ_PATH = ./obj/
 UTILS_PATH = ./src/
 
 # SOURCES
-SRC =	$(SRC_PATH)main.c \
-		$(SRC_PATH)lexer.c
+SRC =	$(SRC_PATH)main.c		$(SRC_PATH)lexer.c\
+	$(SRC_PATH)utils_error.c	$(SRC_PATH)utils_lexer.c\
+	$(SRC_PATH)signals.c		$(SRC_PATH)utils_free.c\
+	$(SRC_PATH)debug.c
 
 # OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))
@@ -41,14 +47,14 @@ $(OBJ_PATH)%.o : $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
 	@sleep 0.2
 	@printf $(UP)$(CUT)
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(LFRC) -c -o $@ $< 
 	@echo $(G)Finished [$@]$(X)
 	@sleep 0.2
 	@printf $(UP)$(CUT)
 
 $(NAME): $(OBJ)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) libft/libft.a
+	@$(CC) $(CFLAGS) $(LFR) $(OBJ) -o $(NAME) libft/libft.a
 	@echo $(G)Finished [$(NAME)]$(X)
 
 clean:
