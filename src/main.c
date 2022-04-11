@@ -15,7 +15,7 @@ static char	*get_file(void)
 	while (split_dir[i])
 		i++;
 	i--;
-	file = ft_strjoin(" ", split_dir[i]);
+	file = ft_strjoin("-", split_dir[i]);
 	while (i >= 0)
 	{
 		free(split_dir[i]);
