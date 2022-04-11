@@ -25,7 +25,8 @@ typedef enum e_type
 	SEPERATOR,
 	OPERATOR,
 	LITERAL,
-	COMMENT
+	COMMENT,
+	PIPE
 }		t_type;
 
 /* 	pipe_index:	indexing token between pipes in command prompt, starting with 0

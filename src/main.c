@@ -68,13 +68,6 @@ static void	msh_loop(void)
 		//command = msh_parser(tokens);
 		//status = msh_execute(command);
 		free(line);
-		/*
-		if (tokens != NULL)
-		{
-			ft_free_tokens(tokens);
-			free(tokens);
-		}
-		*/
 		//free(command);
 	}
 }
