@@ -1,6 +1,10 @@
 #include "../include/minishell.h"
 
-//	TODO function comment
+/**
+ * 	@brief	only function that should exit the programm
+ * 		is making sure that the programm exits cleanly
+ * 	@param	err_code: code for exit to execute on later
+ */
 void	ft_exit(int err_code)
 {
 	//system("leaks minishell");
@@ -8,10 +12,9 @@ void	ft_exit(int err_code)
 	exit(err_code);
 }
 
-//	TODO change function comment
-/*	writes an error message to the stderr and exits program
- *	@param status: error code for corresponding error message
- *	@return same error code gets return in exit()
+/**	
+ * 	@brief	writes an error message to the stderr and exits program
+ *	@param	err_msg: string error message
  */
 void	ft_error(char *err_msg)
 {
