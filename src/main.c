@@ -1,36 +1,46 @@
 #include "../include/minishell.h"
 
-/*	print username + current directory
- *	to be used as prompt
+/*	get current file
  */
-static char	*msh_dir(void)
+static char	*get_file(void)
 {
-	char	cwd[1024];
+	char	*file;
+	char	*dir;
 	char	**split_dir;
-	char	*username;
-	int	count;
-	char	*promptline;
-	char	*newline;
+	int		i;
 
-	getcwd(cwd, sizeof(cwd));
-	split_dir = ft_split(cwd, '/');
-	count = 0;
-	while (split_dir[count])
-		count++;
-	count--;
-	username = getenv("USER");
-	username = ft_strjoin(username, " ");
-	promptline = ft_strjoin(username, split_dir[count]);
-	free(username);
-	newline = ft_strjoin(promptline, " % ");
-	free(promptline);
-	while (count >= 0)
+	dir = getcwd(NULL, 0);
+	split_dir = ft_split(dir, '/');
+	i = 0;
+	while (split_dir[i])
+		i++;
+	i--;
+	file = ft_strjoin(" ", split_dir[i]);
+	while (i >= 0)
 	{
-		free(split_dir[count]);
-		count--;
+		free(split_dir[i]);
+		i--;
 	}
 	free(split_dir);
-	return (newline);
+	free(dir);
+	return (file);
+}
+
+/*	get username + current directory
+ *	to be used as prompt
+ */
+static char	*msh_prompt(void)
+{
+	char	*file;
+	char	*prompt;
+	char	*promptline;
+
+	file = get_file();
+	prompt = ft_strjoin(getenv("USER"), file);
+	promptline = ft_strjoin(prompt, " % ");
+	free(file);
+	free(prompt);
+	return (promptline);
 }
 
 /*	Basic loop of a shell
@@ -50,7 +60,7 @@ static void	msh_loop(void)
 	status = 1;
 	while (status)
 	{
-		promptline = msh_dir();
+		promptline = msh_prompt();
 		line = readline(promptline);
 		free(promptline);
 		if (ft_check_EOF(line) && ft_strlen(line))
