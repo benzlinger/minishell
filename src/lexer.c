@@ -1,8 +1,8 @@
 #include "../include/minishell.h"
 
-/*	initializes the token linked list
- *	@param literal: the first token of the command prompt
- *	@return linked list head pointer
+/*	@brief	initializes the token linked list
+ *	@param	literal: the first token of the command prompt
+ *	@return	linked list head pointer
  */
 static t_token_list	*init_token_list(char *literal)
 {
@@ -18,10 +18,10 @@ static t_token_list	*init_token_list(char *literal)
 	return (head);
 }
 
-/*	function to add token nodes to the linked list
- *	@param literal: complete command prompt
- *	@param head:	first tokennode of linked list
- *	@param i:	position in literal
+/*	@brief	function to add token nodes to the linked list
+ *	@param	literal: complete command prompt
+ *	@param	head: first tokennode of linked list
+ *	@param	i: position in literal
  */
 static void	add_token_node(char **literal, t_token_list *head, int i)
 {
@@ -41,7 +41,7 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 	node->next = NULL;
 }
 
-/*	split command line into tokens
+/*	@brief	split command line into tokens
  *	@params	command line
  *	@return	pointer to head of token list
  *	FIXME what if tokens[0] == NULL?

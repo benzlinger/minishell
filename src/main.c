@@ -58,15 +58,11 @@ static void	msh_loop(void)
 			add_history(line);
 			tokens = msh_lexer(line);
 			ft_print_list(tokens);
+			// TODO parser, executer
+			//command = msh_parser(tokens);
+			//status = msh_execute(command);
 			ft_free_tokens(&tokens);
 		}
-		// else //to check for leaks
-		// 	status = 0;
-
-		// TODO parser, executer
-		//tokens = msh_lexer(line);
-		//command = msh_parser(tokens);
-		//status = msh_execute(command);
 		free(line);
 		//free(command);
 	}
@@ -82,7 +78,5 @@ int	main(int argc, char *argv[])
 		ft_error(strerror(E2BIG));
 	init_signal_handling();
 	msh_loop();
-	// while (1) //to check for leaks
-	// 	pause();
 	return (EXIT_SUCCESS);
 }
