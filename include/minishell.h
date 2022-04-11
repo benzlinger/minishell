@@ -50,6 +50,7 @@ void		ft_error(char *err_msg);
 void		ft_exit(int err_code);
 void		ft_free_tokens(t_token_list **tokens);
 bool		ft_check_EOF(char *s);
+char		*ft_delimit_line(char *pline);
 
 /* debug functions */
 void		ft_print_list(t_token_list *head);
