@@ -1,0 +1,124 @@
+#include "minishell.h"
+
+typedef struct	s_vars
+{
+	struct s_vars	*next;
+	char			*name;
+	char			*value;
+}					t_vars;
+
+/*	@brief	show list of env variables
+ *	@params	head of env variable list
+ *	@return	if function scceeded
+ */
+static int	show_vars(t_vars *head)
+{
+	t_vars	*tmp;
+
+	if (!head)
+		return (EXIT_FAILURE);
+	tmp = head;
+	while (tmp)
+	{
+		printf("%s", tmp->name);
+		if (tmp->value)
+			printf("=\"%s\"", tmp->value);
+		printf("\n");
+		tmp = tmp->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+/*	@brief	add env variable to list of existing vars
+ *	@params	name of var, value of var (can be NULL), head of env variable list
+ *	@return	if function succeeded
+ */
+static int	append_var(char *name, char *value, t_vars *head)
+{
+	t_vars	*tmp;
+	t_vars	*new;
+
+	if (!head)
+		return (EXIT_FAILURE);
+	new = malloc(sizeof(t_vars));
+	if (!new)
+		return (0);
+	tmp = head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	new->name = name;
+	if (value)
+		new->value = value;
+	new->next = NULL;
+	return (EXIT_SUCCESS);
+}
+
+/*	@brief	find env variable in list by name
+ *	@params	name of env varr, head of env variable list
+ *	@return	if node is found: node, else NULL
+ */
+static t_vars	*find_var(char *name, t_vars *head)
+{
+	t_vars	*tmp;
+
+	if (!head)
+		return (NULL);
+	tmp = head;
+	while (tmp)
+	{
+		if (tmp->name == name)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+/*	@brief	free the whole list of env variables
+ *	@params	head of env variable list
+ *	@return	if node is found: node, else NULL
+ */
+static void	free_vars(t_vars *head)
+{
+	t_vars	*tmp;
+
+	while (head)
+	{
+		tmp = head->next;
+		free(head);
+		head = tmp;
+	}
+}
+
+/*	@brief	show or create new env variable [with value]
+ *	@params	command line, head of env variable list
+ *	@return	if function scceeded
+ *	FIXME	if env var name already exists (assign new value)
+ */
+static int	ft_export(char **cmd_line, t_vars *head)
+{
+	int			i;
+	t_vars		*newvar;
+
+	if (!cmd_line[1] && ft_strncmp(cmd_line[0], "export", 6)) //2nd condition might not be needed
+	{
+		if (!show_vars(head))
+			return (EXIT_FAILURE);
+	}
+	else
+	{
+		i = 1;
+		while (cmd_line[i])
+		{
+			if (cmd_line[i + 1][0] == '=')
+			{
+				append_var(cmd_line[i], cmd_line[i + 1], head);
+				i++;
+			}
+			else
+				append_var(cmd_line[i], NULL, head);
+			i++;
+		}
+	}
+	return (EXIT_SUCCESS);
+}
