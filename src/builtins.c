@@ -10,6 +10,9 @@
 //	confusing how failure==1 and success==0
 
 //	NEEDS CLEANUP: how do we want to do file management
+//	need to add bultins.c + export.c to makefile
+
+// check docs
 
 /*	@brief	get size of 2d array
  *	@params	2d array
