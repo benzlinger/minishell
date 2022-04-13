@@ -36,11 +36,12 @@ static void	add_delimiter(char **command, int *i, char c)
 }
 
 /**
- * 	@brief	turns the token list into a single string
+ * 	@brief	turns the token list into a single string with a set delimiter
  * 	@param	tokens: linked list from lexer
+ * 	@param	c: the delimiter to set (standard is space ' ')
  * 	@return	command string
  */
-static char	*ft_list_to_str(t_token_list *tokens)
+static char	*ft_list_to_str(t_token_list *tokens, char c)
 {
 	t_token_list	*current;
 	char		*command;
@@ -63,7 +64,7 @@ static char	*ft_list_to_str(t_token_list *tokens)
 			i++;
 			j++;
 		}
-		add_delimiter(&command, &i, ' ');
+		add_delimiter(&command, &i, c);
 		current = current->next;
 	}
 	return (command);
@@ -84,6 +85,6 @@ char	*msh_parser(t_token_list *tokens)
 	if (check_quotes(tokens) != 0)
 		return (NULL);
 	*/
-	command = ft_list_to_str(tokens);
+	command = ft_list_to_str(tokens, ' ');
 	return(command);
 }
