@@ -20,7 +20,7 @@ static int	show_vars(t_vars *head)
 	tmp = head;
 	while (tmp)
 	{
-		printf("%s", tmp->name);
+		printf("declare -x %s", tmp->name);
 		if (tmp->value)
 			printf("=\"%s\"", tmp->value);
 		printf("\n");
@@ -40,9 +40,15 @@ static int	append_var(char *name, char *value, t_vars *head)
 
 	if (!head)
 		return (EXIT_FAILURE);
+	tmp = find_var(name, head);
+	if (tmp)
+	{
+		tmp->value = value;
+		return (EXIT_SUCCESS);
+	}
 	new = malloc(sizeof(t_vars));
 	if (!new)
-		return (0);
+		return (EXIT_FAILURE);
 	tmp = head;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -62,7 +68,7 @@ static t_vars	*find_var(char *name, t_vars *head)
 {
 	t_vars	*tmp;
 
-	if (!head)
+	if (!head || !name)
 		return (NULL);
 	tmp = head;
 	while (tmp)
@@ -98,9 +104,10 @@ static void	free_vars(t_vars *head)
 static int	ft_export(char **cmd_line, t_vars *head)
 {
 	int			i;
-	t_vars		*newvar;
 
-	if (!cmd_line[1] && ft_strncmp(cmd_line[0], "export", 6)) //2nd condition might not be needed
+	if (cmd_line[1][0] == '=')
+		return (EXIT_FAILURE);
+	if (!cmd_line[1])
 	{
 		if (!show_vars(head))
 			return (EXIT_FAILURE);
@@ -110,7 +117,7 @@ static int	ft_export(char **cmd_line, t_vars *head)
 		i = 1;
 		while (cmd_line[i])
 		{
-			if (cmd_line[i + 1][0] == '=')
+			if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
 			{
 				append_var(cmd_line[i], cmd_line[i + 1], head);
 				i++;
