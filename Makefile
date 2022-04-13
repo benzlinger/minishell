@@ -28,7 +28,8 @@ UTILS_PATH = ./src/
 SRC =	$(SRC_PATH)main.c		$(SRC_PATH)lexer.c\
 	$(SRC_PATH)utils_error.c	$(SRC_PATH)utils_lexer.c\
 	$(SRC_PATH)signals.c		$(SRC_PATH)utils_free.c\
-	$(SRC_PATH)utils_lexer2.c\
+	$(SRC_PATH)utils_lexer2.c	$(SRC_PATH)parser.c\
+	$(SRC_PATH)utils_parser.c\
 	$(SRC_PATH)debug.c
 
 # OBJECTS

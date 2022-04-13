@@ -67,10 +67,9 @@ static void	msh_loop(void)
 		{
 			add_history(line);
 			tokens = msh_lexer(line);
-			ft_print_list(tokens);
-			// TODO parser, executer
-			//command = msh_parser(tokens);
-			//status = msh_execute(command);
+			command = msh_parser(tokens);
+			//if (command != NULL)
+				//status = msh_execute(command);
 			ft_free_tokens(&tokens);
 		}
 		free(line);
