@@ -43,7 +43,8 @@ static int	append_var(char *name, char *value, t_vars *head)
 	tmp = find_var(name, head);
 	if (tmp)
 	{
-		tmp->value = value;
+		if (value)
+			tmp->value = value;
 		return (EXIT_SUCCESS);
 	}
 	new = malloc(sizeof(t_vars));
