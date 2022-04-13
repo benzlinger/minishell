@@ -1,15 +1,18 @@
 #include "../include/minishell.h"
 
 /**
- * 	@brief	check for quotes, brackets and stuff
+ * 	@brief	check for quotes, brackets and stuff (NULL)
+ * 		or checks if c and *q are the same
  * 	@param	c: a single char
- * 	@return true if char is quote or bracket etc.
+ * 	@param	q: char pointer, contains either NULL or a quote
+ * 	@return true if char is quote or bracket etc. (NULL)
+ * 		or true if c == *q
  */
 static bool	ft_check_quote(char c, char *q)
 {
 	if (q == NULL)
 	{
-		if (c == '"' || c == 39) //ascii code for ' is 39, just in case
+		if (c == '"' || c == 39)	// 39 == '
 			return (true);
 		else if (c == '(' || c == '{' || c == '[')
 			return (true);
@@ -27,6 +30,9 @@ static bool	ft_check_quote(char c, char *q)
 	}
 }
 
+/**
+ * 	@brief	increments i and j in one line to save some lines (norm)
+ */
 static void	ft_increment(int *i, int *j)
 {
 	*i += 1;
@@ -36,6 +42,8 @@ static void	ft_increment(int *i, int *j)
 /**
  * 	@brief	changes the delimiter from the string from ' ' to ','
  * 	@param	pline: promptline from readline
+ * 	@param	i: index var (saving line for norm)
+ * 	@param	j: index var (saving line for norm)
  * 	@return	dline: delimited promptline with ',' instead of ' '
  * 		except in "...", (...), {...}, [...], '...'
  * 	@ERROR	Norminette
