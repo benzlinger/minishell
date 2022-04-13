@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+//what if list is empty
+
 typedef struct	s_vars
 {
 	struct s_vars	*next;
@@ -129,4 +131,43 @@ static int	ft_export(char **cmd_line, t_vars *head)
 		}
 	}
 	return (EXIT_SUCCESS);
+}
+
+static t_vars	*del_var(char *name, t_vars *head)
+{
+	t_vars	*tmp;
+	t_vars	*prev;
+
+	tmp = head;
+	if (tmp->name == name && tmp)
+	{
+		head = tmp->next;
+		free(tmp);
+		return (head);
+	}
+	while (tmp && tmp->name != name)
+	{
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		return (head);
+	prev->next = tmp->next;
+	free(tmp);
+	return (head);
+}
+
+static t_vars	*ft_unset(char** cmd_line, t_vars *head)
+{
+	int	i;
+
+	if (!cmd_line[1])
+		return (NULL);
+	i = 1;
+	while (cmd_line[i])
+	{
+		head = del_var(cmd_line[i], head);
+		i++;
+	}
+	return (head);
 }
