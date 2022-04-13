@@ -161,7 +161,7 @@ static t_vars	*ft_unset(char** cmd_line, t_vars *head)
 {
 	int	i;
 
-	if (!cmd_line[1])
+	if (!cmd_line[1] || !head)
 		return (head);
 	i = 1;
 	while (cmd_line[i])
