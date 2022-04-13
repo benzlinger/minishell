@@ -1,69 +1,11 @@
 #include "../include/minishell.h"
 
 /**
- * 	@brief	check for quotes, brackets and stuff
- * 	@param	c: a single char
- * 	@return true if char is quote or bracket etc.
+ * 	@brief	figures out the classification of a token
+ *	@param	literal: literal (token)string of command prompt
+ *	@return	enumarated clasification (int)
+ * 	@prtype	int ft_get_type(char *literal);
  */
-static bool	ft_check_for_quote(char c)
-{
-	if (c == '"' || c == 39) //ascii code for ' is 39, just in case
-		return (true);
-	else if (c == '(' || c == '{' || c == '[')
-		return (true);
-	else if (c == ')' || c == '}' || c == ']')
-		return (true);
-	else
-		return (false);
-}
-
-/**
- * 	@brief	changes the delimiter from the string from ' ' to ','
- * 	@param	pline: promptline from readline
- * 	@return	dline: delimited promptline with ',' instead of ' '
- * 		except in "...", (...), {...}, [...], '...'
- * 	@ERROR	takes strings like "hello) or [world} as acceptable tokens
- */
-char	*ft_delimit_line(char *pline)
-{
-	char	*dline;
-	int	i;
-	int	j;
-
-	dline = ft_calloc(ft_strlen(pline) + 1, sizeof(char));
-	if (dline == NULL)
-		ft_error(strerror(errno));
-	i = 0;
-	j = 0;
-	while (pline[i])
-	{
-		if (ft_check_for_quote(pline[i]))
-		{
-			dline[j] = pline[i];
-			i++;
-			j++;
-			while (!(ft_check_for_quote(pline[i])) && pline[i])
-			{
-				dline[j] = pline[i];
-				i++;
-				j++;
-			}
-			dline[j] = pline[i];
-			i++;
-			j++;
-		}
-		else
-		{
-			if (pline[i] == ' ')
-				dline[j] = ',';
-			else
-				dline[j] = pline[i];
-			i++;
-			j++;
-		}
-	}
-	return (dline);
-}
 
 /**
  * 	@brief	checks for EOF "signal" from ctrl+D and
