@@ -58,4 +58,6 @@ int		msh_executer(char *command);
 /* debug functions */
 void		ft_print_list(t_token_list *head);
 
+int			ft_echo(char **cmd_line);
+
 #endif
