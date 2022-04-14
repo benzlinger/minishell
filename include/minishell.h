@@ -41,6 +41,13 @@ typedef struct s_token_list{
 	struct s_token_list	*next;
 }		t_token_list;
 
+typedef struct s_vars
+{
+	struct s_vars	*next;
+	char			*name;
+	char			*value;
+}					t_vars;
+
 t_token_list	*msh_lexer(char *line);
 void		init_signal_handling(void);
 
@@ -58,6 +65,9 @@ int		msh_executer(char *command);
 /* debug functions */
 void		ft_print_list(t_token_list *head);
 
+/* builtin functions */
 int			ft_echo(char **cmd_line);
+int			ft_pwd(void);
+int			ft_cd(char *cmd_line);
 
 #endif
