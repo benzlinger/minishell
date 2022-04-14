@@ -1,6 +1,7 @@
 #include "../include/minishell.h"
 
-/*	@brief	initializes the token linked list
+/**
+ * 	@brief	initializes the token linked list
  *	@param	literal: the first token of the command prompt
  *	@return	linked list head pointer
  */
@@ -18,7 +19,8 @@ static t_token_list	*init_token_list(char *literal)
 	return (head);
 }
 
-/*	@brief	function to add token nodes to the linked list
+/**
+ * 	@brief	function to add token nodes to the linked list
  *	@param	literal: complete command prompt
  *	@param	head: first tokennode of linked list
  *	@param	i: position in literal
@@ -41,30 +43,33 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 	node->next = NULL;
 }
 
-/*	@brief	split command line into tokens
+/**
+ * 	@brief	split command line into tokens
  *	@params	command line
  *	@return	pointer to head of token list
- *	FIXME what if tokens[0] == NULL?
  */
-t_token_list	*msh_lexer(char *line)
+t_token_list	*msh_lexer(char *promptline)
 {
 	t_token_list	*head;
-	char		**tokens;
+	char		**literal;
 	int		count;
+	char		*delimited_line;
 
-	tokens = ft_split(line, ' ');
-	head = init_token_list(tokens[0]);
+	delimited_line = ft_delimit_line(promptline, 0, 0);
+	literal = ft_split(delimited_line, ',');
+	head = init_token_list(literal[0]);
 	count = 1;
-	while (tokens[count])
+	while (literal[count])
 	{
-		add_token_node(tokens, head, count);
+		add_token_node(literal, head, count);
 		count++;
 	}
 	while (count >= 0)
 	{
-		free(tokens[count]);
+		free(literal[count]);
 		count--;
 	}
-	free(tokens);
+	free(literal);
+	free(delimited_line);
 	return (head);
 }

@@ -50,7 +50,6 @@ static char	*msh_prompt(void)
  */
 static void	msh_loop(void)
 {
-	// TODO we'll probably need a data struct to hold all the data
 	t_token_list	*tokens;
 	char		*line;
 	char		*command;
@@ -67,14 +66,17 @@ static void	msh_loop(void)
 		{
 			add_history(line);
 			tokens = msh_lexer(line);
-			ft_print_list(tokens);
-			// TODO parser, executer
-			//command = msh_parser(tokens);
-			//status = msh_execute(command);
+			command = msh_parser(tokens);
+			//if command == NULL a parse error occured and a new
+			//prompt will be displayed
+			if (command != NULL)
+			{
+				status = msh_executer(command);
+				free(command);
+			}
 			ft_free_tokens(&tokens);
 		}
 		free(line);
-		//free(command);
 	}
 }
 

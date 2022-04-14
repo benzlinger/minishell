@@ -13,8 +13,25 @@ void	ft_exit(int err_code)
 }
 
 /**	
+ * 	@brief	writes an error message and returns NULL
+ * 		is able to print two error messages
+ *	@param	err_msg1: string error message
+ *	@param	err_msg2: second string error message, set NULL if not needed
+ *	@return NULL
+ */
+char	*ft_parse_error(char *err_msg1, char *err_msg2)
+{
+	write(2, ERROR, ft_strlen(ERROR));
+	write(2, err_msg1, ft_strlen(err_msg1));
+	if (err_msg2 != NULL)
+		write(2, err_msg2, ft_strlen(err_msg2));
+	write(2, "\n", 1);
+	return (NULL);
+}
+
+/**	
  * 	@brief	writes an error message to the stderr and exits program
- *	@param	err_msg: string error message
+ *	@param	err_msg1: string error message
  */
 void	ft_error(char *err_msg)
 {
