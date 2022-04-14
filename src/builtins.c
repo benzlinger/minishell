@@ -35,7 +35,7 @@ static int	get_size_2d(char **arr)
  *	@return	if function succeeded
  *	UNCLEAR	do backslash sequences have to be handled (without -e flag)?
  */
-static int	ft_echo(char **cmd_line)
+int	ft_echo(char **cmd_line)
 {
 	int	i;
 	int	is_flag;
