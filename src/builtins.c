@@ -66,7 +66,7 @@ int	ft_echo(char **cmd_line)
  *	@return	if function scceeded
  *	FIXME	test when parser ready
  */
-static int	ft_cd(char *cmd_line)
+int	ft_cd(char *cmd_line)
 {
 	return (chdir(cmd_line));
 }
@@ -75,7 +75,7 @@ static int	ft_cd(char *cmd_line)
  *	@return	if function scceeded
  *	DECIDE	if we want to use set size array or dinamically allocate memory for path
  */
-static int	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char	*path;
 
