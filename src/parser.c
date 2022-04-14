@@ -85,6 +85,8 @@ char	*msh_parser(t_token_list *tokens)
 	if (check_quotes(tokens) != 0)
 		return (NULL);
 	*/
-	command = ft_list_to_str(tokens, ' ');
+	// return (ft_parse_error(tokens->token, ": command not found"));
+
+	command = ft_list_to_str(tokens, ',');
 	return(command);
 }
