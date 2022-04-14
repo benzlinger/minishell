@@ -9,6 +9,7 @@ static int	exec_not_builtin(char **cmd_line)
 	if (pid == 0)
 	{
 		execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
+		// execve(cmd_line[0], cmd_line, NULL);
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
