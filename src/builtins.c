@@ -42,6 +42,11 @@ int	ft_echo(char **cmd_line)
 
 	if (!cmd_line)
 		return (EXIT_FAILURE);
+	if (!cmd_line[1])
+	{
+		printf("\n");
+		return (EXIT_SUCCESS);
+	}
 	is_flag = 0;
 	i = 1;
 	if (!ft_strncmp(cmd_line[i], "-n", 2))
