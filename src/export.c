@@ -2,13 +2,6 @@
 
 //what if list is empty
 
-typedef struct	s_vars
-{
-	struct s_vars	*next;
-	char			*name;
-	char			*value;
-}					t_vars;
-
 /*	@brief	show list of env variables
  *	@params	head of env variable list
  *	@return	if function scceeded
