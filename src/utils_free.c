@@ -8,7 +8,7 @@ void	ft_free_tokens(t_token_list **tokens)
 {
 	while (tokens[0] != NULL)
 	{
-		if (tokens[0]->type != ENVAR)
+		if (tokens[0]->type != ENVAR && tokens[0]->type != ENVARU)
 			free(tokens[0]->token);
 		free(*tokens);
 		*tokens = tokens[0]->next;

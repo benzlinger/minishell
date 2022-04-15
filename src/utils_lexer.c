@@ -34,8 +34,6 @@ int ft_get_type(char *literal)
 {
 	if (check_builtins(literal))
 		return (BUILTIN);
-	else if (literal[0] == '$')
-		return (ENVAR);
 	else if (literal[0] == '-')
 		return (FLAG);
 	else if (literal[0] == 39)
@@ -46,6 +44,10 @@ int ft_get_type(char *literal)
 		return (REDIREC);
 	else if (literal[0] == '|')
 		return (PIPE);
+	else if (ft_strncmp(literal, "$USER", ft_strlen("$USER")) == 0)
+		return (ENVARU);
+	else if (literal[0] == '$')
+		return (ENVAR);
 	return (COMMAND);
 }
 

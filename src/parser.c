@@ -40,7 +40,7 @@ static int	check_tokens_via_type(t_token_list *head)
 	{
 		if (current->type == COMMAND)
 			current->token = type_command(&current->token);
-		else if (current->type == ENVAR)
+		else if (current->type == ENVAR || current->type == ENVARU)
 			current->token = type_envar(&current->token);
 		/*
 		else if (current->type == DQUOTE)
@@ -59,6 +59,21 @@ static int	check_tokens_via_type(t_token_list *head)
 	return (EXIT_SUCCESS);
 }
 
+static int	ft_ft(t_token_list *a)
+{
+	int	b;
+	int	c;
+
+	b = COMMAND;
+	c = BUILTIN;
+	if (a->type != ENVARU)
+		return (b);
+	if (a->next != NULL)
+		return (b);
+	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
+	return (c);
+}
+
 /**
  * 	@brief	checks input for errors and returns a rdy-to-run command string
  * 	@param	tokens: linked list from lexer
@@ -69,6 +84,8 @@ char	*msh_parser(t_token_list *tokens)
 	char	*command;
 
 	if (check_tokens_via_type(tokens) != 0)
+		return (NULL);
+	if (ft_ft(tokens) != 0)
 		return (NULL);
 	/*
 	if (check_commands(tokens) != 0)
