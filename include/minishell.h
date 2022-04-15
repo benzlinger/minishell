@@ -32,7 +32,8 @@ typedef enum e_type
  * 	type:		enumurated token type for identification
  * 	next:		pointer to next token. If it's the last token, next == NULL
  */
-typedef struct s_token_list{
+typedef struct s_token_list
+{
 	int			pipe_index;
 	char			*token;
 	t_type			type;
@@ -41,10 +42,10 @@ typedef struct s_token_list{
 
 typedef struct s_vars
 {
-	struct s_vars	*next;
+	struct s_vars		*next;
 	char			*name;
 	char			*value;
-}					t_vars;
+}		t_vars;
 
 t_token_list	*msh_lexer(char *line);
 void		init_signal_handling(void);
@@ -60,6 +61,7 @@ char		*msh_parser(t_token_list *tokens);
 char		*ft_parse_error(char *err_msg1, char *err_msg2);
 int		msh_executer(char *command);
 int		ft_get_type(char *literal);
+char		*ft_list_to_str(t_token_list *tokens, char c);
 
 /* debug functions */
 void		ft_print_list(t_token_list *head);
