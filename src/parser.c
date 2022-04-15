@@ -1,5 +1,19 @@
 #include "../include/minishell.h"
 
+static char	*type_command(char **s)
+{
+	char	*tmp;
+	char	*path;
+
+	tmp = ft_strdup("/bin/");
+	path = ft_strjoin(tmp, *s);
+	free(tmp);
+	if (access(path, F_OK) != 0)
+		return (ft_parse_error(*s, ": command not found"));
+	free(*s);
+	return (path);
+}
+
 static int	check_tokens_via_type(t_token_list *head)
 {
 	t_token_list	*current;
@@ -7,19 +21,19 @@ static int	check_tokens_via_type(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
-//		if (current->type == COMMAND)
-//			current->token = ft_type_command(current);
+		if (current->type == COMMAND)
+			current->token = type_command(&current->token);
 		/*
 		else if (current->type == ENVAR)
-			current->token = ft_type_envar(current);
+			current->token = type_envar(current);
 		else if (current->type == DQUOTE)
-			current->token = ft_type_dquote(current);
+			current->token = type_dquote(current);
 		else if (current->type == SQUOTE)
-			current->token = ft_type_squote(current);
+			current->token = type_squote(current);
 		else if (current->type == REDIREC)
-			current->token = ft_type_redirec(current);
+			current->token = type_redirec(current);
 		else if (curren->type == PIPE)
-			current->token = ft_type_pipe(current);
+			current->token = type_pipe(current);
 		*/
 		if (current->token == NULL)
 			return (EXIT_FAILURE);

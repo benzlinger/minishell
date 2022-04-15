@@ -4,7 +4,7 @@
 # include <stdio.h> // printf, readline
 # include <readline/readline.h> // readline
 # include <readline/history.h> // readline
-# include <unistd.h> // write
+# include <unistd.h> // write, access
 # include <stdlib.h> // malloc, free, exit
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
 # include <errno.h> // errno macro
