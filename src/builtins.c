@@ -42,6 +42,11 @@ int	ft_echo(char **cmd_line)
 
 	if (!cmd_line)
 		return (EXIT_FAILURE);
+	if (!cmd_line[1])
+	{
+		printf("\n");
+		return (EXIT_SUCCESS);
+	}
 	is_flag = 0;
 	i = 1;
 	if (!ft_strncmp(cmd_line[i], "-n", 2))
@@ -66,7 +71,7 @@ int	ft_echo(char **cmd_line)
  *	@return	if function scceeded
  *	FIXME	test when parser ready
  */
-static int	ft_cd(char *cmd_line)
+int	ft_cd(char *cmd_line)
 {
 	return (chdir(cmd_line));
 }
@@ -75,7 +80,7 @@ static int	ft_cd(char *cmd_line)
  *	@return	if function scceeded
  *	DECIDE	if we want to use set size array or dinamically allocate memory for path
  */
-static int	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char	*path;
 
