@@ -1,6 +1,13 @@
 #include "../include/minishell.h"
 
 /**
+ * 	@brief	figures out the classification of a token
+ *	@param	literal: literal (token)string of command prompt
+ *	@return	enumarated clasification (int)
+ * 	@prtype	int ft_get_type(char *literal);
+ */
+
+/**
  * 	@brief	checks for EOF "signal" from ctrl+D and
  * 		exits the programm if an EOF was detected
  * 		also check if string is only space ' '
@@ -47,10 +54,3 @@ int	ft_get_pipe_index(char **prompt, int pos)
 	}
 	return (pipe_count);
 }
-
-/**
- * 	@brief	figures out the classification of a token
- *	@param	literal: literal (token)string of command prompt
- *	@return	enumarated clasification (int)
- * 	@prtype	int ft_get_type(char *literal);
- */
