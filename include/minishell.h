@@ -15,17 +15,15 @@
 
 # define ERROR "\e[1;31mError: \e[0m"
 
-/*	random types from wikipedia for testing
- *	idk what exact types we'll need later
- */
 typedef enum e_type
 {
-	IDENTIFIER,
-	KEYWORD,
-	SEPERATOR,
-	OPERATOR,
-	LITERAL,
-	COMMENT,
+	COMMAND,
+	BUILTIN,
+	ENVAR,
+	FLAG,
+	DQUOTE,
+	SQUOTE,
+	REDIREC,
 	PIPE
 }		t_type;
 
@@ -61,6 +59,7 @@ char		*ft_delimit_line(char *pline, int i, int j);
 char		*msh_parser(t_token_list *tokens);
 char		*ft_parse_error(char *err_msg1, char *err_msg2);
 int		msh_executer(char *command);
+int		ft_get_type(char *literal);
 
 /* debug functions */
 void		ft_print_list(t_token_list *head);

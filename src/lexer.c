@@ -13,7 +13,7 @@ static t_token_list	*init_token_list(char *literal)
 	if (head == NULL)
 		ft_error(strerror(errno));
 	head->token = ft_strdup(literal);
-	// head->type function 
+	head->type = ft_get_type(head->token); 
 	head->pipe_index = 0;
 	head->next = NULL;
 	return (head);
@@ -38,8 +38,8 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 		current = current->next;
 	current->next = node;
 	node->token = ft_strdup(literal[i]);
+	node->type = ft_get_type(node->token); 
 	node->pipe_index = ft_get_pipe_index(literal, i);
-	// node->type function 
 	node->next = NULL;
 }
 

@@ -61,8 +61,7 @@ char	*ft_delimit_line(char *pline, int i, int j)
 		if (ft_check_quote(pline[i], NULL))
 		{
 			qchar = pline[i];
-			//dline[j] = pline[i];
-			dline[j] = ',';
+			dline[j] = pline[i];
 			ft_increment(&i, &j);
 			while (!(ft_check_quote(pline[i], &qchar)) && pline[i])
 			{
@@ -71,8 +70,7 @@ char	*ft_delimit_line(char *pline, int i, int j)
 			}
 			if (pline[i])
 			{
-				//dline[j] = pline[i];
-				dline[j] = ',';
+				dline[j] = pline[i];
 				ft_increment(&i, &j);
 			}
 		}

@@ -1,11 +1,53 @@
 #include "../include/minishell.h"
 
 /**
+ * 	@brief	checks if string is one of the builtins
+ * 	@param	s: literal (token)string of command prompt
+ * 	@return true if s equals one of the builtins
+ */
+static bool	check_builtins(char *s)
+{
+	if (ft_strncmp(s, "echo", ft_strlen("echo")) == 0)
+		return (true);
+	else if (ft_strncmp(s, "cd", ft_strlen("cd")) == 0)
+		return (true);
+	else if (ft_strncmp(s, "pwd", ft_strlen("pwd")) == 0)
+		return (true);
+	else if (ft_strncmp(s, "export", ft_strlen("export")) == 0)
+		return (true);
+	else if (ft_strncmp(s, "unset", ft_strlen("unset")) == 0)
+		return (true);
+	else if (ft_strncmp(s, "env", ft_strlen("env")) == 0)
+		return (true);
+	else if (ft_strncmp(s, "exit", ft_strlen("exit")) == 0)
+		return (true);
+	else
+		return (false);
+}
+
+/**
  * 	@brief	figures out the classification of a token
  *	@param	literal: literal (token)string of command prompt
  *	@return	enumarated clasification (int)
- * 	@prtype	int ft_get_type(char *literal);
  */
+int ft_get_type(char *literal)
+{
+	if (check_builtins(literal))
+		return (BUILTIN);
+	else if (literal[0] == '$')
+		return (ENVAR);
+	else if (literal[0] == '-')
+		return (FLAG);
+	else if (literal[0] == 39)
+		return (SQUOTE);
+	else if (literal[0] == '"')
+		return (DQUOTE);
+	else if (literal[0] == '<' || literal [0] == '>')
+		return (REDIREC);
+	else if (literal[0] == '|')
+		return (PIPE);
+	return (COMMAND);
+}
 
 /**
  * 	@brief	checks for EOF "signal" from ctrl+D and
