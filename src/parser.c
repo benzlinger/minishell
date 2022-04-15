@@ -9,8 +9,12 @@ static char	*type_command(char **s)
 	path = ft_strjoin(tmp, *s);
 	free(tmp);
 	if (access(path, F_OK) != 0)
-		return (ft_parse_error(*s, ": command not found"));
-	free(*s);
+	{
+		ft_parse_error(*s, ": command not found");
+		free(*s);
+		free(path);
+		return (NULL);
+	}
 	return (path);
 }
 
