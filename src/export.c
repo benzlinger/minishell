@@ -126,6 +126,10 @@ static int	ft_export(char **cmd_line, t_vars *head)
 	return (EXIT_SUCCESS);
 }
 
+/*	@brief	delete variable from list
+ *	@params	name from variable to delete, head of list
+ *	@return	(new) head of list
+ */
 static t_vars	*del_var(char *name, t_vars *head)
 {
 	t_vars	*tmp;
@@ -150,6 +154,10 @@ static t_vars	*del_var(char *name, t_vars *head)
 	return (head);
 }
 
+/*	@brief	remove variable from list
+ *	@params	command line, head of list
+ *	@return	(new) head of list
+ */
 static t_vars	*ft_unset(char** cmd_line, t_vars *head)
 {
 	int	i;
