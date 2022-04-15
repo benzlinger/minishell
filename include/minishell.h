@@ -5,7 +5,7 @@
 # include <readline/readline.h> // readline
 # include <readline/history.h> // readline
 # include <unistd.h> // write, access
-# include <stdlib.h> // malloc, free, exit
+# include <stdlib.h> // malloc, free, exit, getenv
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
 # include <errno.h> // errno macro
 # include <string.h> // strerror
@@ -62,6 +62,8 @@ char		*ft_parse_error(char *err_msg1, char *err_msg2);
 int		msh_executer(char *command);
 int		ft_get_type(char *literal);
 char		*ft_list_to_str(t_token_list *tokens, char c);
+bool		ft_check_quote(char c, char *q);
+char		*type_envar(char **s);
 
 /* debug functions */
 void		ft_print_list(t_token_list *head);
