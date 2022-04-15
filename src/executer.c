@@ -3,6 +3,9 @@
 //TIP	use command $> type [command-name]
 //		-> to check if command is builtin or binary
 
+/*	@brief	free 2 dimensional array and its contents
+ *	@params	array to free
+ */
 static void	free_2d_array(char **arr)
 {
 	int	i;
@@ -19,6 +22,11 @@ static void	free_2d_array(char **arr)
 	}
 }
 
+/*	@brief	execute binary commands
+ *	-> forks a child to execute (parent waits for child)
+ *	@params	command line
+ *	@return	if function succeeded
+ */
 static int	exec_not_builtin(char **cmd_line)
 {
 	pid_t	pid;
@@ -42,6 +50,10 @@ static int	exec_not_builtin(char **cmd_line)
 	return (0);
 }
 
+/*	@brief	execute builtin commands
+ *	@params	command line (needs to be split)
+ *	@return	if function succeeded
+ */
 int	msh_executer(char *command)
 {
 	int		status;
