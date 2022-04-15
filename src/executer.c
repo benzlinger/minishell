@@ -1,16 +1,38 @@
 #include "../include/minishell.h"
 
+//TIP	use command $> type [command-name]
+//		-> to check if command is builtin or binary
+
+static void	free_2d_array(char **arr)
+{
+	int	i;
+
+	if (arr)
+	{
+		i = 0;
+		while (arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+		free(arr);
+	}
+}
+
 static int	exec_not_builtin(char **cmd_line)
 {
 	pid_t	pid;
 	int		status;
+	char	*cmd;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
-		// execve(cmd_line[0], cmd_line, NULL);
+		cmd = ft_strjoin("/bin/", cmd_line[0]);
+		execve(cmd, cmd_line, NULL);
+		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
 		printf("%s\n", strerror(errno));
+		free(cmd);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
@@ -39,9 +61,8 @@ int	msh_executer(char *command)
 		return (0);
 	}
 	else
-	{
 		exec_not_builtin(cmd_line);
-	}
 	status = 1;
+	free_2d_array(cmd_line);
 	return (status);
 }
