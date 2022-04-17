@@ -25,12 +25,13 @@ OBJ_PATH = ./obj/
 UTILS_PATH = ./src/
 
 # SOURCES
-SRC =	$(SRC_PATH)main.c		$(SRC_PATH)lexer.c\
-	$(SRC_PATH)utils_error.c	$(SRC_PATH)utils_lexer.c\
-	$(SRC_PATH)signals.c		$(SRC_PATH)utils_free.c\
-	$(SRC_PATH)utils_lexer2.c	$(SRC_PATH)parser.c\
-	$(SRC_PATH)utils_parser.c	$(SRC_PATH)executer.c\
-	$(SRC_PATH)builtins.c		$(SRC_PATH)utils_parser2.c\
+SRC =	$(SRC_PATH)main.c			$(SRC_PATH)lexer.c\
+	$(SRC_PATH)utils_error.c		$(SRC_PATH)utils_lexer.c\
+	$(SRC_PATH)signals.c			$(SRC_PATH)utils_free.c\
+	$(SRC_PATH)utils_lexer2.c		$(SRC_PATH)parser.c\
+	$(SRC_PATH)utils_parser.c		$(SRC_PATH)executer.c\
+	$(SRC_PATH)builtins.c			$(SRC_PATH)utils_parser_type.c\
+	$(SRC_PATH)utils_parser_type2.c\
 	$(SRC_PATH)debug.c
 
 # OBJECTS

@@ -65,6 +65,8 @@ int		ft_get_type(char *literal);
 char		*ft_list_to_str(t_token_list *tokens, char c);
 bool		ft_check_quote(char c, char *q);
 char		*type_envar(char **s);
+char		*type_command(char **s);
+char		*type_dquote(char **s);
 
 /* debug functions */
 void		ft_print_list(t_token_list *head);

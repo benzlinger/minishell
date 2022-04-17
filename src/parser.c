@@ -1,30 +1,6 @@
 #include "../include/minishell.h"
 
 /**
- * 	@brief	checks if typed-in command is valid
- * 	@param	s: pointer to literal token string of type COMMAND
- * 	@return path to the command e.g. "/bin/ls"
- * 		NULL if no command found
- */
-static char	*type_command(char **s)
-{
-	char	*tmp;
-	char	*path;
-
-	tmp = ft_strdup("/bin/");
-	path = ft_strjoin(tmp, *s);
-	free(tmp);
-	if (access(path, F_OK) != 0)
-	{
-		ft_parse_error(*s, ": command not found");
-		free(*s);
-		free(path);
-		return (NULL);
-	}
-	return (path);
-}
-
-/**
  * 	@brief	runs function depending on tokentype
  * 		and makes them fit for the executer
  * 	@param	head: token list
@@ -42,9 +18,9 @@ static int	check_tokens_via_type(t_token_list *head)
 			current->token = type_command(&current->token);
 		else if (current->type == ENVAR || current->type == ENVARU)
 			current->token = type_envar(&current->token);
-		/*
 		else if (current->type == DQUOTE)
-			current->token = type_dquote(current);
+			current->token = type_dquote(&current->token);
+		/*
 		else if (current->type == SQUOTE)
 			current->token = type_squote(current);
 		else if (current->type == REDIREC)
