@@ -73,7 +73,8 @@ int	ft_echo(char **cmd_line)
  */
 int	ft_cd(char *cmd_line)
 {
-	return (chdir(cmd_line));
+	chdir(cmd_line);
+	return (EXIT_SUCCESS);
 }
 
 /*	@brief	print name of the working directory
@@ -89,5 +90,20 @@ int	ft_pwd(void)
 		return (EXIT_FAILURE);
 	printf("%s\n", path);
 	free(path);
+	return (EXIT_SUCCESS);
+}
+
+int	ft_env(char	**env)
+{
+	int	i;
+
+	if (!env)
+		return (EXIT_FAILURE);
+	i = 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
