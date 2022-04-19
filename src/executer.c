@@ -66,7 +66,7 @@ int	msh_executer(char *command)
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		ft_cd(command);
+		ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
