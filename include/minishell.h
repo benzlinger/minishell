@@ -68,6 +68,7 @@ void		ft_print_list(t_token_list *head);
 /* builtin functions */
 int			ft_echo(char **cmd_line);
 int			ft_pwd(void);
-int			ft_cd(char *cmd_line);
+int			ft_cd(char **cmd_line);
+int			ft_env(char	**env);
 
 #endif
