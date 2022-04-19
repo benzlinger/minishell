@@ -109,16 +109,16 @@ int	ft_pwd(void)
  *	@return	if function succeeded
  *	TODO:	find way to get *envp[] from main to executer (struct possibly)
  */
-int	ft_env(char	**env)
+int	ft_env(char	**env_list)
 {
 	int	i;
 
-	if (!env)
+	if (!env_list)
 		return (EXIT_FAILURE);
 	i = 0;
-	while (env[i])
+	while (env_list[i])
 	{
-		printf("%s\n", env[i]);
+		printf("%s\n", env_list[i]);
 		i++;
 	}
 	return (EXIT_SUCCESS);
