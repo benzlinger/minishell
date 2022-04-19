@@ -73,21 +73,16 @@ int	ft_echo(char **cmd_line)
  */
 int	ft_cd(char **cmd_line)
 {
-	char	*buf;
-	int		ret;
+	int	ret;
 
 	if (!cmd_line)
 		return (EXIT_FAILURE);
 	if (!cmd_line[1])
-	{
-		chdir("/Users/btenzlin");
-		printf("%s\n", strerror(errno)); //ask
-	}
+		ret = chdir("/Users/btenzlin");
 	else
-	{
-		chdir(cmd_line[1]);
-		printf("%s\n", strerror(errno)); //ask
-	}
+		ret = chdir(cmd_line[1]);
+	if (ret)
+		ft_error(strerror(errno)); //ask
 	return (EXIT_SUCCESS);
 }
 
@@ -101,7 +96,8 @@ int	ft_pwd(void)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	printf("%s\n", strerror(errno)); //ask
+	if (!path)
+		ft_error(strerror(errno)); //ask
 	if (!path)
 		return (EXIT_FAILURE);
 	printf("%s\n", path);
