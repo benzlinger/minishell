@@ -39,7 +39,7 @@ static int	exec_not_builtin(char **cmd_line)
 		cmd = ft_strjoin("/bin/", cmd_line[0]);
 		execve(cmd, cmd_line, NULL);
 		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
-		printf("%s\n", strerror(errno));
+		printf("%s\n", strerror(errno)); //ask
 		free(cmd);
 		exit(EXIT_FAILURE);
 	}
@@ -66,11 +66,11 @@ int	msh_executer(char *command)
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		ft_cd(cmd_line);
+		ft_cd(cmd_line); //FYI changed to 2d array
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
-		return (0);
+		return (0); //does 0-status exit properly?
 	}
 	else
 		exec_not_builtin(cmd_line);
