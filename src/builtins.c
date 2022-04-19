@@ -67,25 +67,41 @@ int	ft_echo(char **cmd_line)
 }
 
 /*	@brief	changes current working directory of the shell
- *	@params	command line IF POSSIBLE as string (as opposed to 2d array)
+ *	@params	command line from parser
  *	@return	if function scceeded
- *	FIXME	test when parser ready
+ *	FIXME	is error handling wrong? get undefined error: 0
  */
-int	ft_cd(char *cmd_line)
+int	ft_cd(char **cmd_line)
 {
-	chdir(cmd_line);
+	char	*buf;
+	int		ret;
+
+	if (!cmd_line)
+		return (EXIT_FAILURE);
+	if (!cmd_line[1])
+	{
+		chdir("/Users/btenzlin");
+		printf("%s\n", strerror(errno)); //ask
+	}
+	else
+	{
+		chdir(cmd_line[1]);
+		printf("%s\n", strerror(errno)); //ask
+	}
 	return (EXIT_SUCCESS);
 }
 
 /*	@brief	print name of the working directory
  *	@return	if function succeeded
- *	DECIDE	if we want to use set size array or dinamically allocate memory for path
+ *	DECIDE	if we want to use set size array or
+ *				dinamically allocate memory for path
  */
 int	ft_pwd(void)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
+	printf("%s\n", strerror(errno)); //ask
 	if (!path)
 		return (EXIT_FAILURE);
 	printf("%s\n", path);
