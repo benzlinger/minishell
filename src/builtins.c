@@ -78,7 +78,7 @@ int	ft_cd(char *cmd_line)
 }
 
 /*	@brief	print name of the working directory
- *	@return	if function scceeded
+ *	@return	if function succeeded
  *	DECIDE	if we want to use set size array or dinamically allocate memory for path
  */
 int	ft_pwd(void)
@@ -93,6 +93,10 @@ int	ft_pwd(void)
 	return (EXIT_SUCCESS);
 }
 
+/*	@brief	print list of environment variables
+ *	@return	if function succeeded
+ *	TODO:	find way to get *envp[] from main to executer (struct possibly)
+ */
 int	ft_env(char	**env)
 {
 	int	i;
