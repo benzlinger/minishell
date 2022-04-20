@@ -13,3 +13,19 @@ void	ft_free_tokens(t_token_list **tokens)
 		*tokens = tokens[0]->next;
 	}
 }
+
+/*	@brief	free the whole list of env variables
+ *	@params	head of env variable list
+ *	@return	if node is found: node, else NULL
+ */
+void	free_vars(t_vars *head)
+{
+	t_vars	*tmp;
+
+	while (head)
+	{
+		tmp = head->next;
+		free(head);
+		head = tmp;
+	}
+}
