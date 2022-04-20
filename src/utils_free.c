@@ -26,6 +26,10 @@ void	free_vars(t_vars *head)
 	while (head)
 	{
 		tmp = head->next;
+		if (head->name)
+			free(head->name);
+		if (head->value)
+			free(head->value);
 		free(head);
 		head = tmp;
 	}
