@@ -22,9 +22,10 @@ static int	check_tokens_via_type(t_token_list *head)
 			current->token = type_dquote(&current->token);
 		else if (current->type == SQUOTE)
 			current->token = type_squote(&current->token);
-		/*
 		else if (current->type == REDIREC)
-			current->token = type_redirec(current);
+			if (type_redirec(current->token) != 0)
+				return (EXIT_FAILURE);
+		/*
 		else if (curren->type == PIPE)
 			current->token = type_pipe(current);
 		*/

@@ -1,9 +1,33 @@
 #include "../include/minishell.h"
 
 /**
+ * 	@brief	checks for valid redirection syntax
+ * 	@param	pointer to literal token string of type REDIREC
+ * 	@return	0 if syntax is valid
+ * 		1 if not
+ */
+int	type_redirec(char *s)
+{
+	if (ft_strlen(s) == 1)
+		return (EXIT_SUCCESS);
+	else if (ft_strlen(s) == 2)
+	{
+		if (s[0] == '<' && s[1] == '<')
+			return (EXIT_SUCCESS);
+		else if (s[0] == '>' && s[1] == '>')
+			return (EXIT_SUCCESS);
+	}
+	ft_parse_error(s, ": invalid redirection syntax");
+	return (EXIT_FAILURE);
+}
+
+/**
  * 	@brief	removes single quotes
  * 	@param	pointer to literal token string of type SQUOTE
  * 	@return	string without singlequotes
+ * 	@NOTE	Very little testing was done
+ * 		also I'm not entirly sure if removing the single quotes was
+ * 		all that needed to be done
  */
 char	*type_squote(char **s)
 {

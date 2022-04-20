@@ -78,6 +78,8 @@ char	  	*type_command(char **s);
 char	  	*type_dquote(char **s);
 void			free_vars(t_vars *head);
 char		*type_squote(char **s);
+int		type_redirec(char *s);
+//char		*type_pipe(char **s);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);
