@@ -33,7 +33,7 @@ static char	**export_cmd(char *cmd)
 /*	@brief	free 2 dimensional array and its contents
  *	@params	array to free
  */
-static void	free_2d_array(char **arr)
+void	free_2d_array(char **arr)
 {
 	int	i;
 
@@ -82,6 +82,7 @@ int	msh_executer(t_data *data)
 {
 	int		status;
 	char	**cmd_line;
+	char	**exp_cmd;
 
 	// status = printf("%s\n", data->command);
 	cmd_line = ft_split(data->command, ',');
@@ -94,7 +95,12 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		ft_env(data->env_list);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-		data->vars = ft_export(export_cmd(data->command), data->vars);
+	{
+		exp_cmd = export_cmd(data->command);
+		// print_2d_array(exp_cmd); //debug
+		data->vars = ft_export(exp_cmd, data->vars, data->env_list);
+		free_2d_array(exp_cmd);
+	}
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
