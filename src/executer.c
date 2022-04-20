@@ -83,7 +83,7 @@ int	msh_executer(t_data *data)
 	int		status;
 	char	**cmd_line;
 
-	// status = printf("%s\n", data->command);
+	status = 1;
 	cmd_line = ft_split(data->command, ',');
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		ft_echo(cmd_line);
@@ -98,11 +98,10 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
-		return (0); //does 0-status exit properly?
+		status = 0;
 	}
 	else
 		exec_not_builtin(cmd_line);
-	status = 1;
 	free_2d_array(cmd_line);
 	return (status);
 }

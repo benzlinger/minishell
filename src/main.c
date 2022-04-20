@@ -79,6 +79,7 @@ static void	msh_loop(char **env_list)
 		}
 		free(data->line);
 	}
+	free(data);
 }
 
 /*	1. Loading config files (if any)
