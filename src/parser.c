@@ -6,6 +6,7 @@
  * 	@param	head: token list
  * 	@return	1: if an parse error occures
  * 		0: if successful
+ * 	@NORM	to many lines
  */
 static int	check_tokens_via_type(t_token_list *head)
 {
@@ -23,12 +24,15 @@ static int	check_tokens_via_type(t_token_list *head)
 		else if (current->type == SQUOTE)
 			current->token = type_squote(&current->token);
 		else if (current->type == REDIREC)
+		{
 			if (type_redirec(current->token) != 0)
 				return (EXIT_FAILURE);
-		/*
-		else if (curren->type == PIPE)
-			current->token = type_pipe(current);
-		*/
+		}
+		else if (current->type == PIPE)
+		{
+			if (type_pipe(current->token) != 0)
+				return (EXIT_FAILURE);
+		}
 		if (current->token == NULL)
 			return (EXIT_FAILURE);
 		current = current->next;

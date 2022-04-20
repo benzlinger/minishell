@@ -1,8 +1,24 @@
 #include "../include/minishell.h"
 
 /**
+ * 	@brief	checks for valid pipe syntax
+ * 	@param	literal token string of type REDIREC
+ * 	@return	0 if syntax is valid
+ * 		1 if not
+ */
+int	type_pipe(char *s)
+{
+	if (ft_strlen(s) != 1)
+	{
+		ft_parse_error(s, ": invalide pipe syntax");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+/**
  * 	@brief	checks for valid redirection syntax
- * 	@param	pointer to literal token string of type REDIREC
+ * 	@param	literal token string of type REDIREC
  * 	@return	0 if syntax is valid
  * 		1 if not
  */
