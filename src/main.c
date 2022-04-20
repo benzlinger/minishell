@@ -75,10 +75,12 @@ static void	msh_loop(char **env_list)
 				free(data->command);
 			}
 			ft_free_tokens(&data->tokens);
-			//free_vars(data->vars);
 		}
 		free(data->line);
 	}
+	free_vars(data->vars);
+	// system("leaks minishell");
+	//TODO: ft_exit
 }
 
 /*	1. Loading config files (if any)
