@@ -82,7 +82,8 @@ int	ft_cd(char **cmd_line)
 	else
 		ret = chdir(cmd_line[1]);
 	if (ret)
-		ft_error(strerror(errno)); //ask
+		printf("%s\n", strerror(errno)); 
+		// ft_error(strerror(errno)); //ask
 	return (EXIT_SUCCESS);
 }
 
@@ -109,7 +110,7 @@ int	ft_pwd(void)
  *	@return	if function succeeded
  *	TODO:	find way to get *envp[] from main to executer (struct possibly)
  */
-int	ft_env(char	**env_list)
+int	ft_env(char	**env_list) //how to handle env with arguments/flags
 {
 	int	i;
 
