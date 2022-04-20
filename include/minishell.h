@@ -17,6 +17,7 @@
 
 typedef enum e_type
 {
+	UNKNOWN,
 	COMMAND,
 	BUILTIN,
 	ENVAR,

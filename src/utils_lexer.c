@@ -48,7 +48,7 @@ int ft_get_type(char *literal)
 		return (ENVARU);
 	else if (literal[0] == '$')
 		return (ENVAR);
-	return (COMMAND);
+	return (UNKNOWN);
 }
 
 /**
