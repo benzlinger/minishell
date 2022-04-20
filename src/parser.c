@@ -15,9 +15,9 @@ static int	check_tokens_via_type(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
-		if (current->type == COMMAND)
-			current->token = type_command(&current->token);
-		else if (current->type == ENVAR || current->type == ENVARU)
+		//if (current->type == COMMAND)
+		//	current->token = type_command(&current->token);
+		if (current->type == ENVAR || current->type == ENVARU)
 			current->token = type_envar(&current->token);
 		else if (current->type == DQUOTE)
 			current->token = type_dquote(&current->token);
@@ -42,17 +42,41 @@ static int	check_tokens_via_type(t_token_list *head)
 
 static int	ft_ft(t_token_list *a)
 {
-	int	b;
-	int	c;
-
-	b = COMMAND;
-	c = BUILTIN;
 	if (a->type != ENVARU)
-		return (b);
+		return (0);
 	if (a->next != NULL)
-		return (b);
+		return (0);
 	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
-	return (c);
+	return (1);
+}
+
+static int	get_command_types(t_token_list *head)
+{
+	t_token_list	*current;
+
+	current = head;
+	if (current->type == UNKNOWN)
+	{
+		current->type = COMMAND;
+		current->token = type_command(&current->token);
+		if (current->token == NULL)
+			return (EXIT_FAILURE);
+	}
+	while (current != NULL)
+	{
+		if (current->type == PIPE && current->next != NULL)
+		{
+			// FIXME is it possible at this point that
+			// a pipe is valid as last token?
+			// if yes, the following code might result in crash
+			current->next->type = COMMAND;
+			current->next->token = type_command(&current->token);
+			if (current->token == NULL)
+				return (EXIT_FAILURE);
+		}
+		current = current->next;
+	}
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -69,6 +93,8 @@ char	*msh_parser(t_token_list *tokens)
 	// Idk how to implement command specific parsing
 	// without it being to tedious and overly specific
 	// I need a better approach and maybe a diffrent parser structure
+	if (get_command_types(tokens) != 0)
+		return (NULL);
 	if (check_tokens_via_type(tokens) != 0)
 		return (NULL);
 	if (ft_ft(tokens) != 0)

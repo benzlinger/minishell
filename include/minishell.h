@@ -17,7 +17,6 @@
 
 typedef enum e_type
 {
-	UNKNOWN,
 	COMMAND,
 	BUILTIN,
 	ENVAR,
@@ -26,7 +25,8 @@ typedef enum e_type
 	DQUOTE,
 	SQUOTE,
 	REDIREC,
-	PIPE
+	PIPE,
+	UNKNOWN
 }		t_type;
 
 /* 	pipe_index:	indexing token between pipes in command prompt, starting with 0
