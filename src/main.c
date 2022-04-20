@@ -48,35 +48,36 @@ static char	*msh_prompt(void)
  *	2. Separate the command string into a programm and arguments
  *	3. Run the parsed command
  */
-static void	msh_loop(void)
+static void	msh_loop(char **env_list)
 {
-	t_token_list	*tokens;
-	char		*line;
-	char		*command;
+	t_data	*data;
 	int		status;
-	char		*promptline;
+	char	*promptline;
 
 	status = 1;
+	data = malloc(sizeof(t_data));
 	while (status)
 	{
 		promptline = msh_prompt();
-		line = readline(promptline);
+		data->line = readline(promptline);
 		free(promptline);
-		if (ft_check_EOF(line) && ft_strlen(line))
+		data->env_list = env_list;
+		if (ft_check_EOF(data->line) && ft_strlen(data->line))
 		{
-			add_history(line);
-			tokens = msh_lexer(line);
-			command = msh_parser(tokens);
+			add_history(data->line);
+			data->tokens = msh_lexer(data->line);
+			data->command = msh_parser(data->tokens);
 			//if command == NULL a parse error occured and a new
 			//prompt will be displayed
-			if (command != NULL)
+			if (data->command != NULL)
 			{
-				status = msh_executer(command);
-				free(command);
+				status = msh_executer(data);
+				free(data->command);
 			}
-			ft_free_tokens(&tokens);
+			ft_free_tokens(&data->tokens);
+			//free_vars(data->vars);
 		}
-		free(line);
+		free(data->line);
 	}
 }
 
@@ -89,6 +90,6 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc != 1)
 		ft_error(strerror(E2BIG));
 	init_signal_handling();
-	msh_loop();
+	msh_loop(envp);
 	return (EXIT_SUCCESS);
 }
