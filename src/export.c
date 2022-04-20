@@ -24,6 +24,10 @@ static int	show_vars(t_vars *head)
 	return (EXIT_SUCCESS);
 }
 
+/*	@brief	create new head variable if list is empty
+ *	@params	name of env var, value of env var
+ *	@return	head of list
+ */
 static t_vars	*new_var(char *name, char *value)
 {
 	t_vars	*head;
@@ -41,7 +45,7 @@ static t_vars	*new_var(char *name, char *value)
 }
 
 /*	@brief	find env variable in list by name
- *	@params	name of env varr, head of env variable list
+ *	@params	name of env var, head of env variable list
  *	@return	if node is found: node, else NULL
  */
 static t_vars	*find_var(char *name, t_vars *head)
@@ -74,13 +78,13 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 		head = new_var(name, value);
 		return (head);
 	}
-	tmp = find_var(name, head);
-	if (tmp)
-	{
-		if (value)
-			tmp->value = value;
-		return (head);
-	}
+	// tmp = find_var(name, head);
+	// if (tmp)
+	// {
+	// 	if (value)
+	// 		tmp->value = value;
+	// 	return (head);
+	// }
 	new = malloc(sizeof(t_vars));
 	if (!new)
 		return (NULL);
@@ -95,22 +99,40 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 	return (head);
 }
 
+t_vars	*init_vars(char **env_list)
+{
+	int		i;
+	char	**vars;
+	t_vars	*head;
+
+	i = 0;
+	head = NULL;
+	while (env_list[i])
+	{
+		vars = ft_split(env_list[i], '=');
+		// print_2d_array(vars);
+		head = append_var(vars[0], vars[1], head);
+		//free_2d_array(vars);
+		i++;
+	}
+	return (head);
+}
+
 /*	@brief	show or create new env variable [with value]
  *	@params	command line, head of env variable list
  *	@return	if function scceeded
  *	FIXME	if env var name already exists (assign new value)
  */
-t_vars	*ft_export(char **cmd_line, t_vars *head)
+t_vars	*ft_export(char **cmd_line, t_vars *head, char **env_list)
 {
 	int	i;
 
+	if (!head)
+		head = init_vars(env_list);
 	if (cmd_line[1] && cmd_line[1][0] == '=')
-		return (NULL);
+		return (head);
 	if (!cmd_line[1])
-	{
-		if (show_vars(head))
-			return (NULL);
-	}
+		show_vars(head);
 	else
 	{
 		i = 1;
