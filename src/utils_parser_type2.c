@@ -1,5 +1,20 @@
 #include "../include/minishell.h"
 
+/**
+ * 	ATTENTION!
+ * 	This file handels double quotes but is not bug free and has norm issues.
+ *
+ * 	Known bugs:
+ *	-> double quotes are not removed
+ *	-> echo hello world -> is: ERROR -> should: hello world
+ *	-> echo hello$USER -> is: ERROR -> should: hellorsiebert
+ *	-> echo hello$UNKOWNVAR -> is: ERROR -> should: hello
+ *	-> echo hello$UNKOWNVAR bye -> is: ERROR -> should: hello bye
+ *	
+ *	Due to a lot of missing stuff and huge norm issues I will
+ *	rewrite this entire file at some point
+ */
+
 static char	*get_envar_name(char *s)
 {
 	char	*envar;
@@ -104,10 +119,6 @@ static char	*insert_envar_value(char *s, char *envar_name)
 	return (out);
 }
 
-/**
- * 	@brief	handels double quotes
- * 		inserts envars and removes double quotes
- */
 char	*type_dquote(char **s)
 {
 	char	*out;
