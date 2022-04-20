@@ -1,6 +1,32 @@
 #include "../include/minishell.h"
 
 /**
+ * 	@brief	removes single quotes
+ * 	@param	pointer to literal token string of type SQUOTE
+ * 	@return	string without singlequotes
+ */
+char	*type_squote(char **s)
+{
+	char	*out;
+	int	i;
+	int	j;
+
+	out = ft_calloc(ft_strlen(*s) + 1, sizeof(char));
+	if (out == NULL)
+		ft_error(strerror(errno));
+	i = 0;
+	j = 1;
+	while (s[0][j] != 39 && s[0][j])
+	{
+		out[i] = s[0][j];
+		i++;
+		j++;
+	}
+	free(*s);
+	return (out);
+}
+
+/**
  * 	@brief	converts var name into var value
  * 	@param	pointer to literal token string of type ENVAR
  * 	@return	envar: either the converted var value

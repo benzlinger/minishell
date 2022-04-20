@@ -77,6 +77,7 @@ char	  	*type_envar(char **s);
 char	  	*type_command(char **s);
 char	  	*type_dquote(char **s);
 void			free_vars(t_vars *head);
+char		*type_squote(char **s);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);

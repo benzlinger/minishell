@@ -20,9 +20,9 @@ static int	check_tokens_via_type(t_token_list *head)
 			current->token = type_envar(&current->token);
 		else if (current->type == DQUOTE)
 			current->token = type_dquote(&current->token);
-		/*
 		else if (current->type == SQUOTE)
-			current->token = type_squote(current);
+			current->token = type_squote(&current->token);
+		/*
 		else if (current->type == REDIREC)
 			current->token = type_redirec(current);
 		else if (curren->type == PIPE)
