@@ -108,7 +108,6 @@ int	ft_pwd(void)
 
 /*	@brief	print list of environment variables
  *	@return	if function succeeded
- *	TODO:	find way to get *envp[] from main to executer (struct possibly)
  */
 int	ft_env(char	**env_list) //how to handle env with arguments/flags
 {
