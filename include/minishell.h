@@ -48,11 +48,20 @@ typedef struct s_vars
 	char			*value;
 }		t_vars;
 
+typedef struct s_data
+{
+	char			**env_list;
+	t_token_list	*tokens;
+	t_vars			*vars;
+	char			*line;
+	char			*command;
+}					t_data;
+
 t_token_list	*msh_lexer(char *line);
-void		init_signal_handling(void);
+void			init_signal_handling(void);
 
 /* utils */
-int		ft_get_pipe_index(char **prompt, int pos);
+int	  	ft_get_pipe_index(char **prompt, int pos);
 void		ft_error(char *err_msg);
 void		ft_exit(int err_code);
 void		ft_free_tokens(t_token_list **tokens);
@@ -60,20 +69,25 @@ bool		ft_check_EOF(char *s);
 char		*ft_delimit_line(char *pline, int i, int j);
 char		*msh_parser(t_token_list *tokens);
 char		*ft_parse_error(char *err_msg1, char *err_msg2);
-int		msh_executer(char *command);
-int		ft_get_type(char *literal);
-char		*ft_list_to_str(t_token_list *tokens, char c);
-bool		ft_check_quote(char c, char *q);
-char		*type_envar(char **s);
-char		*type_command(char **s);
-char		*type_dquote(char **s);
+int				msh_executer(t_data *data);
+int	  	ft_get_type(char *literal);
+char	  	*ft_list_to_str(t_token_list *tokens, char c);
+bool	  	ft_check_quote(char c, char *q);
+char	  	*type_envar(char **s);
+char	  	*type_command(char **s);
+char	  	*type_dquote(char **s);
+void			free_vars(t_vars *head);
 
 /* debug functions */
-void		ft_print_list(t_token_list *head);
+void			ft_print_list(t_token_list *head);
+void			print_vars(t_vars *head);
 
 /* builtin functions */
-int			ft_echo(char **cmd_line);
-int			ft_pwd(void);
-int			ft_cd(char *cmd_line);
+int				ft_echo(char **cmd_line);
+int				ft_pwd(void);
+int				ft_cd(char **cmd_line);
+int				ft_env(char	**env);
+t_vars			*ft_export(char **cmd_line, t_vars *head);
+t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
 #endif

@@ -67,18 +67,30 @@ int	ft_echo(char **cmd_line)
 }
 
 /*	@brief	changes current working directory of the shell
- *	@params	command line IF POSSIBLE as string (as opposed to 2d array)
+ *	@params	command line from parser
  *	@return	if function scceeded
- *	FIXME	test when parser ready
+ *	FIXME	is error handling wrong? get undefined error: 0
  */
-int	ft_cd(char *cmd_line)
+int	ft_cd(char **cmd_line)
 {
-	return (chdir(cmd_line));
+	int	ret;
+
+	if (!cmd_line)
+		return (EXIT_FAILURE);
+	if (!cmd_line[1])
+		ret = chdir("/Users/btenzlin");
+	else
+		ret = chdir(cmd_line[1]);
+	if (ret)
+		printf("%s\n", strerror(errno)); 
+		// ft_error(strerror(errno)); //ask
+	return (EXIT_SUCCESS);
 }
 
 /*	@brief	print name of the working directory
- *	@return	if function scceeded
- *	DECIDE	if we want to use set size array or dinamically allocate memory for path
+ *	@return	if function succeeded
+ *	DECIDE	if we want to use set size array or
+ *				dinamically allocate memory for path
  */
 int	ft_pwd(void)
 {
@@ -86,8 +98,29 @@ int	ft_pwd(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
+		ft_error(strerror(errno)); //ask
+	if (!path)
 		return (EXIT_FAILURE);
 	printf("%s\n", path);
 	free(path);
+	return (EXIT_SUCCESS);
+}
+
+/*	@brief	print list of environment variables
+ *	@return	if function succeeded
+ *	TODO:	find way to get *envp[] from main to executer (struct possibly)
+ */
+int	ft_env(char	**env_list) //how to handle env with arguments/flags
+{
+	int	i;
+
+	if (!env_list)
+		return (EXIT_FAILURE);
+	i = 0;
+	while (env_list[i])
+	{
+		printf("%s\n", env_list[i]);
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
