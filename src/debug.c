@@ -20,3 +20,20 @@ void	ft_print_list(t_token_list *head)
 		current = current->next;
 	}
 }
+
+void	print_vars(t_vars *head)
+{
+	t_vars	*tmp;
+
+	tmp = head;
+	if (!tmp)
+		printf("Empty list.\n");
+	while (tmp)
+	{
+		printf("%s", tmp->name);
+		if (tmp->value)
+			printf(" =%s", tmp->value);
+		printf("\n");
+		tmp = tmp->next;
+	}
+}
