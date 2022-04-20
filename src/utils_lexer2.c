@@ -8,7 +8,7 @@
  * 	@return true if char is quote or bracket etc. (NULL)
  * 		or true if c == *q
  */
-static bool	ft_check_quote(char c, char *q)
+bool	ft_check_quote(char c, char *q)
 {
 	if (q == NULL)
 	{

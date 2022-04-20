@@ -58,16 +58,13 @@ static int	exec_not_builtin(char **cmd_line)
 {
 	pid_t	pid;
 	int		status;
-	char	*cmd;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		cmd = ft_strjoin("/bin/", cmd_line[0]);
-		execve(cmd, cmd_line, NULL);
+		execve(cmd_line[0], cmd_line, NULL);
 		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
-		printf("%s\n", strerror(errno)); //ask
-		free(cmd);
+		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)

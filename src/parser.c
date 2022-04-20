@@ -1,73 +1,53 @@
 #include "../include/minishell.h"
 
 /**
- * 	@brief	gets size for allocating command string
- * 	@param	tokens: linked list from lexer
- * 	@return size for command string to be allocated with
+ * 	@brief	runs function depending on tokentype
+ * 		and makes them fit for the executer
+ * 	@param	head: token list
+ * 	@return	1: if an parse error occures
+ * 		0: if successful
  */
-static int	get_command_size(t_token_list *tokens)
+static int	check_tokens_via_type(t_token_list *head)
 {
 	t_token_list	*current;
-	int		listlen;
-	int		charlen;
 
-	current = tokens;
-	listlen = 0;
-	charlen = 0;
+	current = head;
 	while (current != NULL)
 	{
-		charlen += ft_strlen(current->token);
-		listlen++;
+		if (current->type == COMMAND)
+			current->token = type_command(&current->token);
+		else if (current->type == ENVAR || current->type == ENVARU)
+			current->token = type_envar(&current->token);
+		else if (current->type == DQUOTE)
+			current->token = type_dquote(&current->token);
+		/*
+		else if (current->type == SQUOTE)
+			current->token = type_squote(current);
+		else if (current->type == REDIREC)
+			current->token = type_redirec(current);
+		else if (curren->type == PIPE)
+			current->token = type_pipe(current);
+		*/
+		if (current->token == NULL)
+			return (EXIT_FAILURE);
 		current = current->next;
 	}
-	return (listlen + charlen);
+	return (EXIT_SUCCESS);
 }
 
-/**	
- * 	@brief	norm function; also setting the delimiter for command string
- * 	@param	command: pointer to command string
- * 	@param	i: pointer to index
- * 	@param	c: the delimiter to set (standard is space ' ')
- */
-static void	add_delimiter(char **command, int *i, char c)
+static int	ft_ft(t_token_list *a)
 {
-	command[0][*i] = c;
-	*i += 1;
-}
+	int	b;
+	int	c;
 
-/**
- * 	@brief	turns the token list into a single string with a set delimiter
- * 	@param	tokens: linked list from lexer
- * 	@param	c: the delimiter to set (standard is space ' ')
- * 	@return	command string
- */
-static char	*ft_list_to_str(t_token_list *tokens, char c)
-{
-	t_token_list	*current;
-	char		*command;
-	int		size;
-	int		i;
-	int		j;
-
-	size = get_command_size(tokens);
-	command = ft_calloc(size + 1, sizeof(char));
-	if (command == NULL)
-		ft_error(strerror(errno));
-	current = tokens;
-	i = 0;
-	while (current != NULL)
-	{
-		j = 0;
-		while (current->token[j])
-		{
-			command[i] = current->token[j];
-			i++;
-			j++;
-		}
-		add_delimiter(&command, &i, c);
-		current = current->next;
-	}
-	return (command);
+	b = COMMAND;
+	c = BUILTIN;
+	if (a->type != ENVARU)
+		return (b);
+	if (a->next != NULL)
+		return (b);
+	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
+	return (c);
 }
 
 /**
@@ -79,6 +59,10 @@ char	*msh_parser(t_token_list *tokens)
 {
 	char	*command;
 
+	if (check_tokens_via_type(tokens) != 0)
+		return (NULL);
+	if (ft_ft(tokens) != 0)
+		return (NULL);
 	/*
 	if (check_commands(tokens) != 0)
 		return (NULL);

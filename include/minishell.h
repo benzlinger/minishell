@@ -4,8 +4,8 @@
 # include <stdio.h> // printf, readline
 # include <readline/readline.h> // readline
 # include <readline/history.h> // readline
-# include <unistd.h> // write
-# include <stdlib.h> // malloc, free, exit
+# include <unistd.h> // write, access
+# include <stdlib.h> // malloc, free, exit, getenv
 # include <stdbool.h> // bool type, EXIT_SUCC/FAIL
 # include <errno.h> // errno macro
 # include <string.h> // strerror
@@ -15,17 +15,16 @@
 
 # define ERROR "\e[1;31mError: \e[0m"
 
-/*	random types from wikipedia for testing
- *	idk what exact types we'll need later
- */
 typedef enum e_type
 {
-	IDENTIFIER,
-	KEYWORD,
-	SEPERATOR,
-	OPERATOR,
-	LITERAL,
-	COMMENT,
+	COMMAND,
+	BUILTIN,
+	ENVAR,
+	ENVARU,
+	FLAG,
+	DQUOTE,
+	SQUOTE,
+	REDIREC,
 	PIPE
 }		t_type;
 
@@ -34,7 +33,8 @@ typedef enum e_type
  * 	type:		enumurated token type for identification
  * 	next:		pointer to next token. If it's the last token, next == NULL
  */
-typedef struct s_token_list{
+typedef struct s_token_list
+{
 	int			pipe_index;
 	char			*token;
 	t_type			type;
@@ -43,10 +43,10 @@ typedef struct s_token_list{
 
 typedef struct s_vars
 {
-	struct s_vars	*next;
+	struct s_vars		*next;
 	char			*name;
 	char			*value;
-}					t_vars;
+}		t_vars;
 
 typedef struct s_data
 {
@@ -61,15 +61,21 @@ t_token_list	*msh_lexer(char *line);
 void			init_signal_handling(void);
 
 /* utils */
-int				ft_get_pipe_index(char **prompt, int pos);
-void			ft_error(char *err_msg);
-void			ft_exit(int err_code);
-void			ft_free_tokens(t_token_list **tokens);
-bool			ft_check_EOF(char *s);
-char			*ft_delimit_line(char *pline, int i, int j);
-char			*msh_parser(t_token_list *tokens);
-char			*ft_parse_error(char *err_msg1, char *err_msg2);
+int	  	ft_get_pipe_index(char **prompt, int pos);
+void		ft_error(char *err_msg);
+void		ft_exit(int err_code);
+void		ft_free_tokens(t_token_list **tokens);
+bool		ft_check_EOF(char *s);
+char		*ft_delimit_line(char *pline, int i, int j);
+char		*msh_parser(t_token_list *tokens);
+char		*ft_parse_error(char *err_msg1, char *err_msg2);
 int				msh_executer(t_data *data);
+int	  	ft_get_type(char *literal);
+char	  	*ft_list_to_str(t_token_list *tokens, char c);
+bool	  	ft_check_quote(char c, char *q);
+char	  	*type_envar(char **s);
+char	  	*type_command(char **s);
+char	  	*type_dquote(char **s);
 void			free_vars(t_vars *head);
 
 /* debug functions */
