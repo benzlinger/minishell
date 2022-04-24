@@ -49,7 +49,7 @@ static int	ft_ft(t_token_list *a)
 	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
 	return (1);
 }
-
+// TODO func comment
 static int	get_command_types(t_token_list *head)
 {
 	t_token_list	*current;
@@ -88,11 +88,6 @@ char	*msh_parser(t_token_list *tokens)
 {
 	char	*command;
 
-	// TODO left of here
-	// caution: changed type default from COMMAND to UNKNOWN
-	// Idk how to implement command specific parsing
-	// without it being to tedious and overly specific
-	// I need a better approach and maybe a diffrent parser structure
 	if (get_command_types(tokens) != 0)
 		return (NULL);
 	if (check_tokens_via_type(tokens) != 0)

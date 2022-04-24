@@ -5,8 +5,6 @@
  * 	This file handels double quotes but is not bug free and has norm issues.
  *
  * 	Known bugs:
- *	-> double quotes are not removed
- *	-> echo hello world -> is: ERROR -> should: hello world
  *	-> echo hello$USER -> is: ERROR -> should: hellorsiebert
  *	-> echo hello$UNKOWNVAR -> is: ERROR -> should: hello
  *	-> echo hello$UNKOWNVAR bye -> is: ERROR -> should: hello bye
@@ -14,6 +12,41 @@
  *	Due to a lot of missing stuff and huge norm issues I will
  *	rewrite this entire file at some point
  */
+
+static char	*remove_quotes(char *s, char **tofree)
+{
+	char	*out;
+	int	i;
+	int	j;
+	int	dq_count;
+
+	out = ft_calloc(ft_strlen(s) + 1, sizeof(char));
+	if (out == NULL)
+		ft_error(strerror(errno));
+	i = 0;
+	dq_count = 0;
+	while (s[i])
+	{
+		if (s[i] == '"')
+			dq_count++;
+		i++;
+	}
+	if (dq_count % 2 != 0)
+		return (ft_parse_error("odd amount of double quotes", NULL));
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		while (s[j] == '"')
+			j++;
+		out[i] = s[j];
+		i++;
+		j++;
+	}
+	if (tofree != NULL)
+		free(*tofree);
+	return (out);
+}
 
 static char	*get_envar_name(char *s)
 {
@@ -44,7 +77,7 @@ static char	*get_envar_name(char *s)
 	return (envar);
 }
 
-static char	*remove_quotes(char *s)
+static char	*old_remove_quotes(char *s)
 {
 	char	*out;
 	size_t	i;
@@ -127,7 +160,7 @@ char	*type_dquote(char **s)
 
 	if (envar_exists(*s) == false)
 	{
-		out = remove_quotes(*s);
+		out = remove_quotes(*s, NULL);
 		envar_name = NULL;
 	}
 	else
@@ -142,6 +175,7 @@ char	*type_dquote(char **s)
 			out = insert_envar_value(tmp, envar_name);
 			free(tmp);
 		}
+		out = remove_quotes(out, &out);
 	}
 	free(envar_name);
 	if (out == NULL)
