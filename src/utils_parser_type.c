@@ -110,16 +110,24 @@ char	*type_command(char **s, int type)
 {
 	char	*tmp;
 	char	*path;
+	bool	free_path;
 
-	tmp = ft_strdup("/bin/");
-	path = ft_strjoin(tmp, *s);
-	free(tmp);
+	path = *s;
+	free_path = false;
+	if (ft_strncmp(*s, "/bin/", 5) != 0)
+	{
+		tmp = ft_strdup("/bin/");
+		path = ft_strjoin(tmp, *s);
+		free_path = true;
+		free(tmp);
+	}
 	if (access(path, F_OK) != 0)
 	{
 		ft_parse_error(*s, ": command not found");
 		if (type != ENVAR)
 			free(*s);
-		free(path);
+		if (free_path)
+			free(path);
 		return (NULL);
 	}
 	return (path);
