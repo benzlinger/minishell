@@ -56,11 +56,14 @@ static int	get_command_types(t_token_list *head)
 	int		t;
 
 	current = head;
-	t = current->type;
-	current->type = COMMAND;
-	current->token = type_command(&current->token, t);
-	if (current->token == NULL)
-		return (EXIT_FAILURE);
+	t = head->type;
+	if (current->type != BUILTIN)
+	{
+		current->type = COMMAND;
+		current->token = type_command(&current->token, t);
+		if (current->token == NULL)
+			return (EXIT_FAILURE);
+	}
 	while (current != NULL)
 	{
 		if (current->type == PIPE && current->next != NULL)
