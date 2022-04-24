@@ -15,6 +15,7 @@ static t_token_list	*init_token_list(char *literal)
 	head->token = ft_strdup(literal);
 	head->type = ft_get_type(head->token); 
 	head->pipe_index = 0;
+	head->index = 0;
 	head->next = NULL;
 	return (head);
 }
@@ -40,6 +41,7 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 	node->token = ft_strdup(literal[i]);
 	node->type = ft_get_type(node->token); 
 	node->pipe_index = ft_get_pipe_index(literal, i);
+	node->index = i;
 	node->next = NULL;
 }
 

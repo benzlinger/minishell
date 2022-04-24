@@ -37,6 +37,7 @@ typedef enum e_type
 typedef struct s_token_list
 {
 	int			pipe_index;
+	int			index;
 	char			*token;
 	t_type			type;
 	struct s_token_list	*next;
@@ -75,7 +76,7 @@ int	  	ft_get_type(char *literal);
 char	  	*ft_list_to_str(t_token_list *tokens, char c);
 bool	  	ft_check_quote(char c, char *q);
 char	  	*type_envar(char **s);
-char	  	*type_command(char **s);
+char	  	*type_command(char **s, int type);
 char	  	*type_dquote(char **s);
 void			free_vars(t_vars *head);
 char		*type_squote(char **s);

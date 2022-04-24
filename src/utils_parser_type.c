@@ -106,7 +106,7 @@ char	*type_envar(char **s)
  * 	@return path to the command e.g. "/bin/ls"
  * 		NULL if no command found
  */
-char	*type_command(char **s)
+char	*type_command(char **s, int type)
 {
 	char	*tmp;
 	char	*path;
@@ -117,7 +117,8 @@ char	*type_command(char **s)
 	if (access(path, F_OK) != 0)
 	{
 		ft_parse_error(*s, ": command not found");
-		free(*s);
+		if (type != ENVAR)
+			free(*s);
 		free(path);
 		return (NULL);
 	}

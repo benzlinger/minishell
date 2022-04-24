@@ -53,15 +53,14 @@ static int	ft_ft(t_token_list *a)
 static int	get_command_types(t_token_list *head)
 {
 	t_token_list	*current;
+	int		t;
 
 	current = head;
-	if (current->type == UNKNOWN)
-	{
-		current->type = COMMAND;
-		current->token = type_command(&current->token);
-		if (current->token == NULL)
-			return (EXIT_FAILURE);
-	}
+	t = current->type;
+	current->type = COMMAND;
+	current->token = type_command(&current->token, t);
+	if (current->token == NULL)
+		return (EXIT_FAILURE);
 	while (current != NULL)
 	{
 		if (current->type == PIPE && current->next != NULL)
@@ -70,7 +69,7 @@ static int	get_command_types(t_token_list *head)
 			// a pipe is valid as last token?
 			// if yes, the following code might result in crash
 			current->next->type = COMMAND;
-			current->next->token = type_command(&current->token);
+			current->next->token = type_command(&current->token, t);
 			if (current->token == NULL)
 				return (EXIT_FAILURE);
 		}
@@ -88,11 +87,11 @@ char	*msh_parser(t_token_list *tokens)
 {
 	char	*command;
 
-	if (get_command_types(tokens) != 0)
-		return (NULL);
 	if (check_tokens_via_type(tokens) != 0)
 		return (NULL);
 	if (ft_ft(tokens) != 0)
+		return (NULL);
+	if (get_command_types(tokens) != 0)
 		return (NULL);
 	/*
 	if (check_commands(tokens) != 0)
