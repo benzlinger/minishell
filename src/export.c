@@ -120,7 +120,7 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 	return (head);
 }
 
-t_vars	*init_vars(char **env_list)
+static t_vars	*init_vars(char **env_list)
 {
 	int		i;
 	char	**vars;
@@ -131,9 +131,8 @@ t_vars	*init_vars(char **env_list)
 	while (env_list[i])
 	{
 		vars = ft_split(env_list[i], '=');
-		// print_2d_array(vars);
 		head = append_var(vars[0], vars[1], head);
-		//free_2d_array(vars);
+		free(vars);
 		i++;
 	}
 	return (head);
