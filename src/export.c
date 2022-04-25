@@ -64,6 +64,27 @@ static t_vars	*find_var(char *name, t_vars *head)
 	return (NULL);
 }
 
+/*	@brief	find env variable in list by name
+ *	@params	name of env var, head of env variable list
+ *	@return	1 if node is found, 0 if not
+ *	FIXME: needs to be executed better (find_var + is_var unnecessary)
+ */
+static int	is_var(char *name, t_vars *head)
+{
+	t_vars	*tmp;
+
+	if (!head || !name)
+		return (0);
+	tmp = head;
+	while (tmp)
+	{
+		if (tmp->name == name)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 /*	@brief	add env variable to list of existing vars
  *	@params	name of var, value of var (can be NULL), head of env variable list
  *	@return	if function succeeded
@@ -78,13 +99,13 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 		head = new_var(name, value);
 		return (head);
 	}
-	// tmp = find_var(name, head);
-	// if (tmp)
-	// {
-	// 	if (value)
-	// 		tmp->value = value;
-	// 	return (head);
-	// }
+	if (is_var(name, head))
+	{
+		tmp = find_var(name, head);
+		if (value)
+			tmp->value = value;
+		return (head);
+	}
 	new = malloc(sizeof(t_vars));
 	if (!new)
 		return (NULL);
