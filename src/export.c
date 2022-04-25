@@ -168,7 +168,6 @@ t_vars	*ft_export(char **cmd_line, t_vars *head, char **env_list)
 			i++;
 		}
 	}
-	// print_vars(head);
 	return (head);
 }
 
