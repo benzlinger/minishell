@@ -13,6 +13,8 @@ static char	**export_cmd(char *cmd)
 	i = 0;
 	j = 0;
 	ex_cmd = malloc(ft_strlen(cmd) + 2);
+	if (!ex_cmd)
+		ft_error(strerror(errno));
 	while (cmd[i])
 	{
 		if (cmd[i] == '=')
