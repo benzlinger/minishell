@@ -98,7 +98,7 @@ int	ft_pwd(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
-		ft_error(strerror(errno)); //ask
+		ft_error(strerror(errno));
 	if (!path)
 		return (EXIT_FAILURE);
 	printf("%s\n", path);
@@ -109,7 +109,7 @@ int	ft_pwd(void)
 /*	@brief	print list of environment variables
  *	@return	if function succeeded
  */
-int	ft_env(char	**env_list) //how to handle env with arguments/flags
+int	ft_env(char	**env_list)
 {
 	int	i;
 
