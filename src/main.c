@@ -29,17 +29,25 @@ static char	*get_file(void)
 /*	get username + current directory
  *	to be used as prompt
  */
-static char	*msh_prompt(void)
+static char	*msh_prompt(int status)
 {
 	char	*file;
 	char	*prompt;
 	char	*promptline;
+	char	*username;
 
 	file = get_file();
-	prompt = ft_strjoin(getenv("USER"), file);
-	promptline = ft_strjoin(prompt, " % ");
+	file = ft_color_format_str(file, "\e[36m", &file);
+	username = ft_color_format_str(getenv("USER"), "\e[1;36m", NULL);
+	prompt = ft_strjoin(username, file);
+	promptline = NULL;
+	if (status == 1)
+		promptline = ft_strjoin(prompt, "\e[1;33m % \e[0m");
+	else if (status == 2)
+		promptline = ft_strjoin(prompt, "\e[1;35m % \e[0m");
 	free(file);
 	free(prompt);
+	free(username);
 	return (promptline);
 }
 
@@ -58,7 +66,8 @@ static void	msh_loop(char **env_list)
 	data = malloc(sizeof(t_data));
 	while (status)
 	{
-		promptline = msh_prompt();
+		promptline = msh_prompt(status);
+		status = 2;
 		data->line = readline(promptline);
 		free(promptline);
 		data->env_list = env_list;

@@ -86,6 +86,8 @@ int		type_pipe(char *s);
 /* debug functions */
 void			ft_print_list(t_token_list *head);
 void			print_vars(t_vars *head);
+void			ft_leaks(void);
+char			*ft_color_format_str(char *s, char *pre, char **tofree);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
