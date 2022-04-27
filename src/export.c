@@ -11,10 +11,7 @@ static int	show_vars(t_vars *head)
 	t_vars	*tmp;
 
 	if (!head)
-	{
-		printf("List empty in export.\n");
 		return (EXIT_FAILURE);
-	}
 	tmp = head;
 	while (tmp)
 	{
@@ -31,7 +28,7 @@ static int	show_vars(t_vars *head)
  *	@params	name of env var, value of env var
  *	@return	head of list
  */
-t_vars	*new_var(char *name, char *value)
+static t_vars	*new_var(char *name, char *value)
 {
 	t_vars	*head;
 
@@ -82,8 +79,6 @@ static int	is_var(char *name, t_vars *head)
 	if (!head || !name)
 		return (0);
 	tmp = head;
-	if (tmp->name == NULL)
-		return (1);
 	while (tmp)
 	{
 		if (tmp->name == name)
@@ -97,7 +92,7 @@ static int	is_var(char *name, t_vars *head)
  *	@params	name of var, value of var (can be NULL), head of env variable list
  *	@return	if function succeeded
  */
-static void	append_var(char *name, char *value, t_vars *head)
+static t_vars	*append_var(char *name, char *value, t_vars *head)
 {
 	t_vars	*tmp;
 	t_vars	*new;
@@ -106,12 +101,12 @@ static void	append_var(char *name, char *value, t_vars *head)
 	{
 		head = new_var(name, value);
 		// printf("%s, %s\n", name, value);
-		return ;
+		return (head);
 	}
 	if (is_var(name, head))
 	{
 		find_var(name, value, head);
-		return ;
+		return (head);
 	}
 	new = malloc(sizeof(t_vars));
 	if (!new)
@@ -127,23 +122,27 @@ static void	append_var(char *name, char *value, t_vars *head)
 		new->value = NULL;
 	// printf("Name: %s  Value: %s\n", new->name, new->value);
 	new->next = NULL;
+	return (head);
 }
 
-static void	init_vars(t_vars *head, char **env_list)
+t_vars	*init_vars(char **env_list)
 {
 	int		i;
 	char	**vars;
+	t_vars	*head;
 
 	i = 0;
+	head = NULL;
 	if (!env_list || !env_list[i])
-		return ;
+		return (head);
 	while (env_list[i])
 	{
 		vars = ft_split(env_list[i], '=');
-		append_var(vars[0], vars[1], head);
+		head = append_var(vars[0], vars[1], head);
 		free(vars);
 		i++;
 	}
+	return (head);
 }
 
 /*	@brief	show or create new env variable [with value]
@@ -151,15 +150,15 @@ static void	init_vars(t_vars *head, char **env_list)
  *	@return	if function scceeded
  *	FIXME	if env var name already exists (assign new value)
  */
-void	ft_export(char **cmd_line, t_vars *head, char **env_list)
+t_vars	*ft_export(char **cmd_line, t_vars *head, char **env_list)
 {
 	int			i;
-	static int	first;
 
-	if (!first)
-		init_vars(head, env_list);
 	if (cmd_line[1] && cmd_line[1][0] == '=')
-		return ;
+	{
+		ft_parse_error("Invalid argument.", NULL);
+		return (head);
+	}
 	if (!cmd_line[1])
 		show_vars(head);
 	else
@@ -178,6 +177,7 @@ void	ft_export(char **cmd_line, t_vars *head, char **env_list)
 		}
 		// show_vars(head);
 	}
+	return (head);
 }
 
 /*	@brief	delete variable from list
