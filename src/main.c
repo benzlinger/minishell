@@ -66,6 +66,7 @@ static void	msh_loop(char **env_list)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		ft_error(strerror(errno));
+	data->vars = init_vars(env_list); //test
 	while (status)
 	{
 		promptline = msh_prompt(status);
