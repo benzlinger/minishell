@@ -64,6 +64,8 @@ static void	msh_loop(char **env_list)
 
 	status = 1;
 	data = malloc(sizeof(t_data));
+	if (!data)
+		ft_error(strerror(errno));
 	while (status)
 	{
 		promptline = msh_prompt(status);
@@ -84,11 +86,13 @@ static void	msh_loop(char **env_list)
 				free(data->command);
 			}
 			ft_free_tokens(&data->tokens);
-			//free_vars(data->vars);
 		}
 		free(data->line);
 	}
+	free_vars(data->vars);
 	free(data);
+	// system("leaks minishell");
+	//TODO: ft_exit
 }
 
 /*	1. Loading config files (if any)

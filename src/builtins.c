@@ -1,19 +1,5 @@
 #include "../include/minishell.h"
 
-//	prob need struct vor env variables (in main oder msh_loop)
-//	otherwise won't be saved for next commands
-
-//	do we want to include function name in command line argument
-//	e.g. from parser to echo: "echo -n hello world" or 
-//	"-n hello world"?
-
-//	confusing how failure==1 and success==0
-
-//	NEEDS CLEANUP: how do we want to do file management
-//	need to add bultins.c + export.c to makefile
-
-// check docs
-
 /*	@brief	get size of 2d array
  *	@params	2d array
  *	@return	size of array
@@ -30,8 +16,9 @@ static int	get_size_2d(char **arr)
 	return (i);
 }
 
-/*	@brief	recode of linux echo function
- *	@params	command line from parser
+/**
+ * 	@brief	recode of linux echo function
+ *	@param	command line from parser
  *	@return	if function succeeded
  *	UNCLEAR	do backslash sequences have to be handled (without -e flag)?
  */
@@ -49,7 +36,7 @@ int	ft_echo(char **cmd_line)
 	}
 	is_flag = 0;
 	i = 1;
-	if (!ft_strncmp(cmd_line[i], "-n", 2))
+	while (cmd_line[i] && !ft_strncmp(cmd_line[i], "-n", 2))
 	{
 		is_flag = 1;
 		i++;
@@ -82,8 +69,10 @@ int	ft_cd(char **cmd_line)
 	else
 		ret = chdir(cmd_line[1]);
 	if (ret)
-		printf("%s\n", strerror(errno)); 
-		// ft_error(strerror(errno)); //ask
+	{
+		printf("%s\n", strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -98,9 +87,7 @@ int	ft_pwd(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
-		ft_error(strerror(errno)); //ask
-	if (!path)
-		return (EXIT_FAILURE);
+		ft_error(strerror(errno));
 	printf("%s\n", path);
 	free(path);
 	return (EXIT_SUCCESS);
@@ -108,9 +95,8 @@ int	ft_pwd(void)
 
 /*	@brief	print list of environment variables
  *	@return	if function succeeded
- *	TODO:	find way to get *envp[] from main to executer (struct possibly)
  */
-int	ft_env(char	**env_list) //how to handle env with arguments/flags
+int	ft_env(char	**env_list)
 {
 	int	i;
 

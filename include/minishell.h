@@ -82,19 +82,21 @@ void			free_vars(t_vars *head);
 char		*type_squote(char **s);
 int		type_redirec(char *s);
 int		type_pipe(char *s);
+void	free_2d_array(char **arr);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);
 void			print_vars(t_vars *head);
 void			ft_leaks(void);
 char			*ft_color_format_str(char *s, char *pre, char **tofree);
+void			print_2d_array(char **array);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
 int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
 int				ft_env(char	**env);
-t_vars			*ft_export(char **cmd_line, t_vars *head);
+t_vars		*ft_export(char **cmd_line, t_vars *head, char **env_list);
 t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
 #endif

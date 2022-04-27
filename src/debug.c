@@ -86,3 +86,18 @@ void	ft_leaks(void)
 {
 	system("leaks minishell");
 }
+
+void	print_2d_array(char **array)
+{
+	int	i;
+
+	if (!array)
+		printf("Array empty.\n");
+	i = 0;
+	while (array[i])
+	{
+		printf("%s ", array[i]);
+		i++;
+	}
+	printf("\n");
+}

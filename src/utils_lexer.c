@@ -7,19 +7,19 @@
  */
 static bool	check_builtins(char *s)
 {
-	if (ft_strncmp(s, "echo", ft_strlen("echo")) == 0)
+	if (ft_strncmp(s, "echo", ft_strlen("echo ")) == 0)
 		return (true);
-	else if (ft_strncmp(s, "cd", ft_strlen("cd")) == 0)
+	else if (ft_strncmp(s, "cd", ft_strlen("cd ")) == 0)
 		return (true);
-	else if (ft_strncmp(s, "pwd", ft_strlen("pwd")) == 0)
+	else if (ft_strncmp(s, "pwd", ft_strlen("pwd ")) == 0)
 		return (true);
-	else if (ft_strncmp(s, "export", ft_strlen("export")) == 0)
+	else if (ft_strncmp(s, "export", ft_strlen("export ")) == 0)
 		return (true);
-	else if (ft_strncmp(s, "unset", ft_strlen("unset")) == 0)
+	else if (ft_strncmp(s, "unset", ft_strlen("unset ")) == 0)
 		return (true);
-	else if (ft_strncmp(s, "env", ft_strlen("env")) == 0)
+	else if (ft_strncmp(s, "env", ft_strlen("env ")) == 0)
 		return (true);
-	else if (ft_strncmp(s, "exit", ft_strlen("exit")) == 0)
+	else if (ft_strncmp(s, "exit", ft_strlen("exit ")) == 0)
 		return (true);
 	else
 		return (false);
