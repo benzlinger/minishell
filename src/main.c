@@ -42,9 +42,9 @@ static char	*msh_prompt(int status)
 	prompt = ft_strjoin(username, file);
 	promptline = NULL;
 	if (status == 1)
-		promptline = ft_strjoin(prompt, "\e[1;33m % \e[0m");
-	else if (status == 2)
-		promptline = ft_strjoin(prompt, "\e[1;35m % \e[0m");
+		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m");
+	else
+		promptline = ft_strjoin(prompt, "\e[1;35m 42 \e[0m");
 	free(file);
 	free(prompt);
 	free(username);
@@ -102,6 +102,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	if (argc != 1)
 		ft_error(strerror(E2BIG));
+	argv = NULL;
 	init_signal_handling();
 	msh_loop(envp);
 	return (EXIT_SUCCESS);

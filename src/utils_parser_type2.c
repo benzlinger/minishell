@@ -77,26 +77,6 @@ static char	*get_envar_name(char *s)
 	return (envar);
 }
 
-static char	*old_remove_quotes(char *s)
-{
-	char	*out;
-	size_t	i;
-	int	j;
-
-	out = ft_calloc(ft_strlen(s), sizeof(char));
-	if (out == NULL)
-		return (ft_parse_error(strerror(errno), NULL));
-	i = 0;
-	j = 1;
-	while (i < ft_strlen(s) - 2)
-	{
-		out[i] = s[j];
-		i++;
-		j++;
-	}
-	return (out);
-}
-
 static bool	envar_exists(char *s)
 {
 	int	i;
@@ -167,7 +147,7 @@ char	*type_dquote(char **s)
 	{
 		envar_name = get_envar_name(*s);
 		out = insert_envar_value(*s, envar_name);
-		while (envar_exists(out) && (tmp = ft_strdup(out)))
+		while (out && envar_exists(out) && (tmp = ft_strdup(out)))
 		{
 			free(envar_name);
 			envar_name = get_envar_name(out);
@@ -175,7 +155,8 @@ char	*type_dquote(char **s)
 			out = insert_envar_value(tmp, envar_name);
 			free(tmp);
 		}
-		out = remove_quotes(out, &out);
+		if (out)
+			out = remove_quotes(out, &out);
 	}
 	free(envar_name);
 	if (out == NULL)
