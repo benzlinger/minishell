@@ -16,8 +16,9 @@ static int	get_size_2d(char **arr)
 	return (i);
 }
 
-/*	@brief	recode of linux echo function
- *	@params	command line from parser
+/**
+ * 	@brief	recode of linux echo function
+ *	@param	command line from parser
  *	@return	if function succeeded
  *	UNCLEAR	do backslash sequences have to be handled (without -e flag)?
  */
@@ -35,7 +36,7 @@ int	ft_echo(char **cmd_line)
 	}
 	is_flag = 0;
 	i = 1;
-	if (!ft_strncmp(cmd_line[i], "-n", 2))
+	while (!ft_strncmp(cmd_line[i], "-n", 2))
 	{
 		is_flag = 1;
 		i++;
