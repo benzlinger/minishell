@@ -11,7 +11,10 @@ static int	show_vars(t_vars *head)
 	t_vars	*tmp;
 
 	if (!head)
+	{
+		printf("List empty in export.\n");
 		return (EXIT_FAILURE);
+	}
 	tmp = head;
 	while (tmp)
 	{
@@ -28,13 +31,13 @@ static int	show_vars(t_vars *head)
  *	@params	name of env var, value of env var
  *	@return	head of list
  */
-static t_vars	*new_var(char *name, char *value)
+t_vars	*new_var(char *name, char *value)
 {
 	t_vars	*head;
 
 	head = malloc(sizeof(t_vars));
 	if (!head)
-		return (NULL);
+		ft_error(strerror(errno));
 	head->name = name;
 	if (value)
 		head->value = value;
@@ -48,20 +51,23 @@ static t_vars	*new_var(char *name, char *value)
  *	@params	name of env var, head of env variable list
  *	@return	if node is found: node, else NULL
  */
-static t_vars	*find_var(char *name, t_vars *head)
+static void	find_var(char *name, char *value, t_vars *head)
 {
 	t_vars	*tmp;
 
 	if (!head || !name)
-		return (NULL);
+		return ;
 	tmp = head;
 	while (tmp)
 	{
 		if (tmp->name == name)
-			return (tmp);
+		{
+			if (value)
+				tmp->value = value;
+			return ;
+		}
 		tmp = tmp->next;
 	}
-	return (NULL);
 }
 
 /*	@brief	find env variable in list by name
@@ -76,6 +82,8 @@ static int	is_var(char *name, t_vars *head)
 	if (!head || !name)
 		return (0);
 	tmp = head;
+	if (tmp->name == NULL)
+		return (1);
 	while (tmp)
 	{
 		if (tmp->name == name)
@@ -89,7 +97,7 @@ static int	is_var(char *name, t_vars *head)
  *	@params	name of var, value of var (can be NULL), head of env variable list
  *	@return	if function succeeded
  */
-static t_vars	*append_var(char *name, char *value, t_vars *head)
+static void	append_var(char *name, char *value, t_vars *head)
 {
 	t_vars	*tmp;
 	t_vars	*new;
@@ -97,18 +105,17 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 	if (!head)
 	{
 		head = new_var(name, value);
-		return (head);
+		// printf("%s, %s\n", name, value);
+		return ;
 	}
 	if (is_var(name, head))
 	{
-		tmp = find_var(name, head);
-		if (value)
-			tmp->value = value;
-		return (head);
+		find_var(name, value, head);
+		return ;
 	}
 	new = malloc(sizeof(t_vars));
 	if (!new)
-		return (NULL);
+		ft_error(strerror(errno));
 	tmp = head;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -116,29 +123,27 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 	new->name = name;
 	if (value)
 		new->value = ft_substr(value, 1, ft_strlen(value));
+	else
+		new->value = NULL;
 	// printf("Name: %s  Value: %s\n", new->name, new->value);
 	new->next = NULL;
-	return (head);
 }
 
-static t_vars	*init_vars(char **env_list)
+static void	init_vars(t_vars *head, char **env_list)
 {
 	int		i;
 	char	**vars;
-	t_vars	*head;
 
 	i = 0;
-	head = NULL;
 	if (!env_list || !env_list[i])
-		return (head);
+		return ;
 	while (env_list[i])
 	{
 		vars = ft_split(env_list[i], '=');
-		head = append_var(vars[0], vars[1], head);
+		append_var(vars[0], vars[1], head);
 		free(vars);
 		i++;
 	}
-	return (head);
 }
 
 /*	@brief	show or create new env variable [with value]
@@ -146,14 +151,15 @@ static t_vars	*init_vars(char **env_list)
  *	@return	if function scceeded
  *	FIXME	if env var name already exists (assign new value)
  */
-t_vars	*ft_export(char **cmd_line, t_vars *head, char **env_list)
+void	ft_export(char **cmd_line, t_vars *head, char **env_list)
 {
-	int	i;
+	int			i;
+	static int	first;
 
-	if (!head)
-		head = init_vars(env_list);
+	if (!first)
+		init_vars(head, env_list);
 	if (cmd_line[1] && cmd_line[1][0] == '=')
-		return (head);
+		return ;
 	if (!cmd_line[1])
 		show_vars(head);
 	else
@@ -163,16 +169,15 @@ t_vars	*ft_export(char **cmd_line, t_vars *head, char **env_list)
 		{
 			if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
 			{
-				head = append_var(cmd_line[i], cmd_line[i + 1], head);
+				append_var(cmd_line[i], cmd_line[i + 1], head);
 				i++;
 			}
 			else
-				head = append_var(cmd_line[i], NULL, head);
+				append_var(cmd_line[i], NULL, head);
 			i++;
 		}
-		show_vars(head);
+		// show_vars(head);
 	}
-	return (head);
 }
 
 /*	@brief	delete variable from list
