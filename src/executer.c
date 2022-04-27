@@ -47,8 +47,7 @@ static int	exec_not_builtin(char **cmd_line, char **env_list)
 	{
 		execve(cmd_line[0], cmd_line, env_list);
 		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
-		printf("%s\n", strerror(errno));
-		exit(EXIT_FAILURE);
+		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
 		write(2, "Error\n", 6);

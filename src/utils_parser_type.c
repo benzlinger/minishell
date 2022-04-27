@@ -130,5 +130,7 @@ char	*type_command(char **s, int type)
 			free(path);
 		return (NULL);
 	}
+	if (type != ENVAR)
+		free(*s);
 	return (path);
 }
