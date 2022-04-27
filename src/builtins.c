@@ -36,7 +36,7 @@ int	ft_echo(char **cmd_line)
 	}
 	is_flag = 0;
 	i = 1;
-	while (!ft_strncmp(cmd_line[i], "-n", 2))
+	while (cmd_line[i] && !ft_strncmp(cmd_line[i], "-n", 2))
 	{
 		is_flag = 1;
 		i++;
