@@ -13,6 +13,8 @@ static char	**export_cmd(char *cmd)
 	i = 0;
 	j = 0;
 	ex_cmd = malloc(ft_strlen(cmd) + 2);
+	if (!ex_cmd)
+		ft_error(strerror(errno));
 	while (cmd[i])
 	{
 		if (cmd[i] == '=')
@@ -30,31 +32,12 @@ static char	**export_cmd(char *cmd)
 	return (ex_array);
 }
 
-/*	@brief	free 2 dimensional array and its contents
- *	@params	array to free
- */
-static void	free_2d_array(char **arr)
-{
-	int	i;
-
-	if (arr)
-	{
-		i = 0;
-		while (arr[i])
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-}
-
 /*	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
  *	@params	command line
  *	@return	if function succeeded
  */
-static int	exec_not_builtin(char **cmd_line)
+static int	exec_not_builtin(char **cmd_line, char **env_list)
 {
 	pid_t	pid;
 	int		status;
@@ -62,7 +45,7 @@ static int	exec_not_builtin(char **cmd_line)
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(cmd_line[0], cmd_line, NULL);
+		execve(cmd_line[0], cmd_line, env_list);
 		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
 		printf("%s\n", strerror(errno));
 		exit(EXIT_FAILURE);
@@ -82,26 +65,30 @@ int	msh_executer(t_data *data)
 {
 	int		status;
 	char	**cmd_line;
+	char	**exp_cmd;
 
-	// status = printf("%s\n", data->command);
 	cmd_line = ft_split(data->command, ',');
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		ft_cd(cmd_line); //FYI changed to 2d array
+		ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		ft_env(data->env_list);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-		data->vars = ft_export(export_cmd(data->command), data->vars);
+	{
+		exp_cmd = export_cmd(data->command);
+		data->vars = ft_export(exp_cmd, data->vars, data->env_list);
+		free_2d_array(exp_cmd);
+	}
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
 		return (0); //does 0-status exit properly?
 	}
 	else
-		exec_not_builtin(cmd_line);
+		exec_not_builtin(cmd_line, data->env_list);
 	status = 1;
 	free_2d_array(cmd_line);
 	return (status);
