@@ -69,7 +69,6 @@ static void	msh_loop(char **env_list)
 	while (status)
 	{
 		promptline = msh_prompt(status);
-		status = 2;
 		data->line = readline(promptline);
 		free(promptline);
 		data->env_list = env_list;
