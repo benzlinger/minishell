@@ -89,7 +89,7 @@ int	msh_executer(t_data *data)
 		status = 0;
 	}
 	else
-		exec_not_builtin(cmd_line);
+		exec_not_builtin(cmd_line, data->env_list);
 	free_2d_array(cmd_line);
 	return (status);
 }
