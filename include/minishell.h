@@ -87,7 +87,9 @@ void	free_2d_array(char **arr);
 /* debug functions */
 void			ft_print_list(t_token_list *head);
 void			print_vars(t_vars *head);
-void			print_2d_array(char	**array);
+void			ft_leaks(void);
+char			*ft_color_format_str(char *s, char *pre, char **tofree);
+void			print_2d_array(char **array);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
