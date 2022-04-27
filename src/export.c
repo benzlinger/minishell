@@ -115,7 +115,8 @@ static t_vars	*append_var(char *name, char *value, t_vars *head)
 	tmp->next = new;
 	new->name = name;
 	if (value)
-		new->value = value;
+		new->value = ft_substr(value, 1, ft_strlen(value));
+	// printf("Name: %s  Value: %s\n", new->name, new->value);
 	new->next = NULL;
 	return (head);
 }
@@ -128,6 +129,8 @@ static t_vars	*init_vars(char **env_list)
 
 	i = 0;
 	head = NULL;
+	if (!env_list || !env_list[i])
+		return (head);
 	while (env_list[i])
 	{
 		vars = ft_split(env_list[i], '=');
@@ -167,6 +170,7 @@ t_vars	*ft_export(char **cmd_line, t_vars *head, char **env_list)
 				head = append_var(cmd_line[i], NULL, head);
 			i++;
 		}
+		show_vars(head);
 	}
 	return (head);
 }
