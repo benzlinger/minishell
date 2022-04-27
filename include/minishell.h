@@ -83,6 +83,7 @@ char		*type_squote(char **s);
 int		type_redirec(char *s);
 int		type_pipe(char *s);
 void	free_2d_array(char **arr);
+t_vars	*new_var(char *name, char *value);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);
@@ -96,7 +97,7 @@ int				ft_echo(char **cmd_line);
 int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
 int				ft_env(char	**env);
-t_vars		*ft_export(char **cmd_line, t_vars *head, char **env_list);
+void		ft_export(char **cmd_line, t_vars *head, char **env_list);
 t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
 #endif
