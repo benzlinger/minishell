@@ -1,6 +1,72 @@
 #include "../include/minishell.h"
 
 /**
+ * 	@brief	checks for valid pipe syntax
+ * 	@param	literal token string of type REDIREC
+ * 	@return	0 if syntax is valid
+ * 		1 if not
+ */
+int	type_pipe(char *s)
+{
+	if (ft_strlen(s) != 1)
+	{
+		ft_parse_error(s, ": invalide pipe syntax");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+/**
+ * 	@brief	checks for valid redirection syntax
+ * 	@param	literal token string of type REDIREC
+ * 	@return	0 if syntax is valid
+ * 		1 if not
+ */
+int	type_redirec(char *s)
+{
+	if (ft_strlen(s) == 1)
+		return (EXIT_SUCCESS);
+	else if (ft_strlen(s) == 2)
+	{
+		if (s[0] == '<' && s[1] == '<')
+			return (EXIT_SUCCESS);
+		else if (s[0] == '>' && s[1] == '>')
+			return (EXIT_SUCCESS);
+	}
+	ft_parse_error(s, ": invalid redirection syntax");
+	return (EXIT_FAILURE);
+}
+
+/**
+ * 	@brief	removes single quotes
+ * 	@param	pointer to literal token string of type SQUOTE
+ * 	@return	string without singlequotes
+ * 	@NOTE	Very little testing was done
+ * 		also I'm not entirly sure if removing the single quotes was
+ * 		all that needed to be done
+ */
+char	*type_squote(char **s)
+{
+	char	*out;
+	int	i;
+	int	j;
+
+	out = ft_calloc(ft_strlen(*s) + 1, sizeof(char));
+	if (out == NULL)
+		ft_error(strerror(errno));
+	i = 0;
+	j = 1;
+	while (s[0][j] != 39 && s[0][j])
+	{
+		out[i] = s[0][j];
+		i++;
+		j++;
+	}
+	free(*s);
+	return (out);
+}
+
+/**
  * 	@brief	converts var name into var value
  * 	@param	pointer to literal token string of type ENVAR
  * 	@return	envar: either the converted var value
@@ -40,19 +106,28 @@ char	*type_envar(char **s)
  * 	@return path to the command e.g. "/bin/ls"
  * 		NULL if no command found
  */
-char	*type_command(char **s)
+char	*type_command(char **s, int type)
 {
 	char	*tmp;
 	char	*path;
+	bool	free_path;
 
-	tmp = ft_strdup("/bin/");
-	path = ft_strjoin(tmp, *s);
-	free(tmp);
+	path = *s;
+	free_path = false;
+	if (ft_strncmp(*s, "/bin/", 5) != 0)
+	{
+		tmp = ft_strdup("/bin/");
+		path = ft_strjoin(tmp, *s);
+		free_path = true;
+		free(tmp);
+	}
 	if (access(path, F_OK) != 0)
 	{
 		ft_parse_error(*s, ": command not found");
-		free(*s);
-		free(path);
+		if (type != ENVAR)
+			free(*s);
+		if (free_path)
+			free(path);
 		return (NULL);
 	}
 	return (path);

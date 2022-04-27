@@ -25,7 +25,8 @@ typedef enum e_type
 	DQUOTE,
 	SQUOTE,
 	REDIREC,
-	PIPE
+	PIPE,
+	UNKNOWN
 }		t_type;
 
 /* 	pipe_index:	indexing token between pipes in command prompt, starting with 0
@@ -36,6 +37,7 @@ typedef enum e_type
 typedef struct s_token_list
 {
 	int			pipe_index;
+	int			index;
 	char			*token;
 	t_type			type;
 	struct s_token_list	*next;
@@ -74,9 +76,12 @@ int	  	ft_get_type(char *literal);
 char	  	*ft_list_to_str(t_token_list *tokens, char c);
 bool	  	ft_check_quote(char c, char *q);
 char	  	*type_envar(char **s);
-char	  	*type_command(char **s);
+char	  	*type_command(char **s, int type);
 char	  	*type_dquote(char **s);
 void			free_vars(t_vars *head);
+char		*type_squote(char **s);
+int		type_redirec(char *s);
+int		type_pipe(char *s);
 void	free_2d_array(char **arr);
 
 /* debug functions */

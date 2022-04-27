@@ -67,6 +67,7 @@ int	msh_executer(t_data *data)
 	char	**cmd_line;
 	char	**exp_cmd;
 
+	status = 1;
 	cmd_line = ft_split(data->command, ',');
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		ft_echo(cmd_line);
@@ -85,11 +86,10 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
-		return (0); //does 0-status exit properly?
+		status = 0;
 	}
 	else
-		exec_not_builtin(cmd_line, data->env_list);
-	status = 1;
+		exec_not_builtin(cmd_line);
 	free_2d_array(cmd_line);
 	return (status);
 }
