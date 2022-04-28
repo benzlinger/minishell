@@ -57,6 +57,7 @@ typedef struct s_data
 	t_vars			*vars;
 	char			*line;
 	char			*command;
+	char			**varray;
 }					t_data;
 
 t_token_list	*msh_lexer(char *line);
@@ -83,6 +84,14 @@ char		*type_squote(char **s);
 int		type_redirec(char *s);
 int		type_pipe(char *s);
 void	free_2d_array(char **arr);
+t_vars	*init_vars(char **env_list);
+
+/* utils export */
+int				name_len(char *s);
+char			*get_name(char *s);
+char			*get_value(char *s);
+int				show_vars(t_vars *head);
+t_vars	*new_var(char *name, char *value);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);
@@ -96,7 +105,7 @@ int				ft_echo(char **cmd_line);
 int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
 int				ft_env(char	**env);
-t_vars		*ft_export(char **cmd_line, t_vars *head, char **env_list);
+void			ft_export(t_data *data, char **cmd_line);
 t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
 #endif

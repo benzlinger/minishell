@@ -79,7 +79,7 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 	{
 		exp_cmd = export_cmd(data->command);
-		data->vars = ft_export(exp_cmd, data->vars, data->env_list);
+		ft_export(data, exp_cmd);
 		free_2d_array(exp_cmd);
 	}
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
