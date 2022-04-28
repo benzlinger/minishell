@@ -27,6 +27,26 @@ static bool	contains_path(char **paths, char *pth)
 	return (false);
 }
 
+static int	find_right_path(char **paths, char *command)
+{
+	int	i;
+	char	*full_path;
+
+	i = 0;
+	while (paths[i])
+	{
+		full_path = ft_strjoin(paths[i], command);
+		if (access(full_path, F_OK) == 0)
+		{
+			free(full_path);
+			return (i);
+		}
+		free(full_path);
+		i++;
+	}
+	return (-1);
+}
+
 /**
  * 	@brief	checks if typed-in command is valid
  * 	@param	s: pointer to literal token string of type COMMAND
@@ -35,24 +55,26 @@ static bool	contains_path(char **paths, char *pth)
  */
 char	*type_command(char **s, int type)
 {
-	char	*right_path;
-	char	*path;
+	int	right_path;
 	bool	free_path;
 	char	**paths;
+	char	*path;
+	char	*tmp;
 
 	path = *s;
 	// TODO free
 	paths = ft_split(getenv("PATH"), ':');
 	free_path = false;
-	printf("%d\n",contains_path(paths, path));
-	if (!contains_path(paths, path))
+	if (s[0][0] != '/')
 	{
-		path = *s;
-		// TODO LEFT OF HERE
-		right_path = find_right_path(paths, path)
-		tmp = ft_strdup("/bin/");
-		path = ft_strjoin(tmp, *s);
-		free_path = true;
+		tmp = ft_strjoin("/", *s);
+		right_path = find_right_path(paths, tmp);
+		if (right_path != -1)
+		{
+			path = ft_strjoin(paths[right_path], tmp);
+			printf("%s\n", path);
+			free_path = true;
+		}
 		free(tmp);
 	}
 	if (access(path, F_OK) != 0)
@@ -64,6 +86,8 @@ char	*type_command(char **s, int type)
 			free(path);
 		return (NULL);
 	}
+	if (free_path == false)
+		path = ft_strdup(*s);
 	if (type != ENVAR)
 		free(*s);
 	return (path);
