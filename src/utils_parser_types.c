@@ -99,38 +99,3 @@ char	*type_envar(char **s)
 	free(name);
 	return (envar);
 }
-
-/**
- * 	@brief	checks if typed-in command is valid
- * 	@param	s: pointer to literal token string of type COMMAND
- * 	@return path to the command e.g. "/bin/ls"
- * 		NULL if no command found
- */
-char	*type_command(char **s, int type)
-{
-	char	*tmp;
-	char	*path;
-	bool	free_path;
-
-	path = *s;
-	free_path = false;
-	if (ft_strncmp(*s, "/bin/", 5) != 0)
-	{
-		tmp = ft_strdup("/bin/");
-		path = ft_strjoin(tmp, *s);
-		free_path = true;
-		free(tmp);
-	}
-	if (access(path, F_OK) != 0)
-	{
-		ft_parse_error(*s, ": command not found");
-		if (type != ENVAR)
-			free(*s);
-		if (free_path)
-			free(path);
-		return (NULL);
-	}
-	if (type != ENVAR)
-		free(*s);
-	return (path);
-}
