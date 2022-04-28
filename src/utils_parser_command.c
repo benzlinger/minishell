@@ -1,32 +1,5 @@
 #include "../include/minishell.h"
 
-static bool	contains_path(char **paths, char *pth)
-{
-	int	i;
-
-	i = 0;
-	while (pth[i] != '/' && pth[i])
-		i++;
-	if (i == (int)ft_strlen(pth))
-		return (false);
-	i = ft_strlen(pth);
-	while (pth[i] != '/')
-	{
-		pth[i] = '\0';
-		i--;
-	}
-	pth[i] = '\0';
-	i = 0;
-	while (paths[i])
-	{
-		printf("paths[%i]:\t%s\npth:\t\t%s\n", i, paths[i], pth);
-		if (ft_strncmp(paths[i], pth, ft_strlen(pth)) == 0)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
 static int	find_right_path(char **paths, char *command)
 {
 	int	i;
@@ -62,7 +35,6 @@ char	*type_command(char **s, int type)
 	char	*tmp;
 
 	path = *s;
-	// TODO free
 	paths = ft_split(getenv("PATH"), ':');
 	free_path = false;
 	if (s[0][0] != '/')
@@ -72,7 +44,6 @@ char	*type_command(char **s, int type)
 		if (right_path != -1)
 		{
 			path = ft_strjoin(paths[right_path], tmp);
-			printf("%s\n", path);
 			free_path = true;
 		}
 		free(tmp);
@@ -90,5 +61,6 @@ char	*type_command(char **s, int type)
 		path = ft_strdup(*s);
 	if (type != ENVAR)
 		free(*s);
+	free_2d_array(paths);
 	return (path);
 }
