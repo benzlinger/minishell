@@ -102,24 +102,25 @@ void	ft_export(t_data *data, char **cmd_line)
 		return ;
 	}
 	if (!cmd_line[1])
-		show_vars(data->vars);
-	else
 	{
-		i = 1;
-		while (cmd_line[i])
+		show_vars(data->vars);
+		return ;
+	}
+	i = 1;
+	while (cmd_line[i])
+	{
+		if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
 		{
-			if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
-			{
-				name = ft_strdup(cmd_line[i]);
-				value = ft_substr(cmd_line[i + 1], 1, ft_strlen(cmd_line[i + 1]));
-				append_var(name, value, data->vars);
-				i++;
-			}
-			else
-				name = ft_strdup(cmd_line[i]);
-				append_var(name, NULL, data->vars);
+			name = ft_strdup(cmd_line[i]);
+			value = ft_substr(cmd_line[i + 1], 1, ft_strlen(cmd_line[i + 1]));
+			append_var(name, value, data->vars);
 			i++;
 		}
-		// show_vars(head);
+		else
+		{
+			name = ft_strdup(cmd_line[i]);
+			append_var(name, NULL, data->vars);
+		}
+		i++;
 	}
 }
