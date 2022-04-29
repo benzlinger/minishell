@@ -2,7 +2,7 @@
 
 static int	find_right_path(char **paths, char *command)
 {
-	int	i;
+	int		i;
 	char	*full_path;
 
 	i = 0;
@@ -28,7 +28,7 @@ static int	find_right_path(char **paths, char *command)
  */
 char	*type_command(char **s, int type)
 {
-	int	right_path;
+	int		right_path;
 	bool	free_path;
 	char	**paths;
 	char	*path;

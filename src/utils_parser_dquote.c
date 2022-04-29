@@ -16,9 +16,9 @@
 static char	*remove_quotes(char *s, char **tofree)
 {
 	char	*out;
-	int	i;
-	int	j;
-	int	dq_count;
+	int		i;
+	int		j;
+	int		dq_count;
 
 	out = ft_calloc(ft_strlen(s) + 1, sizeof(char));
 	if (out == NULL)
@@ -51,9 +51,9 @@ static char	*remove_quotes(char *s, char **tofree)
 static char	*get_envar_name(char *s)
 {
 	char	*envar;
-	int	i;
-	int	j;
-	int	k;
+	int		i;
+	int		j;
+	int		k;
 
 	i = 0;
 	while (s[i] != '$')
@@ -96,8 +96,8 @@ static char	*insert_envar_value(char *s, char *envar_name)
 	char	*envar_value;
 	char	*out;
 	char	*tmp;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*tmp2;
 
 	envar_value = getenv(envar_name);
