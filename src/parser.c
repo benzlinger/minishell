@@ -53,7 +53,7 @@ static int	ft_ft(t_token_list *a)
 static int	get_command_types(t_token_list *head)
 {
 	t_token_list	*current;
-	int		t;
+	int				t;
 
 	current = head;
 	t = head->type;

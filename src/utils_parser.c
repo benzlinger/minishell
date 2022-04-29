@@ -8,8 +8,8 @@
 static int	get_command_size(t_token_list *tokens)
 {
 	t_token_list	*current;
-	int		listlen;
-	int		charlen;
+	int				listlen;
+	int				charlen;
 
 	current = tokens;
 	listlen = 0;
@@ -44,10 +44,10 @@ static void	add_delimiter(char **command, int *i, char c)
 char	*ft_list_to_str(t_token_list *tokens, char c)
 {
 	t_token_list	*current;
-	char		*command;
-	int		size;
-	int		i;
-	int		j;
+	char			*command;
+	int				size;
+	int				i;
+	int				j;
 
 	size = get_command_size(tokens);
 	command = ft_calloc(size + 1, sizeof(char));

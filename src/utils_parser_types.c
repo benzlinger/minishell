@@ -48,8 +48,8 @@ int	type_redirec(char *s)
 char	*type_squote(char **s)
 {
 	char	*out;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	out = ft_calloc(ft_strlen(*s) + 1, sizeof(char));
 	if (out == NULL)
@@ -76,8 +76,8 @@ char	*type_envar(char **s)
 {
 	char	*envar;
 	char	*name;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	name = ft_calloc(ft_strlen(*s) + 1, sizeof(char));
 	if (name == NULL)

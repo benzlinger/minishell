@@ -27,8 +27,6 @@ int	ft_echo(char **cmd_line)
 	int	i;
 	int	is_flag;
 
-	if (!cmd_line)
-		return (EXIT_FAILURE);
 	if (!cmd_line[1])
 	{
 		printf("\n");

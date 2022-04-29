@@ -53,9 +53,9 @@ static void	add_token_node(char **literal, t_token_list *head, int i)
 t_token_list	*msh_lexer(char *promptline)
 {
 	t_token_list	*head;
-	char		**literal;
-	int		count;
-	char		*delimited_line;
+	char			**literal;
+	int				count;
+	char			*delimited_line;
 
 	delimited_line = ft_delimit_line(promptline, 0, 0);
 	literal = ft_split(delimited_line, ',');

@@ -81,7 +81,6 @@ char	*ft_delimit_line(char *pline, int i, int j)
 			else
 				dline[j] = pline[i];
 			ft_increment(&i, &j);
-
 		}
 	}
 	return (dline);

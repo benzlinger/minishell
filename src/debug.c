@@ -12,8 +12,8 @@ char	*ft_color_format_str(char *s, char *pre, char **tofree)
 {
 	char	*suf;
 	char	*out;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	suf = ft_strdup("\e[0m");
 	i = ft_strlen(s) + ft_strlen(pre) + ft_strlen(suf);

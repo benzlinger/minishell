@@ -10,13 +10,15 @@ static t_vars	*del_var(char *name, t_vars *head)
 	t_vars	*prev;
 
 	tmp = head;
-	if (tmp->name == name && tmp)
+	if (!ft_strncmp(tmp->name, name, ft_strlen(name) + 1) && tmp)
 	{
 		head = tmp->next;
+		free(tmp->name);
+		free(tmp->value);
 		free(tmp);
 		return (head);
 	}
-	while (tmp && tmp->name != name)
+	while (tmp && ft_strncmp(tmp->name, name, ft_strlen(name) + 1))
 	{
 		prev = tmp;
 		tmp = tmp->next;
@@ -24,6 +26,8 @@ static t_vars	*del_var(char *name, t_vars *head)
 	if (!tmp)
 		return (head);
 	prev->next = tmp->next;
+	free(tmp->name);
+	free(tmp->value);
 	free(tmp);
 	return (head);
 }
