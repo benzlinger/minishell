@@ -55,6 +55,8 @@ char	*type_command(char **s, int type)
 			free(*s);
 		if (free_path)
 			free(path);
+		if (paths)
+			free_2d_array(paths);
 		return (NULL);
 	}
 	if (free_path == false)
