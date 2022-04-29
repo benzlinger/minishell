@@ -82,16 +82,16 @@ int	msh_executer(t_data *data)
 		ft_export(data, exp_cmd);
 		free_2d_array(exp_cmd);
 	}
-	else if (!ft_strncmp(cmd_line[0], "exit", 4))
-	{
-		write(1, "exit\n", 5);
-		status = 0;
-	}
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 	{
 		exp_cmd = export_cmd(data->command);
 		data->vars = ft_unset(exp_cmd, data->vars);
 		free_2d_array(exp_cmd);
+	}
+	else if (!ft_strncmp(cmd_line[0], "exit", 4))
+	{
+		write(1, "exit\n", 5);
+		status = 0;
 	}
 	else
 		exec_not_builtin(cmd_line, data->env_list);
