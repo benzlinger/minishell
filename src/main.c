@@ -63,10 +63,10 @@ static void	msh_loop(char **env_list)
 	char	*promptline;
 
 	status = 1;
-	data = malloc(sizeof(t_data));
-	if (!data)
+	data = malloc(sizeof(t_data));	//could put data init and free in main
+	if (!data)						//would that work with ctrl+d?
 		ft_error(strerror(errno));
-	data->vars = init_vars(env_list); //test
+	data->vars = init_vars(env_list);
 	data->env_list = env_list;
 	while (status)
 	{
