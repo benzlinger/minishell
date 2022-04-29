@@ -60,31 +60,38 @@ typedef struct s_data
 	char			**varray;
 }		t_data;
 
+/* main functions */
 t_token_list	*msh_lexer(char *line);
+char			*msh_parser(t_token_list *tokens);
+int				msh_executer(t_data *data);
+t_vars			*init_vars(char **env_list);
 void			init_signal_handling(void);
 
-/* utils */
-int				ft_get_pipe_index(char **prompt, int pos);
-void			ft_error(char *err_msg);
-void			ft_exit(int err_code);
-void			ft_free_tokens(t_token_list **tokens);
-bool			ft_check_EOF(char *s);
-char			*ft_delimit_line(char *pline, int i, int j);
-char			*msh_parser(t_token_list *tokens);
-char			*ft_parse_error(char *err_msg1, char *err_msg2);
-int				msh_executer(t_data *data);
-int				ft_get_type(char *literal);
+/* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
-bool			ft_check_quote(char c, char *q);
-char			*type_envar(char **s);
 char			*type_command(char **s, int type);
 char			*type_dquote(char **s);
-void			free_vars(t_vars *head);
-char			*type_squote(char **s);
-int				type_redirec(char *s);
 int				type_pipe(char *s);
+int				type_redirec(char *s);
+char			*type_squote(char **s);
+char			*type_envar(char **s);
+
+/* utils lexer */
+int				ft_get_type(char *literal);
+bool			ft_check_EOF(char *s);
+int				ft_get_pipe_index(char **prompt, int pos);
+bool			ft_check_quote(char c, char *q);
+char			*ft_delimit_line(char *pline, int i, int j);
+
+/* utils error */
+void			ft_error(char *err_msg);
+void			ft_exit(int err_code);
+char			*ft_parse_error(char *err_msg1, char *err_msg2);
+
+/* utils free */
 void			free_2d_array(char **arr);
-t_vars			*init_vars(char **env_list);
+void			free_vars(t_vars *head);
+void			ft_free_tokens(t_token_list **tokens);
 
 /* utils export */
 int				name_len(char *s);
