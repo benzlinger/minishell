@@ -73,7 +73,7 @@ static void	msh_loop(char **env_list)
 		promptline = msh_prompt(status);
 		data->line = readline(promptline);
 		free(promptline);
-		if (ft_check_EOF(data->line) && ft_strlen(data->line))
+		if (ft_check_eof(data->line) && ft_strlen(data->line))
 		{
 			add_history(data->line);
 			data->tokens = msh_lexer(data->line);

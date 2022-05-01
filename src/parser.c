@@ -2,10 +2,10 @@
 
 /**
  * 	@brief	runs function depending on tokentype
- * 		and makes them fit for the executer
+ * 			and makes them fit for the executer
  * 	@param	head: token list
  * 	@return	1: if an parse error occures
- * 		0: if successful
+ * 			0: if successful
  * 	@NORM	to many lines
  */
 static int	check_tokens_via_type(t_token_list *head)
@@ -15,8 +15,6 @@ static int	check_tokens_via_type(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
-		//if (current->type == COMMAND)
-		//	current->token = type_command(&current->token);
 		if (current->type == ENVAR || current->type == ENVARU)
 			current->token = type_envar(&current->token);
 		else if (current->type == DQUOTE)
@@ -49,6 +47,7 @@ static int	ft_ft(t_token_list *a)
 	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
 	return (1);
 }
+
 // TODO func comment
 static int	get_command_types(t_token_list *head)
 {
@@ -96,14 +95,6 @@ char	*msh_parser(t_token_list *tokens)
 		return (NULL);
 	if (get_command_types(tokens) != 0)
 		return (NULL);
-	/*
-	if (check_commands(tokens) != 0)
-		return (NULL);
-	if (check_quotes(tokens) != 0)
-		return (NULL);
-	*/
-	// return (ft_parse_error(tokens->token, ": command not found"));
-
 	command = ft_list_to_str(tokens, ',');
-	return(command);
+	return (command);
 }

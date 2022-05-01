@@ -78,7 +78,7 @@ char			*type_envar(char **s);
 
 /* utils lexer */
 int				ft_get_type(char *literal);
-bool			ft_check_EOF(char *s);
+bool			ft_check_eof(char *s);
 int				ft_get_pipe_index(char **prompt, int pos);
 bool			ft_check_quote(char c, char *q);
 char			*ft_delimit_line(char *pline, int i, int j);
