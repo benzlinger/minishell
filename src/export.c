@@ -96,11 +96,6 @@ void	ft_export(t_data *data, char **cmd_line)
 
 	if (!data->vars && !cmd_line[1])
 		ft_parse_error("List empty.", NULL);
-	if (cmd_line[1] && cmd_line[1][0] == '=')
-	{
-		ft_parse_error("Invalid argument.", NULL);
-		return ;
-	}
 	if (!cmd_line[1])
 	{
 		show_vars(data->vars);
@@ -109,7 +104,9 @@ void	ft_export(t_data *data, char **cmd_line)
 	i = 1;
 	while (cmd_line[i])
 	{
-		if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
+		if (cmd_line[i][0] == '=')
+			ft_parse_error("Not a valid identifier", NULL);
+		else if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
 		{
 			name = ft_strdup(cmd_line[i]);
 			value = ft_substr(cmd_line[i + 1], 1, ft_strlen(cmd_line[i + 1]));
