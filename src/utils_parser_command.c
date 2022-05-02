@@ -1,5 +1,13 @@
 #include "../include/minishell.h"
 
+/**
+ * 	@brief	circles through $PATH and trys to find the command in
+ * 			any of the paths
+ * 	@param	paths: split 2d array of $PATH
+ * 	@param	command: executable to search for
+ * 	@return index number of 2d array
+ * 			-1 if command is not found in any of the paths
+ */
 static int	find_right_path(char **paths, char *command)
 {
 	int		i;

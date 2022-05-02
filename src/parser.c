@@ -50,7 +50,12 @@ static int	ft_ft(t_token_list *a)
 	return (1);
 }
 
-// TODO func comment
+/**
+ * 	@brief	the very first token and every token after a pipe gets
+ * 			converted to COMMAND unless it's a BUILTIN
+ * 	@param	head: head of token list
+ * 	@return Success or failure
+ */
 static int	get_command_types(t_token_list *head)
 {
 	t_token_list	*current;

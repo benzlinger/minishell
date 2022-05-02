@@ -1,7 +1,11 @@
 #include "../include/minishell.h"
 
-// FIXME $> "echo" works for some reason
-
+/**
+ * 	@brief	checks if an envar is in a string
+ * 	@param	s: string to check for envar
+ * 	@return	true: a envar
+ * 			false: no envar
+ */
 bool	envar_exists(char *s)
 {
 	int	i;
@@ -16,6 +20,12 @@ bool	envar_exists(char *s)
 	return (false);
 }
 
+/**
+ * 	@brief	removes quotes from string
+ * 	@param	old: old string to remove quotes from
+ * 	@param	new: new string without quotes
+ * 	@return 1
+ */
 static int	remove_quotes(char *old, char *new)
 {
 	int	i;
@@ -34,6 +44,11 @@ static int	remove_quotes(char *old, char *new)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * 	@brief	counts quotes in string
+ * 	@param	s: string to handle
+ * 	@return	double quotes count in string s
+ */
 static int	quote_count(char *s)
 {
 	int	i;
@@ -50,6 +65,11 @@ static int	quote_count(char *s)
 	return (dq_count);
 }
 
+/**
+ * 	@brief	handles double quotes; removes them and inserts envars
+ * 	@param	s: literal token string
+ * 	@return converted string
+ */
 static char	*handle_quotes(char *s)
 {
 	char	*out;
@@ -67,6 +87,11 @@ static char	*handle_quotes(char *s)
 	return (out);
 }
 
+/**
+ * 	@brief	handles double quotes; removes them and inserts envars
+ * 	@param	s: pointer to literal token string
+ * 	@return converted string
+ */
 char	*type_dquote(char **s)
 {
 	char	*out;

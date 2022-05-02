@@ -71,6 +71,12 @@ static int	get_envar_info(char *s, char **val)
 	return (size);
 }
 
+/**
+ * 	@brief	inserts envar into string
+ * 			calls it recursively for each envar
+ * 	@param	s: pointer to string to insert envars in
+ * 	@return string with inserted envar
+ */
 char	*insert_envar(char **s)
 {
 	char	*envar_value;
