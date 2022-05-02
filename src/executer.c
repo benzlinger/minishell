@@ -75,7 +75,7 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
 		ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		ft_env(data->env_list);
+		ft_env(data->vars);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 	{
 		exp_cmd = export_cmd(data->command);
