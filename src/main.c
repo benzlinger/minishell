@@ -10,18 +10,25 @@ static char	*get_file(void)
 	int		i;
 
 	dir = getcwd(NULL, 0);
-	split_dir = ft_split(dir, '/');
-	i = 0;
-	while (split_dir[i])
-		i++;
-	i--;
-	file = ft_strjoin("-", split_dir[i]);
-	while (i >= 0)
+	if (!dir)
+		ft_error(strerror(errno));
+	if (!ft_strncmp(dir, "/", ft_strlen(dir) + 1))
+		file = ft_strdup("/");
+	else
 	{
-		free(split_dir[i]);
+		split_dir = ft_split(dir, '/');
+		i = 0;
+		while (split_dir[i])
+			i++;
 		i--;
+		file = ft_strjoin("-", split_dir[i]);
+		while (split_dir[i] && i >= 0)
+		{
+			free(split_dir[i]);
+			i--;
+		}
+		free(split_dir);
 	}
-	free(split_dir);
 	free(dir);
 	return (file);
 }
