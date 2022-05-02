@@ -87,6 +87,7 @@ t_vars	*init_vars(char **env)
 
 /**	@brief	show or create new env variable [with value]
  *	@param	data struct, command line
+ *	UNCLEAR: should export test =value work?
  */
 void	ft_export(t_data *data, char **cmd_line)
 {
