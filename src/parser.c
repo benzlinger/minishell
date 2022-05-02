@@ -89,11 +89,9 @@ char	*msh_parser(t_token_list *tokens)
 {
 	char	*command;
 
-	if (check_tokens_via_type(tokens) != 0)
-		return (NULL);
-	if (ft_ft(tokens) != 0)
-		return (NULL);
 	if (get_command_types(tokens) != 0)
+		return (NULL);
+	if (check_tokens_via_type(tokens) != 0)
 		return (NULL);
 	command = ft_list_to_str(tokens, ',');
 	return (command);
