@@ -46,7 +46,6 @@ static int	exec_not_builtin(char **cmd_line, char **env_list)
 	if (pid == 0)
 	{
 		execve(cmd_line[0], cmd_line, env_list);
-		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
 		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
@@ -75,7 +74,7 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
 		ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		ft_env(data->env_list);
+		ft_env(data->vars);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 	{
 		exp_cmd = export_cmd(data->command);

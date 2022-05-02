@@ -105,10 +105,15 @@ int	show_vars(t_vars *head)
 	tmp = head;
 	while (tmp)
 	{
-		printf("declare -x %s", tmp->name);
+		write(1, "declare -x ", 11);
+		write(1, tmp->name, ft_strlen(tmp->name));
 		if (tmp->value)
-			printf("=\"%s\"", tmp->value);
-		printf("\n");
+		{
+			write(1, "=\"", 2);
+			write(1, tmp->value, ft_strlen(tmp->value));
+			write(1, "\"", 1);
+		}
+		write(1, "\n", 1);
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);

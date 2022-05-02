@@ -106,12 +106,13 @@ void			print_vars(t_vars *head);
 void			ft_leaks(void);
 char			*ft_color_format_str(char *s, char *pre, char **tofree);
 void			print_2d_array(char **array);
+int				get_size_2d(char **arr);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
 int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
-int				ft_env(char	**env);
+int				ft_env(t_vars *head);
 void			ft_export(t_data *data, char **cmd_line);
 t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
