@@ -24,12 +24,12 @@ static void	handle_sigquit(void)
 
 	pid = getpid();
 	rl_on_new_line();
+	printf("\nPID: %d\n", pid);
+	system("leaks minishell");
 	rl_redisplay();
 	// for removing '^\'
 	write(1, "  \b\b", 4);
 	rl_replace_line("", 0);
-	printf("%d\n", pid);
-	system("leaks minishell");
 }
 
 /**
