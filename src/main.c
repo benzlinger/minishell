@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+//echo " and echo "' leak
+
 /*	get current file
  */
 static char	*get_file(void)
