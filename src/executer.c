@@ -46,7 +46,6 @@ static int	exec_not_builtin(char **cmd_line, char **env_list)
 	if (pid == 0)
 	{
 		execve(cmd_line[0], cmd_line, env_list);
-		// execvp(cmd_line[0], cmd_line); //FORBIDDEN FUNC: just for testing
 		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
