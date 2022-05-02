@@ -16,15 +16,20 @@ static void	handle_sigint(void)
 
 /**
  * 	@brief	makes the signal ctrl+'\' do nothing
+ * 	@NORM	remove pid and system leaks stuff
  */
 static void	handle_sigquit(void)
 {
+	int	pid;
+
+	pid = getpid();
 	rl_on_new_line();
+	printf("\nPID: %d\n", pid);
+	system("leaks minishell");
 	rl_redisplay();
 	// for removing '^\'
 	write(1, "  \b\b", 4);
 	rl_replace_line("", 0);
-	system("leaks minishell");
 }
 
 /**

@@ -12,7 +12,7 @@ bool	ft_check_quote(char c, char *q)
 {
 	if (q == NULL)
 	{
-		if (c == '"' || c == 39)	// 39 == '
+		if (c == '"' || c == 39)
 			return (true);
 		else if (c == '(' || c == '{' || c == '[')
 			return (true);
