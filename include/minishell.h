@@ -111,7 +111,7 @@ void			print_2d_array(char **array);
 int				ft_echo(char **cmd_line);
 int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
-int				ft_env(char	**env);
+int				ft_env(t_vars *head);
 void			ft_export(t_data *data, char **cmd_line);
 t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
