@@ -1,21 +1,5 @@
 #include "../include/minishell.h"
 
-// /*	@brief	get size of 2d array
-//  *	@params	2d array
-//  *	@return	size of array
-//  */
-// static int	get_size_2d(char **arr)
-// {
-// 	int	i;
-
-// 	if (!arr)
-// 		return (0);
-// 	i = 0;
-// 	while (arr[i])
-// 		i++;
-// 	return (i);
-// }
-
 /**
  * 	@brief	recode of linux echo function
  *	@param	command line from parser

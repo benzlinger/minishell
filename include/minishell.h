@@ -106,6 +106,7 @@ void			print_vars(t_vars *head);
 void			ft_leaks(void);
 char			*ft_color_format_str(char *s, char *pre, char **tofree);
 void			print_2d_array(char **array);
+int				get_size_2d(char **arr);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);

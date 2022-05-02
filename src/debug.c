@@ -101,3 +101,19 @@ void	print_2d_array(char **array)
 	}
 	printf("\n");
 }
+
+/*	@brief	get size of 2d array
+ *	@params	2d array
+ *	@return	size of array
+ */
+int	get_size_2d(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return (0);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
+}
