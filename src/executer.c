@@ -1,8 +1,5 @@
 #include "../include/minishell.h"
 
-//TIP	use command $> type [command-name]
-//		-> to check if command is builtin or binary
-
 static char	**export_cmd(char *cmd)
 {
 	char	*ex_cmd;
@@ -32,12 +29,12 @@ static char	**export_cmd(char *cmd)
 	return (ex_array);
 }
 
-/*	@brief	execute binary commands
+/**	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
- *	@params	command line
+ *	@param	command line
  *	@return	if function succeeded
  */
-static int	exec_not_builtin(char **cmd_line, char **env_list)
+static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
 	int		status;
@@ -45,18 +42,18 @@ static int	exec_not_builtin(char **cmd_line, char **env_list)
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(cmd_line[0], cmd_line, env_list);
+		data->exitstatus = execve(cmd_line[0], cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
-		write(2, "Error\n", 6);
+		ft_error(strerror(errno));
 	else
 		wait(&status);
 	return (0);
 }
 
-/*	@brief	execute builtin commands
- *	@params	command line (needs to be split)
+/**	@brief	execute builtin commands
+ *	@param	command line (needs to be split)
  *	@return	if function succeeded
  */
 int	msh_executer(t_data *data)
@@ -64,21 +61,22 @@ int	msh_executer(t_data *data)
 	int		status;
 	char	**cmd_line;
 	char	**exp_cmd;
+	char	*exit;
 
 	status = 1;
 	cmd_line = ft_split(data->command, ',');
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
-		ft_echo(cmd_line);
+		data->exitstatus = ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
-		ft_pwd();
+		data->exitstatus = ft_pwd();
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		ft_cd(cmd_line);
+		data->exitstatus = ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		ft_env(data->vars);
+		data->exitstatus = ft_env(data->vars);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 	{
 		exp_cmd = export_cmd(data->command);
-		ft_export(data, exp_cmd);
+		data->exitstatus = ft_export(data, exp_cmd);
 		free_2d_array(exp_cmd);
 	}
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
@@ -87,13 +85,20 @@ int	msh_executer(t_data *data)
 		data->vars = ft_unset(exp_cmd, data->vars);
 		free_2d_array(exp_cmd);
 	}
+	else if (!ft_strncmp(cmd_line[0], "$?", 2))
+	{
+		exit = ft_itoa(data->exitstatus);
+		write(1, exit, ft_strlen(exit));
+		write(1, "\n", 1);
+		free(exit);
+	}
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
 		status = 0;
 	}
 	else
-		exec_not_builtin(cmd_line, data->env_list);
+		exec_not_builtin(cmd_line, data);
 	free_2d_array(cmd_line);
 	return (status);
 }
