@@ -15,8 +15,10 @@ static int	check_tokens_via_type(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
+//		if (current->type == ENVAR || current->type == ENVARU)
+//			current->token = type_envar(&current->token);
 		if (current->type == ENVAR || current->type == ENVARU)
-			current->token = type_envar(&current->token);
+			current->token = insert_envar(&current->token);
 		else if (current->type == DQUOTE)
 			current->token = type_dquote(&current->token);
 		else if (current->type == SQUOTE)
@@ -48,18 +50,21 @@ static int	ft_ft(t_token_list *a)
 	return (1);
 }
 
-// TODO func comment
+/**
+ * 	@brief	the very first token and every token after a pipe gets
+ * 			converted to COMMAND unless it's a BUILTIN
+ * 	@param	head: head of token list
+ * 	@return Success or failure
+ */
 static int	get_command_types(t_token_list *head)
 {
 	t_token_list	*current;
-	int				t;
 
 	current = head;
-	t = head->type;
 	if (current->type != BUILTIN)
 	{
 		current->type = COMMAND;
-		current->token = type_command(&current->token, t);
+		current->token = type_command(&current->token);
 		if (current->token == NULL)
 			return (EXIT_FAILURE);
 	}
@@ -71,7 +76,7 @@ static int	get_command_types(t_token_list *head)
 			// a pipe is valid as last token?
 			// if yes, the following code might result in crash
 			current->next->type = COMMAND;
-			current->next->token = type_command(&current->token, t);
+			current->next->token = type_command(&current->token);
 			if (current->token == NULL)
 				return (EXIT_FAILURE);
 		}
@@ -89,11 +94,9 @@ char	*msh_parser(t_token_list *tokens)
 {
 	char	*command;
 
-	if (check_tokens_via_type(tokens) != 0)
-		return (NULL);
-	if (ft_ft(tokens) != 0)
-		return (NULL);
 	if (get_command_types(tokens) != 0)
+		return (NULL);
+	if (check_tokens_via_type(tokens) != 0)
 		return (NULL);
 	command = ft_list_to_str(tokens, ',');
 	return (command);
