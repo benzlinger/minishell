@@ -56,6 +56,8 @@ static int	get_command_types(t_token_list *head)
 
 	current = head;
 	t = head->type;
+	if (!ft_strncmp(current->token, "$?", ft_strlen(current->token)))
+		return (EXIT_SUCCESS);
 	if (current->type != BUILTIN)
 	{
 		current->type = COMMAND;
