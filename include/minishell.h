@@ -90,6 +90,7 @@ char			*ft_delimit_line(char *pline, int i, int j);
 void			ft_error(char *err_msg);
 void			ft_exit(int err_code);
 char			*ft_parse_error(char *err_msg1, char *err_msg2);
+void			ft_exec_error(char *err_msg1, t_data *data);
 
 /* utils free */
 void			free_2d_array(char **arr);
