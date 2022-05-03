@@ -37,6 +37,7 @@ static char	**export_cmd(char *cmd)
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -47,7 +48,10 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	else if (pid < 0)
 		ft_error(strerror(errno));
 	else
-		wait(&data->exitstatus);
+	{
+		wait(&status);
+		data->exitstatus = status % 255;
+	}
 	return (0);
 }
 
