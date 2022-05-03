@@ -70,8 +70,10 @@ void			init_signal_handling(void);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
-char			*type_command(char **s, int type);
+char			*type_command(char **s);
 char			*type_dquote(char **s);
+char			*insert_envar(char **s);
+bool			envar_exists(char *s);
 int				type_pipe(char *s);
 int				type_redirec(char *s);
 char			*type_squote(char **s);
