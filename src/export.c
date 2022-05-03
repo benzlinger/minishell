@@ -1,7 +1,7 @@
 #include "../include/minishell.h"
 
-/*	@brief	find env variable in list by name
- *	@params	name of env var, head of env variable list
+/**	@brief	find env variable in list by name
+ *	@param	name of env var, head of env variable list
  *	@return	if node is found: node, else NULL
  */
 static int	find_var(char *name, char *value, t_vars *head)
@@ -29,8 +29,8 @@ static int	find_var(char *name, char *value, t_vars *head)
 	return (0);
 }
 
-/*	@brief	add env variable to list of existing vars
- *	@params	name of var, value of var (can be NULL), head of env variable list
+/**	@brief	add env variable to list of existing vars
+ *	@param	name of var, value of var (can be NULL), head of env variable list
  *	@return	if function succeeded
  */
 static t_vars	*append_var(char *name, char *value, t_vars *head)
@@ -89,7 +89,7 @@ t_vars	*init_vars(char **env)
  *	@param	data struct, command line
  *	UNCLEAR: should export test =value work?
  */
-void	ft_export(t_data *data, char **cmd_line)
+int	ft_export(t_data *data, char **cmd_line)
 {
 	int		i;
 	char	*name;
@@ -98,10 +98,7 @@ void	ft_export(t_data *data, char **cmd_line)
 	if (!data->vars && !cmd_line[1])
 		ft_parse_error("List empty.", NULL);
 	if (!cmd_line[1])
-	{
-		show_vars(data->vars);
-		return ;
-	}
+		return (show_vars(data->vars));
 	i = 1;
 	while (cmd_line[i])
 	{
@@ -121,4 +118,5 @@ void	ft_export(t_data *data, char **cmd_line)
 		}
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
