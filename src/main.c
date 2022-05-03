@@ -116,7 +116,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc != 1)
 		ft_error(strerror(E2BIG));
 	argv = NULL;
-	init_signal_handling();
+	init_signal_handling(); //on ctrl+c exit status should be 1
 	msh_loop(envp);
 	return (EXIT_SUCCESS);
 }
