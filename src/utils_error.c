@@ -20,14 +20,23 @@ void	ft_exit(int err_code)
  *	@param	err_msg2: second string error message, set NULL if not needed
  *	@return NULL
  */
-char	*ft_parse_error(char *err_msg1, char *err_msg2)	//could we include data in args and
-{														//change exitstatus on function call?
+char	*ft_parse_error(char *err_msg1, char *err_msg2)
+{
 	write(2, ERROR, ft_strlen(ERROR));
 	write(2, err_msg1, ft_strlen(err_msg1));
 	if (err_msg2 != NULL)
 		write(2, err_msg2, ft_strlen(err_msg2));
 	write(2, "\n", 1);
 	return (NULL);
+}
+
+void	ft_exec_error(char *err_msg1, t_data *data)
+{
+	write(2, ERROR, ft_strlen(ERROR));
+	write(2, err_msg1, ft_strlen(err_msg1));
+	write(2, "\n", 1);
+	if (data)
+		data->exitstatus = EXIT_FAILURE;
 }
 
 /**	
