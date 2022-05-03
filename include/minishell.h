@@ -58,6 +58,7 @@ typedef struct s_data
 	char			*line;
 	char			*command;
 	char			**varray;
+	int				exitstatus;
 }		t_data;
 
 /* main functions */
@@ -115,7 +116,7 @@ int				ft_echo(char **cmd_line);
 int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
 int				ft_env(t_vars *head);
-void			ft_export(t_data *data, char **cmd_line);
+int				ft_export(t_data *data, char **cmd_line);
 t_vars			*ft_unset(char **cmd_line, t_vars *head);
 
 #endif
