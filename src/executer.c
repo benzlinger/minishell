@@ -37,18 +37,17 @@ static char	**export_cmd(char *cmd)
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		data->exitstatus = execve(cmd_line[0], cmd_line, data->env_list);
+		execve(cmd_line[0], cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
 		ft_error(strerror(errno));
 	else
-		wait(&status);
+		wait(&data->exitstatus);
 	return (0);
 }
 
