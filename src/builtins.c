@@ -63,14 +63,15 @@ int	ft_cd(char **cmd_line)
 	else
 		ret = chdir(cmd_line[1]);
 	if (ret == -1)
+	{
 		ft_parse_error(strerror(errno), NULL);
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
-/*	@brief	print name of the working directory
+/**	@brief	print name of the working directory
  *	@return	if function succeeded
- *	DECIDE	if we want to use set size array or
- *				dinamically allocate memory for path
  */
 int	ft_pwd(void)
 {
@@ -85,7 +86,8 @@ int	ft_pwd(void)
 	return (EXIT_SUCCESS);
 }
 
-/*	@brief	print list of environment variables
+/**	@brief	print list of environment variables
+ *	@param	head of env list
  *	@return	if function succeeded
  */
 int	ft_env(t_vars *head)
