@@ -19,9 +19,9 @@ static int	find_var(char *name, char *value, t_vars *head)
 			{
 				if (tmp->value)
 					free(tmp->value);
-				free(name);
 				tmp->value = value;
 			}
+			free(name);
 			return (1);
 		}
 		tmp = tmp->next;
