@@ -2,7 +2,8 @@
 
 //echo " and echo "' leak
 
-/*	get current file
+/**	@brief	get current file
+ *	@return	current file
  */
 static char	*get_file(void)
 {
@@ -35,8 +36,9 @@ static char	*get_file(void)
 	return (file);
 }
 
-/*	get username + current directory
- *	to be used as prompt
+/**	@brief	get username + current directory to be used as prompt
+ *	@param	status of shell (for colouring)
+ *	@return	prompt for shell
  */
 static char	*msh_prompt(int status)
 {
@@ -77,6 +79,7 @@ static void	msh_loop(char **env_list)
 		ft_error(strerror(errno));
 	data->vars = init_vars(env_list);
 	data->env_list = env_list;
+	data->exitstatus = 0;
 	while (status)
 	{
 		promptline = msh_prompt(status);
