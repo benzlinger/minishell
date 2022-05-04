@@ -95,8 +95,6 @@ int	ft_export(t_data *data, char **cmd_line)
 	char	*name;
 	char	*value;
 
-	if (!data->vars && !cmd_line[1])
-		ft_exec_error("List empty.", NULL);
 	if (!cmd_line[1])
 	{
 		data->exitstatus = show_vars(data->vars);
