@@ -118,6 +118,6 @@ int				ft_pwd(void);
 int				ft_cd(char **cmd_line);
 int				ft_env(t_vars *head);
 int				ft_export(t_data *data, char **cmd_line);
-t_vars			*ft_unset(char **cmd_line, t_vars *head);
+t_vars			*ft_unset(char **cmd_line, t_data *data);
 
 #endif
