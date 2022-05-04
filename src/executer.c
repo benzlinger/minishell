@@ -55,6 +55,17 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	return (0);
 }
 
+static void	print_exit_status(int exitstatus)
+{
+	char	*status;
+
+	status = ft_itoa(exitstatus);
+	write(1, "minishell: ", 11);
+	write(1, status, ft_strlen(status));
+	write(1, ": command not found\n", 20);
+	free(status);
+}
+
 /**	@brief	execute builtin commands
  *	@param	command line (needs to be split)
  *	@return	if function succeeded
@@ -64,7 +75,7 @@ int	msh_executer(t_data *data)
 	int		status;
 	char	**cmd_line;
 	char	**exp_cmd;
-	char	*exit;
+	// char	*exit;
 
 	status = 1;
 	cmd_line = ft_split(data->command, ',');
@@ -85,15 +96,16 @@ int	msh_executer(t_data *data)
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 	{
 		exp_cmd = export_cmd(data->command);
-		data->vars = ft_unset(exp_cmd, data->vars);
+		data->vars = ft_unset(exp_cmd, data);
 		free_2d_array(exp_cmd);
 	}
 	else if (!ft_strncmp(cmd_line[0], "$?", 2))
 	{
-		exit = ft_itoa(data->exitstatus);
-		write(1, exit, ft_strlen(exit));
-		write(1, "\n", 1);
-		free(exit);
+		// exit = ft_itoa(data->exitstatus);
+		// write(1, exit, ft_strlen(exit));
+		// write(1, "\n", 1);
+		// free(exit);
+		print_exit_status(data->exitstatus);
 	}
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
