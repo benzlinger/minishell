@@ -75,7 +75,6 @@ int	msh_executer(t_data *data)
 	int		status;
 	char	**cmd_line;
 	char	**exp_cmd;
-	// char	*exit;
 
 	status = 1;
 	cmd_line = ft_split(data->command, ',');
@@ -100,13 +99,7 @@ int	msh_executer(t_data *data)
 		free_2d_array(exp_cmd);
 	}
 	else if (!ft_strncmp(cmd_line[0], "$?", 2))
-	{
-		// exit = ft_itoa(data->exitstatus);
-		// write(1, exit, ft_strlen(exit));
-		// write(1, "\n", 1);
-		// free(exit);
 		print_exit_status(data->exitstatus);
-	}
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
