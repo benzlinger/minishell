@@ -62,6 +62,21 @@ static char	*msh_prompt(int status)
 	return (promptline);
 }
 
+static t_data	*init_data(char **env_list)
+{
+	t_data	*data;
+
+	data = malloc(sizeof(t_data));
+	if (!data)
+		ft_error(strerror(errno));
+	data->vars = init_vars(env_list);
+	if (!data->vars)
+		ft_exec_error("Init failed.", NULL);
+	data->env_list = env_list;
+	data->exitstatus = 0;
+	return (data);
+}
+
 /*	Basic loop of a shell
  *	1. Read the command from stdin
  *	2. Separate the command string into a programm and arguments
@@ -74,12 +89,7 @@ static void	msh_loop(char **env_list)
 	char	*promptline;
 
 	status = 1;
-	data = malloc(sizeof(t_data));	//could put data init and free in main
-	if (!data)						//would that work with ctrl+d?
-		ft_error(strerror(errno));
-	data->vars = init_vars(env_list);
-	data->env_list = env_list;
-	data->exitstatus = 0;
+	data = init_data(env_list);
 	while (status)
 	{
 		promptline = msh_prompt(status);
