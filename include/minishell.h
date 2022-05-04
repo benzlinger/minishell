@@ -20,7 +20,6 @@ typedef enum e_type
 	COMMAND,
 	BUILTIN,
 	ENVAR,
-	ENVARU,
 	FLAG,
 	DQUOTE,
 	SQUOTE,

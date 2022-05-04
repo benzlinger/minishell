@@ -44,8 +44,6 @@ int	ft_get_type(char *literal)
 		return (REDIREC);
 	else if (literal[0] == '|')
 		return (PIPE);
-	else if (ft_strncmp(literal, "$USER", ft_strlen("$USER ")) == 0)
-		return (ENVARU);
 	else if (literal[0] == '$')
 		return (ENVAR);
 	return (UNKNOWN);

@@ -40,16 +40,6 @@ static int	check_tokens_via_type(t_token_list *head)
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_ft(t_token_list *a)
-{
-	if (a->type != ENVARU)
-		return (0);
-	if (a->next != NULL)
-		return (0);
-	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
-	return (1);
-}
-
 /**
  * 	@brief	the very first token and every token after a pipe gets
  * 			converted to COMMAND unless it's a BUILTIN
