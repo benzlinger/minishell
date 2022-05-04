@@ -27,12 +27,8 @@ int	type_redirec(char *s)
 	if (ft_strlen(s) == 1)
 		return (EXIT_SUCCESS);
 	else if (ft_strlen(s) == 2)
-	{
-		if (s[0] == '<' && s[1] == '<')
+		if (s[0] == '>' && s[1] == '>')
 			return (EXIT_SUCCESS);
-		else if (s[0] == '>' && s[1] == '>')
-			return (EXIT_SUCCESS);
-	}
 	ft_parse_error(s, ": invalid redirection syntax");
 	return (EXIT_FAILURE);
 }

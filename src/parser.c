@@ -1,5 +1,22 @@
 #include "../include/minishell.h"
 
+static int	check_tokens_via_type2(t_token_list *current)
+{
+	if (current->type == HEREDOC)
+	{
+		current->token = type_heredoc(&current->token, current->next->token);
+		current->next->token[0] = ',';
+		current->next->token[1] = '\0';
+	}
+	if (current->type == REDIREC)
+		if (type_redirec(current->token) != 0)
+			return (EXIT_FAILURE);
+	if (current->type == PIPE)
+		if (type_pipe(current->token) != 0)
+			return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 /**
  * 	@brief	runs function depending on tokentype
  * 			and makes them fit for the executer
@@ -20,12 +37,8 @@ static int	check_tokens_via_type(t_token_list *head)
 			current->token = type_dquote(&current->token);
 		else if (current->type == SQUOTE)
 			current->token = type_squote(&current->token);
-		if (current->type == REDIREC)
-			if (type_redirec(current->token) != 0)
-				return (EXIT_FAILURE);
-		if (current->type == PIPE)
-			if (type_pipe(current->token) != 0)
-				return (EXIT_FAILURE);
+		if (check_tokens_via_type2(current) != 0)
+			return (EXIT_FAILURE);
 		if (current->token == NULL)
 			return (EXIT_FAILURE);
 		current = current->next;

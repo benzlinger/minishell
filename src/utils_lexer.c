@@ -40,6 +40,8 @@ int	ft_get_type(char *literal)
 		return (SQUOTE);
 	else if (literal[0] == '"')
 		return (DQUOTE);
+	else if (literal[0] == '<' && literal[1] == '<')
+		return (HEREDOC);
 	else if (literal[0] == '<' || literal [0] == '>')
 		return (REDIREC);
 	else if (literal[0] == '|')

@@ -24,6 +24,7 @@ typedef enum e_type
 	DQUOTE,
 	SQUOTE,
 	REDIREC,
+	HEREDOC,
 	PIPE,
 	UNKNOWN
 }		t_type;
@@ -77,6 +78,7 @@ int				type_pipe(char *s);
 int				type_redirec(char *s);
 char			*type_squote(char **s);
 char			*type_envar(char **s);
+char			*type_heredoc(char **s, char *token);	
 
 /* utils lexer */
 int				ft_get_type(char *literal);
