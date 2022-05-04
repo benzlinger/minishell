@@ -16,7 +16,7 @@ static int	find_right_path(char **paths, char *command)
 	i = 0;
 	while (paths[i])
 	{
-		full_path = ft_strjoin(paths[i], command);
+		full_path = ft_strjoin(paths[i], command, NULL);
 		if (access(full_path, F_OK) == 0)
 		{
 			free(full_path);
@@ -48,11 +48,11 @@ char	*type_command(char **s)
 	free_path = false;
 	if (s[0][0] != '/')
 	{
-		tmp = ft_strjoin("/", *s);
+		tmp = ft_strjoin("/", *s, NULL);
 		right_path = find_right_path(paths, tmp);
 		if (right_path != -1)
 		{
-			path = ft_strjoin(paths[right_path], tmp);
+			path = ft_strjoin(paths[right_path], tmp, NULL);
 			free_path = true;
 		}
 		free(tmp);
