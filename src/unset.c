@@ -36,17 +36,29 @@ static t_vars	*del_var(char *name, t_vars *head)
  *	@params	command line, head of list
  *	@return	(new) head of list
  */
-t_vars	*ft_unset(char **cmd_line, t_vars *head)
+t_vars	*ft_unset(char **cmd_line, t_data *data)
 {
 	int	i;
+	int	is_exit;
 
-	if (!cmd_line[1] || !head)
-		return (head);
+	if (!cmd_line[1] || !data->vars)
+		return (data->vars);
 	i = 1;
+	is_exit = 0;
 	while (cmd_line[i])
 	{
-		head = del_var(cmd_line[i], head);
+		if (cmd_line[i][0] == '=')
+		{
+			ft_exec_error("Not a valid identifier", data);
+			is_exit = 1;
+		}
+		else
+		{
+			data->vars = del_var(cmd_line[i], data->vars);
+			if (!is_exit)
+				data->exitstatus = EXIT_SUCCESS;
+		}
 		i++;
 	}
-	return (head);
+	return (data->vars);
 }

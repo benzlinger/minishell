@@ -35,10 +35,9 @@ int	ft_echo(char **cmd_line)
 	return (EXIT_SUCCESS);
 }
 
-/*	@brief	changes current working directory of the shell
- *	@params	command line from parser
+/**	@brief	changes current working directory of the shell
+ *	@param	command line from parser
  *	@return	if function scceeded
- *	FIXME	is error handling wrong? get undefined error: 0
  */
 int	ft_cd(char **cmd_line)
 {
@@ -64,7 +63,7 @@ int	ft_cd(char **cmd_line)
 		ret = chdir(cmd_line[1]);
 	if (ret == -1)
 	{
-		ft_parse_error(strerror(errno), NULL);
+		ft_exec_error(strerror(errno), NULL);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

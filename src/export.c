@@ -95,28 +95,31 @@ int	ft_export(t_data *data, char **cmd_line)
 	char	*name;
 	char	*value;
 
-	if (!data->vars && !cmd_line[1])
-		ft_parse_error("List empty.", NULL);
 	if (!cmd_line[1])
-		return (show_vars(data->vars));
+	{
+		data->exitstatus = show_vars(data->vars);
+		return (data->exitstatus);
+	}
 	i = 1;
 	while (cmd_line[i])
 	{
 		if (cmd_line[i][0] == '=')
-			ft_parse_error("Not a valid identifier", NULL);
+			ft_exec_error("Not a valid identifier", data);
 		else if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
 		{
 			name = ft_strdup(cmd_line[i]);
 			value = ft_substr(cmd_line[i + 1], 1, ft_strlen(cmd_line[i + 1]));
 			append_var(name, value, data->vars);
 			i++;
+			data->exitstatus = EXIT_SUCCESS;
 		}
 		else
 		{
 			name = ft_strdup(cmd_line[i]);
 			append_var(name, NULL, data->vars);
+			data->exitstatus = EXIT_SUCCESS;
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (data->exitstatus);
 }

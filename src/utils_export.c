@@ -101,7 +101,10 @@ int	show_vars(t_vars *head)
 	t_vars	*tmp;
 
 	if (!head)
+	{
+		ft_exec_error("List empty.", NULL);
 		return (EXIT_FAILURE);
+	}
 	tmp = head;
 	while (tmp)
 	{
