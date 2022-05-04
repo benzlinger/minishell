@@ -10,7 +10,7 @@ int	type_pipe(char *s)
 {
 	if (ft_strlen(s) != 1)
 	{
-		ft_parse_error(s, ": invalide pipe syntax");
+		ft_parse_error(s, ": invalid pipe syntax");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
