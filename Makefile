@@ -60,7 +60,7 @@ $(OBJ_PATH)%.o : $(SRC_PATH)%.c
 	@printf $(UP)$(CUT)
 
 $(NAME): $(OBJ)
-	@make -C libft
+	@$(MAKE) -C libft
 	@$(CC) $(CFLAGS) $(LFR) $(OBJ) -o $(NAME) libft/libft.a
 	@echo $(G)Finished [$(NAME)]$(X)
 
@@ -70,7 +70,7 @@ clean:
 			echo $(R)Cleaning" "[$(OBJ) $(OBJ_PATH)]$(X); else \
 			echo "No objects to remove."; \
 	fi;
-	@make -C libft clean
+	@$(MAKE) -C libft clean
 
 fclean: clean
 	@if [ -f "$(NAME)" ]; then \
@@ -78,7 +78,7 @@ fclean: clean
 			echo $(R)Cleaning" "[$(NAME)]$(X);else \
 			echo "No executable to remove."; \
 	fi;
-	@make -C libft fclean
+	@$(MAKE) -C libft fclean
 
 re:
 	@$(MAKE) fclean
