@@ -24,7 +24,7 @@ static char	*get_file(void)
 		while (split_dir[i])
 			i++;
 		i--;
-		file = ft_strjoin("-", split_dir[i]);
+		file = ft_strjoin("-", split_dir[i], NULL);
 		while (split_dir[i] && i >= 0)
 		{
 			free(split_dir[i]);
@@ -50,12 +50,12 @@ static char	*msh_prompt(int status)
 	file = get_file();
 	file = ft_color_format_str(file, "\e[36m", &file);
 	username = ft_color_format_str(getenv("USER"), "\e[1;36m", NULL);
-	prompt = ft_strjoin(username, file);
+	prompt = ft_strjoin(username, file, NULL);
 	promptline = NULL;
 	if (status == 1)
-		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m");
+		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m", NULL);
 	else
-		promptline = ft_strjoin(prompt, "\e[1;35m 42 \e[0m");
+		promptline = ft_strjoin(prompt, "\e[1;35m 42 \e[0m", NULL);
 	free(file);
 	free(prompt);
 	free(username);

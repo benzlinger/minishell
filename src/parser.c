@@ -1,12 +1,27 @@
 #include "../include/minishell.h"
 
+static int	check_tokens_via_type2(t_token_list *cur)
+{
+	if (cur->type == HEREDOC)
+	{
+		cur->token[1] = '\0';
+		cur->next->token = type_heredoc(&cur->next->token, cur->next->token);
+	}
+	if (cur->type == REDIREC)
+		if (type_redirec(cur->token) != 0)
+			return (EXIT_FAILURE);
+	if (cur->type == PIPE)
+		if (type_pipe(cur->token) != 0)
+			return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 /**
  * 	@brief	runs function depending on tokentype
  * 			and makes them fit for the executer
  * 	@param	head: token list
  * 	@return	1: if an parse error occures
  * 			0: if successful
- * 	@NORM	to many lines
  */
 static int	check_tokens_via_type(t_token_list *head)
 {
@@ -15,39 +30,19 @@ static int	check_tokens_via_type(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
-//		if (current->type == ENVAR || current->type == ENVARU)
-//			current->token = type_envar(&current->token);
-		if (current->type == ENVAR || current->type == ENVARU)
+		if (current->type == ENVAR)
 			current->token = insert_envar(&current->token);
 		else if (current->type == DQUOTE)
 			current->token = type_dquote(&current->token);
 		else if (current->type == SQUOTE)
 			current->token = type_squote(&current->token);
-		else if (current->type == REDIREC)
-		{
-			if (type_redirec(current->token) != 0)
-				return (EXIT_FAILURE);
-		}
-		else if (current->type == PIPE)
-		{
-			if (type_pipe(current->token) != 0)
-				return (EXIT_FAILURE);
-		}
+		if (check_tokens_via_type2(current) != 0)
+			return (EXIT_FAILURE);
 		if (current->token == NULL)
 			return (EXIT_FAILURE);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
-}
-
-static int	ft_ft(t_token_list *a)
-{
-	if (a->type != ENVARU)
-		return (0);
-	if (a->next != NULL)
-		return (0);
-	printf("%s... you're turning into a penguin. Stop it.\n", a->token);
-	return (1);
 }
 
 /**
@@ -70,13 +65,12 @@ static int	get_command_types(t_token_list *head)
 	}
 	while (current != NULL)
 	{
-		if (current->type == PIPE && current->next != NULL)
+		if (current->type == PIPE)
 		{
-			// FIXME is it possible at this point that
-			// a pipe is valid as last token?
-			// if yes, the following code might result in crash
+			if (current->next == NULL)
+				return ((int)ft_parse_error("invalid pipe syntax", NULL) + 1);
 			current->next->type = COMMAND;
-			current->next->token = type_command(&current->token);
+			current->next->token = type_command(&current->next->token);
 			if (current->token == NULL)
 				return (EXIT_FAILURE);
 		}
@@ -94,9 +88,9 @@ char	*msh_parser(t_token_list *tokens)
 {
 	char	*command;
 
-	if (get_command_types(tokens) != 0)
-		return (NULL);
 	if (check_tokens_via_type(tokens) != 0)
+		return (NULL);
+	if (get_command_types(tokens) != 0)
 		return (NULL);
 	command = ft_list_to_str(tokens, ',');
 	return (command);

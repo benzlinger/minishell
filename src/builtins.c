@@ -52,7 +52,7 @@ int	ft_cd(char **cmd_line)
 	{
 		homedir = "/Users/btenzlin";
 		path = ft_substr(cmd_line[1], 1, ft_strlen(cmd_line[1]));
-		new_path = ft_strjoin(homedir, path);
+		new_path = ft_strjoin(homedir, path, NULL);
 		free(path);
 		ret = chdir(new_path);
 		free(new_path);

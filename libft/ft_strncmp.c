@@ -6,7 +6,7 @@
 /*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 17:16:33 by rsiebert          #+#    #+#             */
-/*   Updated: 2021/08/23 20:13:58 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/05/04 21:27:18 by rsiebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
 	i = 0;
 	while (i < n)
 	{
