@@ -80,6 +80,8 @@ fclean: clean
 	fi;
 	@make -C libft fclean
 
-re: fclean all
+re:
+	@$(MAKE) fclean
+	@$(MAKE) all
 
 .PHONY: all, clean, fclean, re
