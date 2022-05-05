@@ -1,18 +1,17 @@
 #include "../include/minishell.h"
 
-static int	check_tokens_via_type2(t_token_list *current)
+static int	check_tokens_via_type2(t_token_list *cur)
 {
-	if (current->type == HEREDOC)
+	if (cur->type == HEREDOC)
 	{
-		current->token = type_heredoc(&current->token, current->next->token);
-		current->next->token[0] = ',';
-		current->next->token[1] = '\0';
+		cur->token[1] = '\0';
+		cur->next->token = type_heredoc(&cur->next->token, cur->next->token);
 	}
-	if (current->type == REDIREC)
-		if (type_redirec(current->token) != 0)
+	if (cur->type == REDIREC)
+		if (type_redirec(cur->token) != 0)
 			return (EXIT_FAILURE);
-	if (current->type == PIPE)
-		if (type_pipe(current->token) != 0)
+	if (cur->type == PIPE)
+		if (type_pipe(cur->token) != 0)
 			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

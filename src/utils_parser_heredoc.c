@@ -39,10 +39,7 @@ char	*type_heredoc(char **s, char *token)
 	{
 		newline = readline("\e[93mheredoc> \e[0m");
 		if (ft_strncmp(newline, token, ft_strlen(token) + 1) == 0)
-		{
-			out = ft_strjoin(out, "\n", &out);
 			break ;
-		}
 		if (newline == NULL)
 			break ;
 		if (out == NULL)
