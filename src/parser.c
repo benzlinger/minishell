@@ -23,15 +23,15 @@ static int	check_tokens_via_type2(t_token_list *cur)
  * 	@return	1: if an parse error occures
  * 			0: if successful
  */
-static int	check_tokens_via_type(t_token_list *head)
+static int	check_tokens_via_type(t_data *data)
 {
 	t_token_list	*current;
 
-	current = head;
+	current = data->tokens;
 	while (current != NULL)
 	{
 		if (current->type == ENVAR)
-			current->token = insert_envar(&current->token);
+			current->token = insert_envar(&current->token, data);
 		else if (current->type == DQUOTE)
 			current->token = type_dquote(&current->token);
 		else if (current->type == SQUOTE)
@@ -84,14 +84,14 @@ static int	get_command_types(t_token_list *head)
  * 	@param	tokens: linked list from lexer
  * 	@return	ready-to-run command string
  */
-char	*msh_parser(t_token_list *tokens)
+char	*msh_parser(t_data *data)
 {
 	char	*command;
 
-	if (check_tokens_via_type(tokens) != 0)
+	if (check_tokens_via_type(data) != 0)
 		return (NULL);
-	if (get_command_types(tokens) != 0)
+	if (get_command_types(data->tokens) != 0)
 		return (NULL);
-	command = ft_list_to_str(tokens, ',');
+	command = ft_list_to_str(data->tokens, ',');
 	return (command);
 }
