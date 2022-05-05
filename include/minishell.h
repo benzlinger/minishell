@@ -105,6 +105,9 @@ char			*get_value(char *s);
 int				show_vars(t_vars *head);
 t_vars			*new_var(char *name, char *value);
 
+/* testing functions */
+void			ft_redirect(cmd_line, data);
+
 /* debug functions */
 void			ft_print_list(t_token_list *head);
 void			print_vars(t_vars *head);
