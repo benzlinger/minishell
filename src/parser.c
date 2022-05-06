@@ -33,7 +33,7 @@ static int	check_tokens_via_type(t_data *data)
 		if (current->type == ENVAR)
 			current->token = insert_envar(&current->token, data);
 		else if (current->type == DQUOTE)
-			current->token = type_dquote(&current->token);
+			current->token = type_dquote(&current->token, data);
 		else if (current->type == SQUOTE)
 			current->token = type_squote(&current->token);
 		if (check_tokens_via_type2(current) != 0)
