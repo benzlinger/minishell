@@ -87,6 +87,29 @@ static char	*handle_quotes(char *s)
 	return (out);
 }
 
+// static char	*replace_exitstatus(char *s, t_data *data, char **tofree)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*new;
+
+// 	if (!s)
+// 		return (s);
+// 	i = 0;
+// 	j = 0;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '$' && s[i + 1] == '?'
+// 		&& (s[i + 2] == ' ' || s[i + 2] == '\0'))
+// 		{
+			
+// 		}
+// 		new[j] = s[i];
+// 	}
+// 	free(*tofree);
+// 	return (*new);
+// }
+
 /**
  * 	@brief	handles double quotes; removes them and inserts envars
  * 	@param	s: pointer to literal token string
