@@ -65,11 +65,20 @@ static char	*msh_prompt(int status)
 static t_data	*init_data(char **env_list)
 {
 	t_data	*data;
+	char	*name;
+	char	*value;
 
 	data = malloc(sizeof(t_data));
 	if (!data)
 		ft_error(strerror(errno));
-	data->vars = init_vars(env_list);
+	if (env_list && env_list[0])
+		data->vars = init_vars(env_list);
+	else
+	{
+		name = ft_strdup("minishell");
+		value = ft_strdup("rsiebertandbtenzlin");
+		data->vars = new_var(name, value);
+	}
 	if (!data->vars)
 		ft_exec_error("Init failed.", NULL);
 	data->env_list = env_list;
@@ -82,14 +91,12 @@ static t_data	*init_data(char **env_list)
  *	2. Separate the command string into a programm and arguments
  *	3. Run the parsed command
  */
-static void	msh_loop(char **env_list)
+static void	msh_loop(t_data *data)
 {
-	t_data	*data;
 	int		status;
 	char	*promptline;
 
 	status = 1;
-	data = init_data(env_list);
 	while (status)
 	{
 		promptline = msh_prompt(status);
@@ -123,10 +130,14 @@ static void	msh_loop(char **env_list)
  */
 int	main(int argc, char *argv[], char *envp[])
 {
+	t_data	*data;
+
 	if (argc != 1)
 		ft_error(strerror(E2BIG));
 	argv = NULL;
-	init_signal_handling(); //on ctrl+c exit status should be 1
-	msh_loop(envp);
+	// envp = NULL;
+	data = init_data(envp);
+	init_signal_handling(data->exitstatus); //on ctrl+c exit status should be 1
+	msh_loop(data);
 	return (EXIT_SUCCESS);
 }
