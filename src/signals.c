@@ -47,7 +47,7 @@ static void	signal_handler(int sa)
 /**
  * 	@brief	initializes signal handling
  */
-void	init_signal_handling(void)
+void	init_signal_handling(int exit)
 {
 	struct sigaction	sa;
 
