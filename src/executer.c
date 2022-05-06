@@ -31,7 +31,8 @@ static char	**export_cmd(char *cmd)
 
 /**	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
- *	@param	command line
+ *	@param	cmd_line command line
+ *	@param	data data stuct with env vars and exitstatus
  *	@return	if function succeeded
  */
 static int	exec_not_builtin(char **cmd_line, t_data *data)
@@ -56,7 +57,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 }
 
 /**	@brief	execute builtin commands
- *	@param	command line (needs to be split)
+ *	@param	data struct containing command and env vars
  *	@return	if function succeeded
  */
 int	msh_executer(t_data *data)
