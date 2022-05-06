@@ -92,7 +92,7 @@ static char	*handle_quotes(char *s)
  * 	@param	s: pointer to literal token string
  * 	@return converted string
  */
-char	*type_dquote(char **s)
+char	*type_dquote(char **s, t_data *data)
 {
 	char	*out;
 
@@ -103,7 +103,7 @@ char	*type_dquote(char **s)
 		return (NULL);
 	}
 	if (envar_exists(*s))
-		out = insert_envar(&out);
+		out = insert_envar(&out, data);
 	if (out == NULL)
 		return (NULL);
 	free(*s);
