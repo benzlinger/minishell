@@ -89,13 +89,18 @@ int	ft_pwd(void)
  *	@param	head of env list
  *	@return	if function succeeded
  */
-int	ft_env(t_vars *head)
+int	ft_env(t_data *data, char **cmd_line)
 {
 	t_vars	*tmp;
 
-	if (!head)
+	if (!data->vars)
 		return (EXIT_FAILURE);
-	tmp = head;
+	if (cmd_line[1])
+	{
+		ft_exec_error("env: no flags or arguments supported.", data);
+		return (EXIT_FAILURE);
+	}
+	tmp = data->vars;
 	while (tmp)
 	{
 		if (tmp->value)
