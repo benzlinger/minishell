@@ -66,12 +66,12 @@ t_token_list	*msh_lexer(char *line);
 char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data);
 t_vars			*init_vars(char **env_list);
-void			init_signal_handling(void);
+void			init_signal_handling(int exit);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
 char			*type_command(char **s);
-char			*type_dquote(char **s);
+char			*type_dquote(char **s, t_data *data);
 char			*insert_envar(char **s, t_data *data);
 bool			envar_exists(char *s);
 int				type_pipe(char *s);
