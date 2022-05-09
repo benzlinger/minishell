@@ -78,7 +78,9 @@ int				type_pipe(char *s);
 int				type_redirec(char *s);
 char			*type_squote(char **s);
 char			*type_envar(char **s);
-char			*type_heredoc(char **s, char *token);	
+char			*type_heredoc(char **s, char *token);
+int				has_exitstatus(char *s);
+char			*replace_exitstatus(char *s, t_data *data);
 
 /* utils lexer */
 int				ft_get_type(char *literal);
