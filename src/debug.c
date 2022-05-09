@@ -5,6 +5,28 @@
 
 #include "../include/minishell.h"
 
+static char	*get_type(int type)
+{
+	switch(type)
+	{
+		case 0:		return ("COMMAND");	break;
+		case 1: 	return ("BUILTIN");	break;
+		case 2:		return ("ENVAR");	break;
+		case 3:		return ("FLAG");	break;
+		case 4:		return ("DQUOTE");	break;
+		case 5:		return ("SQUOTE");	break;
+		case 6:		return ("REDIREC");	break;
+		case 7:		return ("HEREDOC");	break;
+		case 8:		return ("PIPE");	break;
+		case 9:		return ("RIN");		break;
+		case 10:	return ("ROUT");	break;
+		case 11:	return ("TRUNC");	break;
+		case 12:	return ("CREAT");	break;
+		default:	return ("UNKNOWN");	break;
+	}
+	return (NULL);
+}
+
 void	ft_print_list(t_token_list *head)
 {
 	t_token_list	*current;
@@ -15,7 +37,7 @@ void	ft_print_list(t_token_list *head)
 		printf("pipe_index:\t%i\n", current->pipe_index);
 		printf("index:\t\t%i\n", current->index);
 		printf("token:\t\t%s\n", current->token);
-		printf("type:\t\t%i\n", current->type);
+		printf("type:\t\t%s\n", get_type(current->type));
 		printf("next:\t\t%p\n", current->next);
 		printf("\n");
 		current = current->next;
