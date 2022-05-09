@@ -72,10 +72,15 @@ int	ft_cd(char **cmd_line)
 /**	@brief	print name of the working directory
  *	@return	if function succeeded
  */
-int	ft_pwd(void)
+int	ft_pwd(char **cmd_line)
 {
 	char	*path;
 
+	if (cmd_line[1])
+	{
+		ft_exec_error("env: no flags or arguments supported.", NULL);
+		return (EXIT_FAILURE);
+	}
 	path = getcwd(NULL, 0);
 	if (!path)
 		ft_error(strerror(errno));
@@ -97,7 +102,7 @@ int	ft_env(t_data *data, char **cmd_line)
 		return (EXIT_FAILURE);
 	if (cmd_line[1])
 	{
-		ft_exec_error("env: no flags or arguments supported.", data);
+		ft_exec_error("env: no flags or arguments supported.", NULL);
 		return (EXIT_FAILURE);
 	}
 	tmp = data->vars;
