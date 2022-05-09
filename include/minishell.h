@@ -115,7 +115,7 @@ int				get_size_2d(char **arr);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
-int				ft_pwd(void);
+int				ft_pwd(char **cmd_line);
 int				ft_cd(char **cmd_line);
 int				ft_env(t_data *data, char **cmd_line);
 int				ft_export(t_data *data, char **cmd_line);
