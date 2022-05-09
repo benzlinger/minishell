@@ -29,12 +29,12 @@ typedef enum e_type
 	RIN,
 	ROUT,
 	TRUNC,
-	APPEND,
 	CREAT,
 	UNKNOWN
 }		t_type;
 
-/* 	pipe_index:	indexing token between pipes in command prompt, starting with 0
+/**
+ *  pipe_index:	indexing token between pipes in command prompt, starting with 0
  * 	token:		literal string of token
  * 	type:		enumurated token type for identification
  * 	next:		pointer to next token. If it's the last token, next == NULL

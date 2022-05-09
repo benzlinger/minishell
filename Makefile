@@ -35,6 +35,8 @@ SRC =	$(SRC_PATH)main.c				$(SRC_PATH)lexer.c\
 	$(SRC_PATH)utils_parser_command.c	$(SRC_PATH)utils_export.c\
 	$(SRC_PATH)unset.c					$(SRC_PATH)utils_general.c\
 	$(SRC_PATH)utils_parser_dquote2.c	$(SRC_PATH)utils_parser_heredoc.c\
+	$(SRC_PATH)utils_parser_redirec.c\
+	$(SRC_PATH)test_utils.c\
 	$(SRC_PATH)debug.c
 
 # OBJECTS
