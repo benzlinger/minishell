@@ -50,8 +50,11 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 		ft_error(strerror(errno));
 	else
 	{
-		wait(&status);
-		data->exitstatus = status % 255;
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			data->exitstatus = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			printf("test\n"); //FIXME: close execve using signal
 	}
 	return (0);
 }
