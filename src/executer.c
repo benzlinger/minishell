@@ -71,7 +71,7 @@ int	msh_executer(t_data *data)
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
-		data->exitstatus = ft_pwd();
+		data->exitstatus = ft_pwd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
 		data->exitstatus = ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
