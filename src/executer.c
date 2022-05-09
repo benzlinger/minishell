@@ -42,7 +42,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (redirections_found(cmd_line))
+		if (redirection_found(data->tokens))
 			ft_redirect(cmd_line, data);
 		else
 			execve(cmd_line[0], cmd_line, data->env_list);
