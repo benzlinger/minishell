@@ -26,6 +26,11 @@ typedef enum e_type
 	REDIREC,
 	HEREDOC,
 	PIPE,
+	RIN,
+	ROUT,
+	TRUNC,
+	APPEND,
+	CREAT,
 	UNKNOWN
 }		t_type;
 
@@ -63,7 +68,7 @@ typedef struct s_data
 
 /* main functions */
 t_token_list	*msh_lexer(char *line);
-char			*msh_parser(t_token_list *tokens);
+char			*msh_parser(t_token_list *head);
 int				msh_executer(t_data *data);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(void);
@@ -79,6 +84,7 @@ int				type_redirec(char *s);
 char			*type_squote(char **s);
 char			*type_envar(char **s);
 char			*type_heredoc(char **s, char *token);	
+int				check_redirections(t_token_list *head);
 
 /* utils lexer */
 int				ft_get_type(char *literal);
