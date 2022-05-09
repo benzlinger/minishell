@@ -1,5 +1,14 @@
 #include "../include/minishell.h"
 
+/**
+ * 	FIXME
+ * 	if a file with type ROUT does not exist theres a problem
+ * 	this file can't be ROUT and CREAT at the same time.
+ *
+ * 	Also the types are sometimes off, might be related to the issue above
+ * 	but that is not necessarily the case.
+ */
+
 static int	get_last_redirec(t_token_list *head)
 {
 	t_token_list	*current;
