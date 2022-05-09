@@ -83,11 +83,8 @@ char	*insert_envar(char **s, t_data *data)
 	int		alloc_size;
 	char	*out;
 
-	if (!ft_strncmp(*s, "$?", 3))
-	{
-		out = ft_itoa(data->exitstatus);
-		free(*s);
-	}
+	if (has_exitstatus(*s))
+		out = replace_exitstatus(*s, data); //test
 	else
 	{
 		alloc_size = get_envar_info(*s, &envar_value);
