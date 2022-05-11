@@ -30,6 +30,7 @@ typedef enum e_type
 	ROUT,
 	TRUNC,
 	CREAT,
+	HIN,
 	UNKNOWN
 }		t_type;
 
@@ -122,6 +123,7 @@ void			ft_leaks(void);
 char			*ft_color_format_str(char *s, char *pre, char **tofree);
 void			print_2d_array(char **array);
 int				get_size_2d(char **arr);
+char			*get_type(int type);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);

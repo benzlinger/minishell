@@ -23,7 +23,7 @@ static int	get_last_redirec(t_token_list *head)
 		current = current->next;
 	}
 	current = head;
-	while (i > 0 && current != NULL)
+	while (current != NULL && i > 0)
 	{
 		if (current->type == REDIREC)
 			i--;
@@ -38,7 +38,7 @@ static void	set_rout(t_token_list *head, int i)
 	t_token_list	*current;
 
 	current = head;
-	while (current->index != i && current != NULL)
+	while (current != NULL && current->index != i)
 		current = current->next;
 	if (current->next != NULL)
 		current->next->type = ROUT;
@@ -69,9 +69,10 @@ static void	set_rin_rout(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
-		if (current->type == COMMAND && current->next != NULL)
-			if (current->next->token[0] == '<' && current->next->next != NULL)
-				current->next->next->type = RIN;
+		if (current->next != NULL && current->type == COMMAND)
+			if (current->next->next != NULL && current->next->token[0] == '<')
+				if (current->next->next->type != HIN)
+					current->next->next->type = RIN;
 		if (newpipe && rout_exists(head))
 		{
 			i = get_last_redirec(head);
@@ -112,12 +113,13 @@ static int	check_left_redirec(t_token_list *head)
 	current = head;
 	while (current->next != NULL)
 	{
-		if (current->type != COMMAND && current->next->token[0] == '<')
+		if (current->type != COMMAND && current->next->token[0] == '<'
+				&& current->next->type != HEREDOC)
 		{
 			ft_parse_error("Invalid redirection syntax near: ", current->token);
 			return (EXIT_FAILURE);
 		}
-		if (current->token[0] == '<')
+		if (current->token[0] == '<' && current->type != HEREDOC)
 		{
 			if (access(current->next->token, F_OK) != 0)
 			{
@@ -131,12 +133,24 @@ static int	check_left_redirec(t_token_list *head)
 	return (EXIT_SUCCESS);
 }
 
+static void	set_hin(t_token_list *head)
+{
+	t_token_list	*current;
+
+	current = head;
+	while (current != NULL && current->type != HEREDOC)
+		current = current->next;
+	if (current != NULL && current->next != NULL && current->type == HEREDOC)
+		current->next->type = HIN;
+}
+
 int	check_redirections(t_token_list *head)
 {
 	if (redirection_found(head) == false)
 		return (EXIT_SUCCESS);
 	if (check_left_redirec(head) != 0)
 		return (EXIT_FAILURE);
+	set_hin(head);
 	set_rin_rout(head);
 	set_flag_types(head);
 	ft_print_list(head);

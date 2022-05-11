@@ -3,10 +3,7 @@
 static int	check_tokens_via_type2(t_token_list *cur)
 {
 	if (cur->type == HEREDOC)
-	{
-		cur->token[1] = '\0';
 		cur->next->token = type_heredoc(&cur->next->token, cur->next->token);
-	}
 	if (cur->type == REDIREC)
 		if (type_redirec(cur->token) != 0)
 			return (EXIT_FAILURE);

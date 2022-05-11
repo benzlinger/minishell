@@ -5,24 +5,25 @@
 
 #include "../include/minishell.h"
 
-static char	*get_type(int type)
+char	*get_type(int type)
 {
 	switch(type)
 	{
-		case 0:		return ("COMMAND");	break;
-		case 1: 	return ("BUILTIN");	break;
-		case 2:		return ("ENVAR");	break;
-		case 3:		return ("FLAG");	break;
-		case 4:		return ("DQUOTE");	break;
-		case 5:		return ("SQUOTE");	break;
-		case 6:		return ("REDIREC");	break;
-		case 7:		return ("HEREDOC");	break;
-		case 8:		return ("PIPE");	break;
-		case 9:		return ("RIN");		break;
-		case 10:	return ("ROUT");	break;
-		case 11:	return ("TRUNC");	break;
-		case 12:	return ("CREAT");	break;
-		default:	return ("UNKNOWN");	break;
+		case 0:		return ("\e[93mCOMMAND\e[0m");	break;
+		case 1: 	return ("\e[93mBUILTIN\e[0m");	break;
+		case 2:		return ("\e[93mENVAR\e[0m");	break;
+		case 3:		return ("\e[93mFLAG\e[0m");		break;
+		case 4:		return ("\e[93mDQUOTE\e[0m");	break;
+		case 5:		return ("\e[93mSQUOTE\e[0m");	break;
+		case 6:		return ("\e[93mREDIREC\e[0m");	break;
+		case 7:		return ("\e[93mHEREDOC\e[0m");	break;
+		case 8:		return ("\e[93mPIPE\e[0m");		break;
+		case 9:		return ("\e[93mRIN\e[0m");		break;
+		case 10:	return ("\e[93mROUT\e[0m");		break;
+		case 11:	return ("\e[93mTRUNC\e[0m");	break;
+		case 12:	return ("\e[93mCREAT\e[0m");	break;
+		case 13:	return ("\e[93mHIN\e[0m");		break;
+		case 14:	return ("\e[93mUNKNOWN\e[0m");	break;
 	}
 	return (NULL);
 }
