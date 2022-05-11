@@ -65,6 +65,8 @@ typedef struct s_data
 	char			*command;
 	char			**varray;
 	int				exitstatus;
+	bool			redirec_exists;
+	bool			pipe_exists;
 }		t_data;
 
 /* main functions */

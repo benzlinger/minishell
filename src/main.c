@@ -74,6 +74,8 @@ static t_data	*init_data(char **env_list)
 		ft_exec_error("Init failed.", NULL);
 	data->env_list = env_list;
 	data->exitstatus = 0;
+	data->redirec_exists = false;
+	data->pipe_exists = false;
 	return (data);
 }
 
