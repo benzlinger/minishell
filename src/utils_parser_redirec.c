@@ -22,6 +22,14 @@ static int	get_last_redirec(t_token_list *head)
 			i++;
 		current = current->next;
 	}
+	current = head;
+	while (i > 0 && current != NULL)
+	{
+		if (current->type == REDIREC)
+			i--;
+		current = current->next;
+	}
+	i = current->index - 1;
 	return (i);
 }
 
@@ -32,7 +40,23 @@ static void	set_rout(t_token_list *head, int i)
 	current = head;
 	while (current->index != i && current != NULL)
 		current = current->next;
-	current->type = ROUT;
+	if (current->next != NULL)
+		current->next->type = ROUT;
+}
+
+static bool	rout_exists(t_token_list *head)
+{
+	t_token_list	*current;
+
+	current = head;
+	while (current != NULL)
+	{
+		if (current->type == REDIREC)
+			if (current->token[0] == '>')
+				return (true);
+		current = current->next;
+	}
+	return (false);
 }
 
 static void	set_rin_rout(t_token_list *head)
@@ -48,9 +72,9 @@ static void	set_rin_rout(t_token_list *head)
 		if (current->type == COMMAND && current->next != NULL)
 			if (current->next->token[0] == '<' && current->next->next != NULL)
 				current->next->next->type = RIN;
-		if (newpipe)
+		if (newpipe && rout_exists(head))
 		{
-			i = get_last_redirec(current);
+			i = get_last_redirec(head);
 			set_rout(head, i);
 			newpipe = false;
 		}
