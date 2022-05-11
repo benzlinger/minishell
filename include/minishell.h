@@ -75,6 +75,7 @@ char			*msh_parser(t_token_list *head);
 int				msh_executer(t_data *data);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(void);
+void			msh_compatibility(t_data *data);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
@@ -113,10 +114,6 @@ char			*get_name(char *s);
 char			*get_value(char *s);
 int				show_vars(t_vars *head);
 t_vars			*new_var(char *name, char *value);
-
-/* testing redirection functions */
-void			ft_redirect(char **cmd_line, t_data *data);
-bool			redirection_found(t_token_list *head);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);

@@ -74,8 +74,6 @@ static t_data	*init_data(char **env_list)
 		ft_exec_error("Init failed.", NULL);
 	data->env_list = env_list;
 	data->exitstatus = 0;
-	data->redirec_exists = false;
-	data->pipe_exists = false;
 	return (data);
 }
 
@@ -102,6 +100,7 @@ static void	msh_loop(char **env_list)
 			add_history(data->line);
 			data->tokens = msh_lexer(data->line);
 			data->command = msh_parser(data->tokens);
+			msh_compatibility(data);
 			//if command == NULL a parse error occured and a new
 			//prompt will be displayed
 			if (data->command != NULL)
