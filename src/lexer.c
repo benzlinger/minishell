@@ -20,6 +20,18 @@ static t_token_list	*init_token_list(char *literal)
 	return (head);
 }
 
+void	remove_token_node(t_token_list *head, t_token_list **node)
+{
+	t_token_list	*current;
+
+	current = head;
+	while (current->next != NULL && current->next == *node)
+		current = current->next;
+	current->next = current->next->next;
+	free(node[0]->token);
+	free(*node);
+}
+
 /**
  * 	@brief	function to add token nodes to the linked list
  *	@param	literal: complete command prompt
