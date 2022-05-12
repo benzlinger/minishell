@@ -84,7 +84,7 @@ char	*insert_envar(char **s, t_data *data)
 	char	*out;
 
 	if (has_exitstatus(*s))
-		out = replace_exitstatus(*s, data); //test
+		out = replace_exitstatus(*s, data);
 	else
 	{
 		alloc_size = get_envar_info(*s, &envar_value);
