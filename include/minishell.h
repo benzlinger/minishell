@@ -77,6 +77,9 @@ t_vars			*init_vars(char **env_list);
 void			init_signal_handling(void);
 void			msh_compatibility(t_data *data);
 
+/* utils executer */
+void			ft_redirec(char **cmd_line, t_data *data);
+
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
 char			*type_command(char **s);
