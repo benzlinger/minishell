@@ -43,7 +43,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	if (pid == 0)
 	{
 		if (data->redirec_exists)
-			ft_redirec(cmd_line, data);
+			cmd_line = ft_redirec(cmd_line, data);
 		execve(cmd_line[0], cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}

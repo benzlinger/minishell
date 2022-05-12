@@ -96,6 +96,7 @@ char			*type_heredoc(char **s, char *token);
 int				check_redirections(t_token_list *head);
 
 /* utils lexer */
+void			remove_token_node(t_token_list *head, t_token_list **node);
 int				ft_get_type(char *literal);
 bool			ft_check_eof(char *s);
 int				ft_get_pipe_index(char **prompt, int pos);
