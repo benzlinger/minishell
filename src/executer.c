@@ -29,6 +29,50 @@ static char	**export_cmd(char *cmd)
 	return (ex_array);
 }
 
+static char	***get_cmds(char *cmd_line)
+{
+	char	**cmd_array;
+	char	***cmds;
+	int		i;
+	int		j;
+
+	cmd_array = ft_split(cmd_line, '|');
+	if (!cmd_array)
+		return (NULL);
+	i = 0;
+	while (cmd_array[i])
+		i++;
+	cmds = malloc(sizeof(char **) * i + 1);
+	if (!cmds)
+		return (NULL);
+	j = 0;
+	while (j < i)
+	{
+		cmds[j] = ft_split(cmd_array[j], ',');
+		j++;
+	}
+	cmds[j] = NULL;
+	free_2d_array(cmd_array);
+	i = 0;
+	return (cmds);
+}
+
+static int	has_pipe(char *cmd_line)
+{
+	int	i;
+
+	if (!cmd_line)
+		return (0);
+	i = 0;
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == '|' && cmd_line[i + 1])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /**	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
  *	@param	cmd_line command line
@@ -100,4 +144,26 @@ int	msh_executer(t_data *data)
 		exec_not_builtin(cmd_line, data);
 	free_2d_array(cmd_line);
 	return (status);
+}
+
+static int	pipe_exec(t_data *data)
+{
+	char	***cmds;
+	int		fd[2];
+	int		pid;
+
+	if (has_pipe(data->command))
+	{
+		cmds = get_cmds(data->command);
+		if (!cmds)
+			return (EXIT_FAILURE);
+		if (pipe(fd) == -1)
+			ft_error(strerror(errno));
+		pid = fork();
+		if (pid == -1)
+			ft_error(strerror(errno));
+	}
+	else
+		msh_executer(data);
+	return (EXIT_SUCCESS);
 }
