@@ -46,6 +46,7 @@ typedef struct s_token_list
 	int					index;
 	char				*token;
 	t_type				type;
+	int					fd;
 	struct s_token_list	*next;
 }		t_token_list;
 
@@ -76,6 +77,7 @@ int				msh_executer(t_data *data);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(void);
 void			msh_compatibility(t_data *data);
+bool			redirection_found(t_token_list *head);
 
 /* utils executer */
 void			ft_redirec(char **cmd_line, t_data *data);

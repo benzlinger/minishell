@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static bool	redirection_found(t_token_list *head)
+bool	redirection_found(t_token_list *head)
 {
 	t_token_list	*current;
 
