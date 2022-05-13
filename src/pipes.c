@@ -35,7 +35,11 @@ static char	***get_cmds(char *cmd_line)
 	j = 0;
 	while (j < i)
 	{
-		cmds[j] = ft_split(cmd_array[j], ',');
+		if (!ft_strncmp(cmd_array[j], "export", 6)
+			|| !ft_strncmp(cmd_array[j], "unset", 5))
+			cmds[j] = export_cmd(cmd_array[j]);
+		else
+			cmds[j] = ft_split(cmd_array[j], ',');
 		j++;
 	}
 	cmds[j] = NULL;
@@ -65,6 +69,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int *fd, int
 int	pipe_exec(t_data *data)
 {
 	char	***cmds;
+	char	**cmd_line;
 	int		i;
 	int		fd[2];
 	int		ret;
@@ -99,6 +104,13 @@ int	pipe_exec(t_data *data)
 		ret = data->status;
 	}
 	else
-		ret = msh_executer(data, NULL);
+	{
+		if (!ft_strncmp(data->command, "export", 6)
+			|| !ft_strncmp(data->command, "unset", 5))
+			cmd_line = export_cmd(data->command);
+		else
+			cmd_line = ft_split(data->command, ',');
+		ret = msh_executer(data, cmd_line);
+	}
 	return (ret);
 }

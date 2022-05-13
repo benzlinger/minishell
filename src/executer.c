@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static char	**export_cmd(char *cmd)
+char	**export_cmd(char *cmd)
 {
 	char	*ex_cmd;
 	char	**ex_array;
@@ -63,17 +63,11 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
  *	@param	data struct containing command and env vars
  *	@return	if function succeeded
  */
-int	msh_executer(t_data *data, char **command)
+int	msh_executer(t_data *data, char **cmd_line)
 {
 	int		status;
-	char	**cmd_line;
-	char	**exp_cmd;
 
 	status = 1;
-	if (!command)
-		cmd_line = ft_split(data->command, ',');
-	else
-		cmd_line = command;
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
@@ -83,17 +77,9 @@ int	msh_executer(t_data *data, char **command)
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		ft_env(data, cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-	{
-		exp_cmd = export_cmd(data->command);
-		ft_export(data, exp_cmd);
-		free_2d_array(exp_cmd);
-	}
+		ft_export(data, cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
-	{
-		exp_cmd = export_cmd(data->command);
-		data->vars = ft_unset(exp_cmd, data);
-		free_2d_array(exp_cmd);
-	}
+		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
