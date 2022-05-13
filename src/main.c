@@ -83,6 +83,7 @@ static t_data	*init_data(char **env_list)
 		ft_exec_error("Init failed.", NULL);
 	data->env_list = env_list;
 	data->exitstatus = 0;
+	data->status = 1;
 	return (data);
 }
 
@@ -111,7 +112,8 @@ static void	msh_loop(t_data *data)
 			//prompt will be displayed
 			if (data->command != NULL)
 			{
-				status = msh_executer(data);
+				// status = msh_executer(data);
+				status = pipe_exec(data);
 				free(data->command);
 			}
 			ft_free_tokens(&data->tokens);
