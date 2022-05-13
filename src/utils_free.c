@@ -54,3 +54,19 @@ void	free_2d_array(char **arr)
 		free(arr);
 	}
 }
+
+void	free_3d_array(char ***arr)
+{
+	int	i;
+
+	if (arr)
+	{
+		i = 0;
+		while (arr[i])
+		{
+			free_2d_array(arr[i]);
+			i++;
+		}
+		free(arr);
+	}
+}
