@@ -61,7 +61,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 
 int	exec_nopipe(t_data *data)
 {
-	char **cmd_line;
+	char	**cmd_line;
 
 	if (!ft_strncmp(data->command, "export", 6)
 		|| !ft_strncmp(data->command, "unset", 5))
