@@ -59,6 +59,18 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	return (0);
 }
 
+int	exec_nopipe(t_data *data)
+{
+	char **cmd_line;
+
+	if (!ft_strncmp(data->command, "export", 6)
+		|| !ft_strncmp(data->command, "unset", 5))
+		cmd_line = export_cmd(data->command);
+	else
+		cmd_line = ft_split(data->command, ',');
+	return (msh_executer(data, cmd_line));
+}
+
 /**	@brief	execute builtin commands
  *	@param	data struct containing command and env vars
  *	@return	if function succeeded

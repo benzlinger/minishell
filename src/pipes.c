@@ -48,19 +48,19 @@ static char	***get_cmds(char *cmd_line)
 	return (cmds);
 }
 
-static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int *fd, int i)
+static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 {
 	if (cmds[i + 1])
 	{
 		dup2(*myfd, STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
+		dup2(data->fd[1], STDOUT_FILENO);
+		close(data->fd[0]);
 		data->status = msh_executer(data, cmds[i]);
 	}
 	else
 	{
 		dup2(*myfd, STDIN_FILENO);
-		close(fd[0]);
+		close(data->fd[0]);
 		data->status = msh_executer(data, cmds[i]);
 	}
 	exit(1);
@@ -69,9 +69,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int *fd, int
 int	pipe_exec(t_data *data)
 {
 	char	***cmds;
-	char	**cmd_line;
 	int		i;
-	int		fd[2];
 	int		ret;
 	int		myfd;
 
@@ -82,21 +80,21 @@ int	pipe_exec(t_data *data)
 		myfd = 0;
 		while (cmds[i])
 		{
-			if (pipe(fd) == -1)
+			if (pipe(data->fd) == -1)
 				ft_error(strerror(errno));
 			data->pid = fork();
 			if (data->pid == -1)
 				ft_error(strerror(errno));
 			if (data->pid == 0)
 			{
-				pipe_exec_helper(cmds, data, &myfd, fd, i);
+				pipe_exec_helper(cmds, data, &myfd, i);
 				ft_error(strerror(errno));
 			}
 			else
 			{
 				waitpid(data->pid, NULL, 0);
-				close(fd[1]);
-				myfd = fd[0];
+				close(data->fd[1]);
+				myfd = data->fd[0];
 			}
 			i++;
 		}
@@ -104,13 +102,6 @@ int	pipe_exec(t_data *data)
 		ret = data->status;
 	}
 	else
-	{
-		if (!ft_strncmp(data->command, "export", 6)
-			|| !ft_strncmp(data->command, "unset", 5))
-			cmd_line = export_cmd(data->command);
-		else
-			cmd_line = ft_split(data->command, ',');
-		ret = msh_executer(data, cmd_line);
-	}
+		ret = exec_nopipe(data);
 	return (ret);
 }
