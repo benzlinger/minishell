@@ -59,14 +59,17 @@ typedef struct s_data
 	char			*command;
 	char			**varray;
 	int				exitstatus;
+	pid_t			pid;
+	int				status;
 }		t_data;
 
 /* main functions */
 t_token_list	*msh_lexer(char *line);
 char			*msh_parser(t_data *data);
-int				msh_executer(t_data *data);
+int				msh_executer(t_data *data, char **command);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(int exit);
+int				pipe_exec(t_data *data); //test
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
@@ -99,6 +102,7 @@ void			ft_exec_error(char *err_msg1, t_data *data);
 void			free_2d_array(char **arr);
 void			free_vars(t_vars *head);
 void			ft_free_tokens(t_token_list **tokens);
+void			free_3d_array(char ***arr);
 
 /* utils export */
 int				name_len(char *s);
