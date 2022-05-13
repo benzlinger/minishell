@@ -1,5 +1,9 @@
 #include "../include/minishell.h"
 
+/**	@brief	check if command line contains pipes
+ *	@param	cmd_line command line
+ *	@return	1 if there are pipes, 0 if not
+ */
 static int	has_pipe(char *cmd_line)
 {
 	int	i;
@@ -16,6 +20,10 @@ static int	has_pipe(char *cmd_line)
 	return (0);
 }
 
+/**	@brief	parse commandline with pipes into seperate commands
+ *	@param	cmd_line command line
+ *	@return	3d array with commands
+ */
 static char	***get_cmds(char *cmd_line)
 {
 	char	**cmd_array;
@@ -48,6 +56,13 @@ static char	***get_cmds(char *cmd_line)
 	return (cmds);
 }
 
+/**	@brief	redirecting output to next command after pipe
+ * 			--> exits because its a child process
+ *	@param	cmds 3d array containing all commands without pipes
+ *	@param	data datastruct
+ *	@param	myfd file descriptor to redirect to
+ *	@param	i counter from pipe_exec
+ */
 static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 {
 	if (cmds[i + 1])
@@ -66,6 +81,10 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 	exit(1);
 }
 
+/**	@brief	check for pipes, and redirects output before execution
+ *	@param	data datastruct
+ *	@return	status for msh_loop
+ */
 int	pipe_exec(t_data *data)
 {
 	char	***cmds;

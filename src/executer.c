@@ -1,5 +1,9 @@
 #include "../include/minishell.h"
 
+/**	@brief	parse commandline for export and unset (special case with = symbol)
+ *	@param	cmd command line
+ *	@return	command line for export and unset
+ */
 char	**export_cmd(char *cmd)
 {
 	char	*ex_cmd;
@@ -59,6 +63,10 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	return (0);
 }
 
+/**	@brief	parse command for executer without pipes
+ *	@param	data datastruct
+ *	@return	status for msh_loop
+ */
 int	exec_nopipe(t_data *data)
 {
 	char	**cmd_line;
