@@ -47,11 +47,32 @@ static void	handle_types(t_token_list *head)
 	}
 }
 
-static void	remove_redirec(char **command)
+static char	*remove_redirec(char **command)
 {
-	//the redirections need to be replaced in command with commas
-	//a new string has to be allocated and returned
-	//the old command string needs to be freed
+	char	*new_cmd;
+	int		i;
+	int		j;
+
+	new_cmd = ft_calloc(ft_strlen(*command) + 1, sizeof(char));
+	if (new_cmd == NULL)
+		ft_error(strerror(errno));
+	i = 0;
+	j = 0;
+	while (command[0][i])
+	{
+		while ((command[0][i] == '<' || command[0][i] == '>') && command[0][i])
+		{
+			i++;
+		}
+		if (command[0][i])
+		{
+			new_cmd[j] = command[0][i];
+			i++;
+			j++;
+		}
+	}
+	free(*command);
+	return (new_cmd);
 }
 
 char	**ft_redirec(char **cmd_line, t_data *data)

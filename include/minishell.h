@@ -80,7 +80,7 @@ void			msh_compatibility(t_data *data);
 bool			redirection_found(t_token_list *head);
 
 /* utils executer */
-void			ft_redirec(char **cmd_line, t_data *data);
+char			**ft_redirec(char **cmd_line, t_data *data);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
