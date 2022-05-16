@@ -14,6 +14,12 @@ static void	handle_sigint(void)
 	rl_redisplay();
 }
 
+// static void	handle_sigint(void)
+// {
+// 	rl_on_new_line();
+// 	write(1, "\n", 1);
+// }
+
 /**
  * 	@brief	makes the signal ctrl+'\' do nothing
  * 	@NORM	remove pid and system leaks stuff
