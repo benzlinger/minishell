@@ -119,6 +119,7 @@ int	pipe_exec(t_data *data)
 			}
 			i++;
 		}
+		close(data->fd[0]);
 		free_3d_array(cmds);
 		ret = data->status;
 	}
