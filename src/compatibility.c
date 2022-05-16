@@ -5,7 +5,7 @@ bool	heredoc_found(t_token_list *head)
 	t_token_list	*current;
 
 	current = head;
-	while (current != NULL)
+	while (current != NULL && current->type != PIPE)
 	{
 		if (current->type == HEREDOC)
 			return (true);
@@ -19,7 +19,7 @@ bool	redirection_found(t_token_list *head)
 	t_token_list	*current;
 
 	current = head;
-	while (current != NULL)
+	while (current != NULL && current->type != PIPE)
 	{
 		if (current->type == REDIREC)
 			return (true);

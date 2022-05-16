@@ -1,5 +1,8 @@
 #include "../include/minishell.h"
 
+/**
+ * 	@brief creates a file
+ */
 void	create_file(t_token_list *node)
 {
 	node->fd = open(node->token, O_RDWR | O_CREAT, 0666);
@@ -9,6 +12,9 @@ void	create_file(t_token_list *node)
 		ft_error(strerror(errno));
 }
 
+/**
+ * 	@brief	truncates a file
+ */
 void	truncate_file(t_token_list *node)
 {
 	node->fd = open(node->token, O_WRONLY | O_TRUNC);
@@ -18,6 +24,10 @@ void	truncate_file(t_token_list *node)
 		ft_error(strerror(errno));
 }
 
+/**
+ * 	@brief	redirects, truncates or appends, output to a file
+ * 			if it does not exist it is first created
+ */
 void	redirec_output(t_token_list *node, bool append)
 {
 	if (access(node->token, F_OK) == 0)
@@ -37,6 +47,10 @@ void	redirec_output(t_token_list *node, bool append)
 		ft_error(strerror(errno));
 }
 
+/**
+ * 	@brief	creates or overwrites a file called .tmp.txt with the contents from
+ * 			the heredoc and redirects the file to STDIN
+ */
 void	redirec_heredoc_input(t_token_list *node)
 {
 	if (access(".tmp.txt", F_OK) == 0)
@@ -56,6 +70,9 @@ void	redirec_heredoc_input(t_token_list *node)
 		ft_error(strerror(errno));
 }
 
+/**
+ *	@brief	redirects content from node->token to STDIN
+ */
 void	redirec_input(t_token_list *node)
 {
 	node->fd = open(node->token, O_RDONLY);

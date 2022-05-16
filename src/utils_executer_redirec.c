@@ -1,5 +1,8 @@
 #include "../include/minishell.h"
 
+/**
+ * 	@brief	checks if a redirec is a append redirec
+ */
 static bool	set_append(t_token_list *node)
 {
 	if (node->type != REDIREC)
@@ -10,6 +13,9 @@ static bool	set_append(t_token_list *node)
 		return (false);
 }
 
+/**
+ * 	@brief	handles redirec and heredoc depending on the types
+ */
 static void	handle_types(t_token_list *head)
 {
 	t_token_list	*current;
@@ -34,6 +40,9 @@ static void	handle_types(t_token_list *head)
 	}
 }
 
+/**
+ * 	@brief	norm function
+ */
 static void	increment_until_next_comma(char *cmd, int *i)
 {
 	int	j;
@@ -46,6 +55,9 @@ static void	increment_until_next_comma(char *cmd, int *i)
 	*i = j;
 }
 
+/**
+ * 	@brief	removes redirections and heredocs and the filename after them
+ */
 static char	*remove_redirec(char **command)
 {
 	char	*new_cmd;
@@ -72,6 +84,13 @@ static char	*remove_redirec(char **command)
 	return (new_cmd);
 }
 
+/**
+ * 	@brief	handles redirections and heredocs
+ * 	@param	cmd_line: the old 2d command line
+ * 	@param	data: data struct
+ * 	@return	a new 2d command line with removed redirections and tailored to the
+ * 			commands
+ */
 char	**ft_redirec(char **cmd_line, t_data *data)
 {
 	char	**new_cmd_line;
