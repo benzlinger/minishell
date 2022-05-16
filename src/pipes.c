@@ -65,17 +65,19 @@ static char	***get_cmds(char *cmd_line)
  */
 static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 {
-	if (cmds[i + 1])
+	if (cmds[i + 1]) //first or middle pipe
 	{
+		close(data->fd[0]);
 		dup2(*myfd, STDIN_FILENO);
 		dup2(data->fd[1], STDOUT_FILENO);
-		close(data->fd[0]);
 		data->status = msh_executer(data, cmds[i]);
+		close(data->fd[1]);
 	}
-	else
+	else //last pipe (end of command)
 	{
-		dup2(*myfd, STDIN_FILENO);
 		close(data->fd[0]);
+		close(data->fd[1]);
+		dup2(*myfd, STDIN_FILENO);
 		data->status = msh_executer(data, cmds[i]);
 	}
 	exit(1);
