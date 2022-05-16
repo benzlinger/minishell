@@ -10,3 +10,4 @@ OLD*
 *.swp
 testing/
 file*
+.tmp.txt

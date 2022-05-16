@@ -101,8 +101,6 @@ static void	msh_loop(char **env_list)
 			data->tokens = msh_lexer(data->line);
 			data->command = msh_parser(data->tokens);
 			msh_compatibility(data);
-			//if command == NULL a parse error occured and a new
-			//prompt will be displayed
 			if (data->command != NULL)
 			{
 				status = msh_executer(data);

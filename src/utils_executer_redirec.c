@@ -1,16 +1,5 @@
 #include "../include/minishell.h"
 
-static void	redirec_input(t_token_list *node)
-{
-	node->fd = open(node->token, O_RDONLY);
-	if (node->fd == -1)
-		ft_error(strerror(errno));
-	if (dup2(node->fd, STDIN_FILENO) == -1)
-		ft_error(strerror(errno));
-	if (close(node->fd) == -1)
-		ft_error(strerror(errno));
-}
-
 static bool	set_append(t_token_list *node)
 {
 	if (node->type != REDIREC)
@@ -33,9 +22,9 @@ static void	handle_types(t_token_list *head)
 		append = set_append(current);
 		if (current->type == RIN)
 			redirec_input(current);
-		/*
 		else if (current->type == HIN)
 			redirec_heredoc_input(current);
+		/*
 		else if (current->type == ROUT)
 			redirec_output(current, append);
 		else if (current->type == TRUNC)
@@ -45,6 +34,18 @@ static void	handle_types(t_token_list *head)
 		*/
 		current = current->next;
 	}
+}
+
+static void	increment_until_next_comma(char *cmd, int *i)
+{
+	int	j;
+
+	j = *i;
+	cmd[j + 1] = ' ';
+	cmd[j + 2] = ' ';
+	while (cmd[j] && cmd[j] != ',')
+		j++;
+	*i = j;
 }
 
 static char	*remove_redirec(char **command)
@@ -61,9 +62,7 @@ static char	*remove_redirec(char **command)
 	while (command[0][i])
 	{
 		while ((command[0][i] == '<' || command[0][i] == '>') && command[0][i])
-		{
-			i++;
-		}
+			increment_until_next_comma(*command, &i);
 		if (command[0][i])
 		{
 			new_cmd[j] = command[0][i];
@@ -80,8 +79,11 @@ char	**ft_redirec(char **cmd_line, t_data *data)
 	char	**new_cmd_line;
 
 	handle_types(data->tokens);
+	//printf("%s\n", data->command);
 	data->command = remove_redirec(&data->command);
+	//printf("%s\n", data->command);
 	new_cmd_line = ft_split(data->command, ',');
+	//print_2d_array(new_cmd_line);
 	free_2d_array(cmd_line);
 	return (new_cmd_line);
 }

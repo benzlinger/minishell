@@ -137,7 +137,7 @@ static void	set_hin(t_token_list *head)
 
 int	check_redirections(t_token_list *head)
 {
-	if (redirection_found(head) == false)
+	if (!redirection_found(head) && !heredoc_found(head))
 		return (EXIT_SUCCESS);
 	if (check_left_redirec(head) != 0)
 		return (EXIT_FAILURE);

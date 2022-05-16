@@ -36,7 +36,7 @@ SRC =	$(SRC_PATH)main.c					$(SRC_PATH)lexer.c\
 		$(SRC_PATH)unset.c					$(SRC_PATH)utils_general.c\
 		$(SRC_PATH)utils_parser_dquote2.c	$(SRC_PATH)utils_parser_heredoc.c\
 		$(SRC_PATH)utils_parser_redirec.c	$(SRC_PATH)compatibility.c\
-		$(SRC_PATH)utils_executer_redirec.c\
+		$(SRC_PATH)utils_executer_redirec.c $(SRC_PATH)utils_executer_redirec2.c\
 		$(SRC_PATH)debug.c
 
 # OBJECTS
@@ -73,6 +73,7 @@ clean:
 			echo "No objects to remove."; \
 	fi;
 	@$(MAKE) -C libft clean
+	@rm -f .tmp.txt
 
 fclean: clean
 	@if [ -f "$(NAME)" ]; then \

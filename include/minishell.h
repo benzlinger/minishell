@@ -67,6 +67,7 @@ typedef struct s_data
 	char			**varray;
 	int				exitstatus;
 	bool			redirec_exists;
+	bool			heredoc_exists;
 	bool			pipe_exists;
 }		t_data;
 
@@ -78,9 +79,12 @@ t_vars			*init_vars(char **env_list);
 void			init_signal_handling(void);
 void			msh_compatibility(t_data *data);
 bool			redirection_found(t_token_list *head);
+bool			heredoc_found(t_token_list *head);
 
 /* utils executer */
 char			**ft_redirec(char **cmd_line, t_data *data);
+void			redirec_input(t_token_list *node);
+void			redirec_heredoc_input(t_token_list *head);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
