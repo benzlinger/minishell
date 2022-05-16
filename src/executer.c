@@ -58,7 +58,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 		if (WIFEXITED(status))
 			data->exitstatus = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			printf("test\n"); //FIXME: close execve using signal
+			data->exitstatus = 130;
 	}
 	return (0);
 }
@@ -95,7 +95,7 @@ int	msh_executer(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
 		data->exitstatus = ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		ft_env(data, cmd_line);
+		data->exitstatus = ft_env(data, cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 		ft_export(data, cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
