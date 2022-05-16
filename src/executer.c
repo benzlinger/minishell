@@ -88,6 +88,8 @@ int	msh_executer(t_data *data, char **cmd_line)
 	int		status;
 
 	status = 1;
+	// write(2, cmd_line[0], ft_strlen(cmd_line[0]));
+	// write(2, "\n", 1);
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
