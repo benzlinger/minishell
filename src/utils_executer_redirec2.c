@@ -1,5 +1,14 @@
 #include "../include/minishell.h"
 
+void	create_file(t_token_list *node)
+{
+	node->fd = open(node->token, O_RDWR | O_CREAT, 0666);
+	if (node->fd == -1)
+		ft_error(strerror(errno));
+	if (close(node->fd) == -1)
+		ft_error(strerror(errno));
+}
+
 void	truncate_file(t_token_list *node)
 {
 	node->fd = open(node->token, O_WRONLY | O_TRUNC);

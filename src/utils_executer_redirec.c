@@ -27,10 +27,8 @@ static void	handle_types(t_token_list *head)
 			redirec_output(current, append);
 		else if (current->type == TRUNC)
 			truncate_file(current);
-		/*
 		else if (current->type == CREAT)
 			create_file(current);
-		*/
 		append = set_append(current);
 		current = current->next;
 	}
@@ -79,11 +77,8 @@ char	**ft_redirec(char **cmd_line, t_data *data)
 	char	**new_cmd_line;
 
 	handle_types(data->tokens);
-	//printf("%s\n", data->command);
 	data->command = remove_redirec(&data->command);
-	//printf("%s\n", data->command);
 	new_cmd_line = ft_split(data->command, ',');
-	//print_2d_array(new_cmd_line);
 	free_2d_array(cmd_line);
 	return (new_cmd_line);
 }
