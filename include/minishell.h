@@ -84,7 +84,8 @@ bool			heredoc_found(t_token_list *head);
 /* utils executer */
 char			**ft_redirec(char **cmd_line, t_data *data);
 void			redirec_input(t_token_list *node);
-void			redirec_heredoc_input(t_token_list *head);
+void			redirec_heredoc_input(t_token_list *node);
+void			redirec_output(t_token_list *node, bool append);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);

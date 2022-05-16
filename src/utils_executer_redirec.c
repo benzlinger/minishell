@@ -15,23 +15,23 @@ static void	handle_types(t_token_list *head)
 	t_token_list	*current;
 	bool			append;
 
+	append = false;
 	current = head;
 	while (current != NULL)
 	{
-		// FIXME move append to ROUT func
-		append = set_append(current);
 		if (current->type == RIN)
 			redirec_input(current);
 		else if (current->type == HIN)
 			redirec_heredoc_input(current);
-		/*
 		else if (current->type == ROUT)
 			redirec_output(current, append);
+		/*
 		else if (current->type == TRUNC)
 			truncate_file(current);
 		else if (current->type == CREAT)
 			create_file(current);
 		*/
+		append = set_append(current);
 		current = current->next;
 	}
 }
