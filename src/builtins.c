@@ -78,7 +78,7 @@ int	ft_pwd(char **cmd_line)
 
 	if (cmd_line[1])
 	{
-		ft_exec_error("env: no flags or arguments supported.", NULL);
+		ft_exec_error("pwd: no flags or arguments supported.", NULL);
 		return (EXIT_FAILURE);
 	}
 	path = getcwd(NULL, 0);
