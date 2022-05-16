@@ -25,9 +25,9 @@ static void	handle_types(t_token_list *head)
 			redirec_heredoc_input(current);
 		else if (current->type == ROUT)
 			redirec_output(current, append);
-		/*
 		else if (current->type == TRUNC)
 			truncate_file(current);
+		/*
 		else if (current->type == CREAT)
 			create_file(current);
 		*/

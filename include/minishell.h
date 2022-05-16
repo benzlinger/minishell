@@ -86,6 +86,7 @@ char			**ft_redirec(char **cmd_line, t_data *data);
 void			redirec_input(t_token_list *node);
 void			redirec_heredoc_input(t_token_list *node);
 void			redirec_output(t_token_list *node, bool append);
+void			truncate_file(t_token_list *node);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);

@@ -1,5 +1,14 @@
 #include "../include/minishell.h"
 
+void	truncate_file(t_token_list *node)
+{
+	node->fd = open(node->token, O_WRONLY | O_TRUNC);
+	if (node->fd == -1)
+		ft_error(strerror(errno));
+	if (close(node->fd) == -1)
+		ft_error(strerror(errno));
+}
+
 void	redirec_output(t_token_list *node, bool append)
 {
 	if (access(node->token, F_OK) == 0)
