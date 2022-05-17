@@ -3,10 +3,7 @@
 static int	check_tokens_via_type2(t_token_list *cur)
 {
 	if (cur->type == HEREDOC)
-	{
-		cur->token[1] = '\0';
 		cur->next->token = type_heredoc(&cur->next->token, cur->next->token);
-	}
 	if (cur->type == REDIREC)
 		if (type_redirec(cur->token) != 0)
 			return (EXIT_FAILURE);
@@ -81,17 +78,19 @@ static int	get_command_types(t_token_list *head)
 
 /**
  * 	@brief	checks input for errors and returns a rdy-to-run command string
- * 	@param	tokens: linked list from lexer
+ * 	@param	head: linked list from lexer
  * 	@return	ready-to-run command string
  */
-char	*msh_parser(t_token_list *tokens)
+char	*msh_parser(t_token_list *head)
 {
 	char	*command;
 
-	if (check_tokens_via_type(tokens) != 0)
+	if (check_tokens_via_type(head) != 0)
 		return (NULL);
-	if (get_command_types(tokens) != 0)
+	if (get_command_types(head) != 0)
 		return (NULL);
-	command = ft_list_to_str(tokens, ',');
+	if (check_redirections(head) != 0)
+		return (NULL);
+	command = ft_list_to_str(head, ',');
 	return (command);
 }

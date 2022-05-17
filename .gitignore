@@ -8,3 +8,6 @@ README.md
 TODO.txt
 OLD*
 *.swp
+testing/
+file*
+.tmp.txt
