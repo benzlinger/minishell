@@ -64,7 +64,7 @@ bool	ft_check_eof(char *s)
 	int	i;
 
 	if (s == NULL)
-		ft_exit(EOF);
+		ft_exit_eof(EOF);
 	i = 0;
 	while (s[i])
 	{
