@@ -101,6 +101,7 @@ char			*ft_delimit_line(char *pline, int i, int j);
 /* utils error */
 void			ft_error(char *err_msg);
 void			ft_exit(int err_code);
+void			ft_exit_eof(int err_code);
 char			*ft_parse_error(char *err_msg1, char *err_msg2);
 void			ft_exec_error(char *err_msg1, t_data *data);
 
