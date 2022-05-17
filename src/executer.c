@@ -33,19 +33,6 @@ char	**export_cmd(char *cmd)
 	return (ex_array);
 }
 
-int	ft_wait(int pid)
-{
-	int	status;
-	int	exit;
-
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		exit = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		exit = 130;
-	return (exit);
-}
-
 /**	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
  *	@param	cmd_line command line

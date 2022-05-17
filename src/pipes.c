@@ -83,6 +83,19 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 	exit(data->exitstatus);
 }
 
+int	ft_wait(int pid)
+{
+	int	status;
+	int	exit;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		exit = 130;
+	return (exit);
+}
+
 /**	@brief	check for pipes, and redirects output before execution
  *	@param	data datastruct
  *	@return	status for msh_loop
