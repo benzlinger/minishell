@@ -26,10 +26,16 @@ typedef enum e_type
 	REDIREC,
 	HEREDOC,
 	PIPE,
-	UNKNOWN,
+	RIN,
+	ROUT,
+	TRUNC,
+	CREAT,
+	HIN,
+	UNKNOWN
 }		t_type;
 
-/* 	pipe_index:	indexing token between pipes in command prompt, starting with 0
+/**
+ *  pipe_index:	indexing token between pipes in command prompt, starting with 0
  * 	token:		literal string of token
  * 	type:		enumurated token type for identification
  * 	next:		pointer to next token. If it's the last token, next == NULL
@@ -40,6 +46,7 @@ typedef struct s_token_list
 	int					index;
 	char				*token;
 	t_type				type;
+	int					fd;
 	struct s_token_list	*next;
 }		t_token_list;
 
@@ -62,6 +69,9 @@ typedef struct s_data
 	pid_t			pid;
 	int				status;
 	int				fd[2];
+	bool			redirec_exists;
+	bool			heredoc_exists;
+	bool			pipe_exists;
 }		t_data;
 
 /* main functions */
@@ -70,12 +80,23 @@ char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data, char **command);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(int exit);
+void			msh_compatibility(t_data *data);
+bool			redirection_found(t_token_list *head);
+bool			heredoc_found(t_token_list *head);
 
 /* pipe functions */
 int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);
 int				ft_wait(int pid);
+
+/* utils executer */
+char			**ft_redirec(char **cmd_line, t_data *data);
+void			redirec_input(t_token_list *node);
+void			redirec_heredoc_input(t_token_list *node);
+void			redirec_output(t_token_list *node, bool append);
+void			truncate_file(t_token_list *node);
+void			create_file(t_token_list *node);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
@@ -90,8 +111,10 @@ char			*type_envar(char **s);
 char			*type_heredoc(char **s, char *token);
 int				has_exitstatus(char *s);
 char			*replace_exitstatus(char *s, t_data *data);
+int				check_redirections(t_token_list *head);
 
 /* utils lexer */
+void			remove_token_node(t_token_list *head, t_token_list **node);
 int				ft_get_type(char *literal);
 bool			ft_check_eof(char *s);
 int				ft_get_pipe_index(char **prompt, int pos);
@@ -125,6 +148,7 @@ void			ft_leaks(void);
 char			*ft_color_format_str(char *s, char *pre, char **tofree);
 void			print_2d_array(char **array);
 int				get_size_2d(char **arr);
+char			*get_type(int type);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
