@@ -67,10 +67,13 @@ static int	get_command_types(t_token_list *head)
 	{
 		if (current->type == PIPE)
 		{
-			if (current->next == NULL)
+			if (current->next == NULL || current->next->type == PIPE)
 				return ((int)ft_parse_error("invalid pipe syntax", NULL) + 1);
-			current->next->type = COMMAND;
-			current->next->token = type_command(&current->next->token);
+			if (current->next->type != BUILTIN)
+			{
+				current->next->type = COMMAND;
+				current->next->token = type_command(&current->next->token);
+			}
 			if (current->token == NULL)
 				return (EXIT_FAILURE);
 		}
