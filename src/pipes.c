@@ -80,7 +80,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 		dup2(*myfd, STDIN_FILENO);
 		data->status = msh_executer(data, cmds[i]);
 	}
-	exit(1);
+	exit(data->exitstatus);
 }
 
 /**	@brief	check for pipes, and redirects output before execution
@@ -113,7 +113,7 @@ int	pipe_exec(t_data *data)
 			}
 			else
 			{
-				waitpid(data->pid, NULL, 0);
+				data->exitstatus = ft_wait(data->pid);
 				close(data->fd[1]);
 				myfd = data->fd[0];
 			}
