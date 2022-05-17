@@ -13,6 +13,15 @@ void	ft_exit(int err_code)
 	exit(err_code);
 }
 
+void	ft_exit_eof(int err_code)
+{
+	printf("\033[1A");
+	rl_on_new_line();
+	rl_redisplay();
+	write(1, "exit\n", 5);
+	exit (err_code);
+}
+
 /**	
  * 	@brief	writes an error message and returns NULL
  * 		is able to print two error messages
