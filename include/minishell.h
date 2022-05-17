@@ -82,11 +82,10 @@ t_vars			*init_vars(char **env_list);
 void			init_signal_handling(int exit);
 
 /* compatibility */
-void			msh_compatibility(t_data *data);
 bool			redirection_found(t_token_list *head);
 bool			heredoc_found(t_token_list *head);
 bool			redirec_in(char **cmd_line);
-bool			heredoc_in(char **cmd_line);
+char			*remove_pipes(char **old_cmd);
 
 /* pipe functions */
 int				pipe_exec(t_data *data); //test

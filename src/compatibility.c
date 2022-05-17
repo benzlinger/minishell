@@ -1,5 +1,27 @@
 #include "../include/minishell.h"
 
+char	*remove_pipes(char **old_cmd)
+{
+	char	*new_cmd;
+	int		i;
+
+	new_cmd = ft_calloc(ft_strlen(*old_cmd) + 1, sizeof(char));
+	if (new_cmd == NULL)
+		ft_error(strerror(errno));
+	i = 0;
+	while (old_cmd[0][i])
+	{
+		if (old_cmd[0][i] == '|' && old_cmd[0][i - 1] == ','
+				&& old_cmd[0][i + 1] == ',')
+			new_cmd[i] = ',';
+		else
+			new_cmd[i] = old_cmd[0][i];
+		i++;
+	}
+	free(*old_cmd);
+	return (new_cmd);
+}
+
 bool	redirec_in(char **cmd_line)
 {
 	int	i;
@@ -40,25 +62,4 @@ bool	redirection_found(t_token_list *head)
 		current = current->next;
 	}
 	return (false);
-}
-
-static bool	pipe_found(t_token_list *head)
-{
-	t_token_list	*current;
-
-	current = head;
-	while (current != NULL)
-	{
-		if (current->type == PIPE)
-			return (true);
-		current = current->next;
-	}
-	return (false);
-}
-
-void	msh_compatibility(t_data *data)
-{
-	data->redirec_exists = redirection_found(data->tokens);
-	data->pipe_exists = pipe_found(data->tokens);
-	data->heredoc_exists = heredoc_found(data->tokens);
 }

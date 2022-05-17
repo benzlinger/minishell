@@ -47,7 +47,11 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	if (pid == 0)
 	{
 		if (redirec_in(cmd_line))
+		{
+			print_2d_array(cmd_line);
 			cmd_line = ft_redirec(cmd_line, data);
+			print_2d_array(cmd_line);
+		}
 		execve(cmd_line[0], cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}

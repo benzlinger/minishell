@@ -108,7 +108,6 @@ static void	msh_loop(t_data *data)
 			add_history(data->line);
 			data->tokens = msh_lexer(data->line);
 			data->command = msh_parser(data);
-			msh_compatibility(data);
 			if (data->command != NULL)
 			{
 				// status = msh_executer(data);

@@ -95,10 +95,19 @@ char	**ft_redirec(char **cmd_line, t_data *data)
 {
 	char	**new_cmd_line;
 
+	print_2d_array(cmd_line);
 	handle_types(data->tokens);
+	
+	// FIXME
+	// bc data->command is used here, the whole cmd_line
+	// is used, what it shouldn't
+	// also
+	// redirections do not work at all in combination with pipes
+	// at least after the first pipe
+	
 	data->command = remove_redirec(&data->command);
+	data->command = remove_pipes(&data->command);
 	new_cmd_line = ft_split(data->command, ',');
 	free_2d_array(cmd_line);
-	//print_2d_array(new_cmd_line);
 	return (new_cmd_line);
 }
