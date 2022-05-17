@@ -33,6 +33,19 @@ char	**export_cmd(char *cmd)
 	return (ex_array);
 }
 
+int	ft_wait(int pid)
+{
+	int	status;
+	int	exit;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		exit = 130;
+	return (exit);
+}
+
 /**	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
  *	@param	cmd_line command line
@@ -42,7 +55,6 @@ char	**export_cmd(char *cmd)
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -53,13 +65,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	else if (pid < 0)
 		ft_error(strerror(errno));
 	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			data->exitstatus = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-			data->exitstatus = 130;
-	}
+		data->exitstatus = ft_wait(pid);
 	return (0);
 }
 
