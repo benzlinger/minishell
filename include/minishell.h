@@ -70,6 +70,8 @@ char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data, char **command);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(int exit);
+
+/* pipe functions */
 int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);
