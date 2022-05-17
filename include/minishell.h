@@ -73,6 +73,7 @@ void			init_signal_handling(int exit);
 int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);
+int				ft_wait(int pid);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
