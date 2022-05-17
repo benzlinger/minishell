@@ -74,7 +74,7 @@ static int	get_command_types(t_token_list *head)
 				current->next->type = COMMAND;
 				current->next->token = type_command(&current->next->token);
 			}
-			if (current->token == NULL)
+			if (current->next->token == NULL)
 				return (EXIT_FAILURE);
 		}
 		current = current->next;
