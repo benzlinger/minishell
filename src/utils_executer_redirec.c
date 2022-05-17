@@ -99,5 +99,6 @@ char	**ft_redirec(char **cmd_line, t_data *data)
 	data->command = remove_redirec(&data->command);
 	new_cmd_line = ft_split(data->command, ',');
 	free_2d_array(cmd_line);
+	//print_2d_array(new_cmd_line);
 	return (new_cmd_line);
 }

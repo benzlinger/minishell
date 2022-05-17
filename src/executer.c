@@ -46,7 +46,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (data->redirec_exists || data->heredoc_exists)
+		if (redirec_in(cmd_line))
 			cmd_line = ft_redirec(cmd_line, data);
 		execve(cmd_line[0], cmd_line, data->env_list);
 		ft_error(strerror(errno));
