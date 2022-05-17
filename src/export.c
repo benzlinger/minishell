@@ -94,6 +94,7 @@ int	ft_export(t_data *data, char **cmd_line)
 	int		i;
 	char	*name;
 	char	*value;
+	int		is_exit;
 
 	if (!cmd_line[1])
 	{
@@ -101,23 +102,29 @@ int	ft_export(t_data *data, char **cmd_line)
 		return (data->exitstatus);
 	}
 	i = 1;
+	is_exit = 0;
 	while (cmd_line[i])
 	{
 		if (cmd_line[i][0] == '=')
+		{
 			ft_exec_error("Not a valid identifier", data);
+			is_exit = 1;
+		}
 		else if (cmd_line[i + 1] && cmd_line[i + 1][0] == '=')
 		{
 			name = ft_strdup(cmd_line[i]);
 			value = ft_substr(cmd_line[i + 1], 1, ft_strlen(cmd_line[i + 1]));
 			append_var(name, value, data->vars);
 			i++;
-			data->exitstatus = EXIT_SUCCESS;
+			if (!is_exit)
+				data->exitstatus = EXIT_SUCCESS;
 		}
 		else
 		{
 			name = ft_strdup(cmd_line[i]);
 			append_var(name, NULL, data->vars);
-			data->exitstatus = EXIT_SUCCESS;
+			if (!is_exit)
+				data->exitstatus = EXIT_SUCCESS;
 		}
 		i++;
 	}

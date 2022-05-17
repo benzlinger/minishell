@@ -20,17 +20,17 @@ static int	check_tokens_via_type2(t_token_list *cur)
  * 	@return	1: if an parse error occures
  * 			0: if successful
  */
-static int	check_tokens_via_type(t_token_list *head)
+static int	check_tokens_via_type(t_data *data)
 {
 	t_token_list	*current;
 
-	current = head;
+	current = data->tokens;
 	while (current != NULL)
 	{
 		if (current->type == ENVAR)
-			current->token = insert_envar(&current->token);
+			current->token = insert_envar(&current->token, data);
 		else if (current->type == DQUOTE)
-			current->token = type_dquote(&current->token);
+			current->token = type_dquote(&current->token, data);
 		else if (current->type == SQUOTE)
 			current->token = type_squote(&current->token);
 		if (check_tokens_via_type2(current) != 0)
@@ -64,11 +64,14 @@ static int	get_command_types(t_token_list *head)
 	{
 		if (current->type == PIPE)
 		{
-			if (current->next == NULL)
+			if (current->next == NULL || current->next->type == PIPE)
 				return ((int)ft_parse_error("invalid pipe syntax", NULL) + 1);
-			current->next->type = COMMAND;
-			current->next->token = type_command(&current->next->token);
-			if (current->token == NULL)
+			if (current->next->type != BUILTIN)
+			{
+				current->next->type = COMMAND;
+				current->next->token = type_command(&current->next->token);
+			}
+			if (current->next->token == NULL)
 				return (EXIT_FAILURE);
 		}
 		current = current->next;
@@ -81,16 +84,16 @@ static int	get_command_types(t_token_list *head)
  * 	@param	head: linked list from lexer
  * 	@return	ready-to-run command string
  */
-char	*msh_parser(t_token_list *head)
+char	*msh_parser(t_data *data)
 {
 	char	*command;
 
-	if (check_tokens_via_type(head) != 0)
+	if (check_tokens_via_type(data) != 0)
 		return (NULL);
-	if (get_command_types(head) != 0)
+	if (get_command_types(data->tokens) != 0)
 		return (NULL);
-	if (check_redirections(head) != 0)
+  if (check_redirections(data->tokens) != 0)
 		return (NULL);
-	command = ft_list_to_str(head, ',');
+	command = ft_list_to_str(data->tokens, ',');
 	return (command);
 }

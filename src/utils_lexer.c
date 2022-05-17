@@ -46,7 +46,7 @@ int	ft_get_type(char *literal)
 		return (REDIREC);
 	else if (literal[0] == '|')
 		return (PIPE);
-	else if (literal[0] == '$')
+	else if (envar_exists(literal) || has_exitstatus(literal))
 		return (ENVAR);
 	return (UNKNOWN);
 }
@@ -64,7 +64,7 @@ bool	ft_check_eof(char *s)
 	int	i;
 
 	if (s == NULL)
-		ft_exit(EOF);
+		ft_exit_eof(EOF);
 	i = 0;
 	while (s[i])
 	{

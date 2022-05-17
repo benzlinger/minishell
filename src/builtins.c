@@ -72,10 +72,15 @@ int	ft_cd(char **cmd_line)
 /**	@brief	print name of the working directory
  *	@return	if function succeeded
  */
-int	ft_pwd(void)
+int	ft_pwd(char **cmd_line)
 {
 	char	*path;
 
+	if (cmd_line[1])
+	{
+		ft_exec_error("pwd: no flags or arguments supported.", NULL);
+		return (EXIT_FAILURE);
+	}
 	path = getcwd(NULL, 0);
 	if (!path)
 		ft_error(strerror(errno));
@@ -89,13 +94,18 @@ int	ft_pwd(void)
  *	@param	head of env list
  *	@return	if function succeeded
  */
-int	ft_env(t_vars *head)
+int	ft_env(t_data *data, char **cmd_line)
 {
 	t_vars	*tmp;
 
-	if (!head)
+	if (!data->vars)
 		return (EXIT_FAILURE);
-	tmp = head;
+	if (cmd_line[1])
+	{
+		ft_exec_error("env: no flags or arguments supported.", NULL);
+		return (EXIT_FAILURE);
+	}
+	tmp = data->vars;
 	while (tmp)
 	{
 		if (tmp->value)

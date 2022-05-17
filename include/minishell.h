@@ -66,6 +66,9 @@ typedef struct s_data
 	char			*command;
 	char			**varray;
 	int				exitstatus;
+	pid_t			pid;
+	int				status;
+	int				fd[2];
 	bool			redirec_exists;
 	bool			heredoc_exists;
 	bool			pipe_exists;
@@ -73,13 +76,19 @@ typedef struct s_data
 
 /* main functions */
 t_token_list	*msh_lexer(char *line);
-char			*msh_parser(t_token_list *head);
-int				msh_executer(t_data *data);
+char			*msh_parser(t_data *data);
+int				msh_executer(t_data *data, char **command);
 t_vars			*init_vars(char **env_list);
-void			init_signal_handling(void);
+void			init_signal_handling(int exit);
 void			msh_compatibility(t_data *data);
 bool			redirection_found(t_token_list *head);
 bool			heredoc_found(t_token_list *head);
+
+/* pipe functions */
+int				pipe_exec(t_data *data); //test
+char			**export_cmd(char *cmd);
+int				exec_nopipe(t_data *data);
+int				ft_wait(int pid);
 
 /* utils executer */
 char			**ft_redirec(char **cmd_line, t_data *data);
@@ -92,14 +101,16 @@ void			create_file(t_token_list *node);
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
 char			*type_command(char **s);
-char			*type_dquote(char **s);
-char			*insert_envar(char **s);
+char			*type_dquote(char **s, t_data *data);
+char			*insert_envar(char **s, t_data *data);
 bool			envar_exists(char *s);
 int				type_pipe(char *s);
 int				type_redirec(char *s);
 char			*type_squote(char **s);
 char			*type_envar(char **s);
-char			*type_heredoc(char **s, char *token);	
+char			*type_heredoc(char **s, char *token);
+int				has_exitstatus(char *s);
+char			*replace_exitstatus(char *s, t_data *data);
 int				check_redirections(t_token_list *head);
 
 /* utils lexer */
@@ -113,6 +124,7 @@ char			*ft_delimit_line(char *pline, int i, int j);
 /* utils error */
 void			ft_error(char *err_msg);
 void			ft_exit(int err_code);
+void			ft_exit_eof(int err_code);
 char			*ft_parse_error(char *err_msg1, char *err_msg2);
 void			ft_exec_error(char *err_msg1, t_data *data);
 
@@ -120,6 +132,7 @@ void			ft_exec_error(char *err_msg1, t_data *data);
 void			free_2d_array(char **arr);
 void			free_vars(t_vars *head);
 void			ft_free_tokens(t_token_list **tokens);
+void			free_3d_array(char ***arr);
 
 /* utils export */
 int				name_len(char *s);
@@ -139,9 +152,9 @@ char			*get_type(int type);
 
 /* builtin functions */
 int				ft_echo(char **cmd_line);
-int				ft_pwd(void);
+int				ft_pwd(char **cmd_line);
 int				ft_cd(char **cmd_line);
-int				ft_env(t_vars *head);
+int				ft_env(t_data *data, char **cmd_line);
 int				ft_export(t_data *data, char **cmd_line);
 t_vars			*ft_unset(char **cmd_line, t_data *data);
 

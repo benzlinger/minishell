@@ -1,6 +1,10 @@
 #include "../include/minishell.h"
 
-static char	**export_cmd(char *cmd)
+/**	@brief	parse commandline for export and unset (special case with = symbol)
+ *	@param	cmd command line
+ *	@return	command line for export and unset
+ */
+char	**export_cmd(char *cmd)
 {
 	char	*ex_cmd;
 	char	**ex_array;
@@ -31,13 +35,13 @@ static char	**export_cmd(char *cmd)
 
 /**	@brief	execute binary commands
  *	-> forks a child to execute (parent waits for child)
- *	@param	command line
+ *	@param	cmd_line command line
+ *	@param	data data stuct with env vars and exitstatus
  *	@return	if function succeeded
  */
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -50,45 +54,49 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	else if (pid < 0)
 		ft_error(strerror(errno));
 	else
-	{
-		wait(&status);
-		data->exitstatus = status % 255;
-	}
+		data->exitstatus = ft_wait(pid);
 	return (0);
 }
 
+/**	@brief	parse command for executer without pipes
+ *	@param	data datastruct
+ *	@return	status for msh_loop
+ */
+int	exec_nopipe(t_data *data)
+{
+	char	**cmd_line;
+
+	if (!ft_strncmp(data->command, "export", 6)
+		|| !ft_strncmp(data->command, "unset", 5))
+		cmd_line = export_cmd(data->command);
+	else
+		cmd_line = ft_split(data->command, ',');
+	return (msh_executer(data, cmd_line));
+}
+
 /**	@brief	execute builtin commands
- *	@param	command line (needs to be split)
+ *	@param	data struct containing command and env vars
  *	@return	if function succeeded
  */
-int	msh_executer(t_data *data)
+int	msh_executer(t_data *data, char **cmd_line)
 {
 	int		status;
-	char	**cmd_line;
-	char	**exp_cmd;
 
 	status = 1;
-	cmd_line = ft_split(data->command, ',');
+	// write(2, cmd_line[0], ft_strlen(cmd_line[0]));
+	// write(2, "\n", 1);
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
-		data->exitstatus = ft_pwd();
+		data->exitstatus = ft_pwd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
 		data->exitstatus = ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		data->exitstatus = ft_env(data->vars);
+		data->exitstatus = ft_env(data, cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-	{
-		exp_cmd = export_cmd(data->command);
-		ft_export(data, exp_cmd);
-		free_2d_array(exp_cmd);
-	}
+		ft_export(data, cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
-	{
-		exp_cmd = export_cmd(data->command);
-		data->vars = ft_unset(exp_cmd, data);
-		free_2d_array(exp_cmd);
-	}
+		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);

@@ -77,19 +77,24 @@ static int	get_envar_info(char *s, char **val)
  * 	@param	s: pointer to string to insert envars in
  * 	@return string with inserted envar
  */
-char	*insert_envar(char **s)
+char	*insert_envar(char **s, t_data *data)
 {
 	char	*envar_value;
 	int		alloc_size;
 	char	*out;
 
-	alloc_size = get_envar_info(*s, &envar_value);
-	out = ft_calloc(alloc_size + 1, sizeof(char));
-	if (out == NULL)
-		ft_error(strerror(errno));
-	insert_envar_value(*s, &out, envar_value);
-	free(*s);
-	if (envar_exists(out))
-		out = insert_envar(&out);
+	if (has_exitstatus(*s))
+		out = replace_exitstatus(*s, data);
+	else
+	{
+		alloc_size = get_envar_info(*s, &envar_value);
+		out = ft_calloc(alloc_size + 1, sizeof(char));
+		if (out == NULL)
+			ft_error(strerror(errno));
+		insert_envar_value(*s, &out, envar_value);
+		free(*s);
+		if (envar_exists(out))
+			out = insert_envar(&out, data);
+	}
 	return (out);
 }
