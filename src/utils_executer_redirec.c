@@ -20,9 +20,6 @@ static t_token_list	*iterate_to_current_pipe(t_data *data)
 	current = data->tokens;
 	while (current != NULL && current->pipe_index <= data->current_pipe)
 		current = current->next;
-	if (current == NULL)
-		ft_error(strerror(errno));
-	// printf("current token:\t%s\n", current->token);
 	return (current);
 }
 /**
@@ -37,7 +34,7 @@ static void	handle_types(t_data *data)
 	current = iterate_to_current_pipe(data);
 	while (current != NULL && current->type != PIPE)
 	{
-		// printf("%s, %s\n", current->token,  get_type(current->type));
+		printf("%s,\t%s\n", get_type(current->type), current->token);
 		if (current->type == RIN)
 			redirec_input(current);
 		else if (current->type == HIN)

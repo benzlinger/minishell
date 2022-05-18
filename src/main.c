@@ -112,6 +112,7 @@ static void	msh_loop(t_data *data)
 			{
 				status = pipe_exec(data);
 				free(data->command);
+				// ls -l | grep minishell > fileX
 			}
 			ft_free_tokens(&data->tokens);
 		}
