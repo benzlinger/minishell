@@ -42,20 +42,26 @@ static char	*get_file(void)
  */
 static char	*msh_prompt(t_data *data)
 {
-	char	*file;
-	char	*prompt;
-	char	*promptline;
-	char	*username;
+	char		*file;
+	char		*prompt;
+	char		*promptline;
+	char		*username;
 
 	file = get_file();
 	file = ft_color_format_str(file, "\e[36m", &file);
 	username = ft_color_format_str(getenv("USER"), "\e[1;36m", NULL);
 	prompt = ft_strjoin(username, file, NULL);
 	promptline = NULL;
-	if (data->exitstatus == 0)
+	if (!data->exitstatus || data->err_color)
+	{
 		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m", NULL);
+		data->err_color = 0;
+	}
 	else
+	{
 		promptline = ft_strjoin(prompt, "\e[1;95m 42 \e[0m", NULL);
+		data->err_color = 1;
+	}
 	free(file);
 	free(prompt);
 	free(username);
@@ -84,6 +90,7 @@ static t_data	*init_data(char **env_list)
 	data->env_list = env_list;
 	data->exitstatus = 0;
 	data->status = 1;
+	data->err_color = 0;
 	return (data);
 }
 
@@ -115,6 +122,8 @@ static void	msh_loop(t_data *data)
 			}
 			ft_free_tokens(&data->tokens);
 		}
+		else
+			data->err_color = 1;
 		free(data->line);
 	}
 	free_vars(data->vars);
