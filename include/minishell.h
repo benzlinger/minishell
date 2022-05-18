@@ -70,6 +70,7 @@ typedef struct s_data
 	int				status;
 	int				fd[2];
 	int				current_pipe;
+	int				err_color;
 	bool			redirec_exists;
 	bool			heredoc_exists;
 	bool			pipe_exists;
@@ -124,6 +125,7 @@ bool			ft_check_eof(char *s);
 int				ft_get_pipe_index(char **prompt, int pos);
 bool			ft_check_quote(char c, char *q);
 char			*ft_delimit_line(char *pline, int i, int j);
+bool			check_builtins(char *s);
 
 /* utils error */
 void			ft_error(char *err_msg);
