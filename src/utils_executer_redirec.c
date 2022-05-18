@@ -40,48 +40,53 @@ static void	handle_types(t_token_list *head)
 	}
 }
 
-/**
- * 	@brief	norm function
- */
-static void	increment_until_next_comma(char *cmd, int *i)
+static int	twod_elems(char **cmd_line)
 {
-	int	j;
+	int	i;
 
-	j = *i;
-	cmd[j + 1] = ' ';
-	cmd[j + 2] = ' ';
-	while (cmd[j] && cmd[j] != ',')
-		j++;
-	*i = j;
+	i = 0;
+	while (cmd_line[i])
+		i++;
+	return (i * 2);
 }
 
-/**
- * 	@brief	removes redirections and heredocs and the filename after them
- */
-static char	*remove_redirec(char **command)
+// FIXME
+// somethings going wrong with grep and awk after a pipe
+static char	*remove_redirec(char **cmd_line)
 {
-	char	*new_cmd;
+	char	*cmd;
 	int		i;
 	int		j;
+	int		k;
 
-	new_cmd = ft_calloc(ft_strlen(*command) + 1, sizeof(char));
-	if (new_cmd == NULL)
+	cmd = ft_calloc(get_size_2d(cmd_line) + twod_elems(cmd_line), sizeof(char));
+	if (cmd == NULL)
 		ft_error(strerror(errno));
 	i = 0;
 	j = 0;
-	while (command[0][i])
+	while (cmd_line[i])
 	{
-		while ((command[0][i] == '<' || command[0][i] == '>') && command[0][i])
-			increment_until_next_comma(*command, &i);
-		if (command[0][i])
+		k = 0;
+		if (cmd_line[i][k] == '<' || cmd_line[i][k] == '>')
+			i += 2;
+		if (!cmd_line[i])
+			break ;
+		while (cmd_line[i][k])
 		{
-			new_cmd[j] = command[0][i];
-			i++;
+			cmd[j] = cmd_line[i][k];
 			j++;
+			k++;
 		}
+		cmd[j] = ',';
+		j++;
+		i++;
 	}
-	free(*command);
-	return (new_cmd);
+	while (cmd[j])
+	{
+		cmd[j] = '\0';
+		j++;
+	}
+	return (cmd);
 }
 
 /**
@@ -94,20 +99,12 @@ static char	*remove_redirec(char **command)
 char	**ft_redirec(char **cmd_line, t_data *data)
 {
 	char	**new_cmd_line;
+	char	*cmd;
 
-	print_2d_array(cmd_line);
 	handle_types(data->tokens);
-	
-	// FIXME
-	// bc data->command is used here, the whole cmd_line
-	// is used, what it shouldn't
-	// also
-	// redirections do not work at all in combination with pipes
-	// at least after the first pipe
-	
-	data->command = remove_redirec(&data->command);
-	data->command = remove_pipes(&data->command);
-	new_cmd_line = ft_split(data->command, ',');
+	cmd = remove_redirec(cmd_line);
+	new_cmd_line = ft_split(cmd, ',');
 	free_2d_array(cmd_line);
+	free(cmd);
 	return (new_cmd_line);
 }
