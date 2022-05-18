@@ -5,7 +5,7 @@
  * 	@param	s: literal (token)string of command prompt
  * 	@return true if s equals one of the builtins
  */
-static bool	check_builtins(char *s)
+bool	check_builtins(char *s)
 {
 	if (ft_strncmp(s, "echo", ft_strlen("echo ")) == 0)
 		return (true);
