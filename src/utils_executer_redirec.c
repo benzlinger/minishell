@@ -13,18 +13,31 @@ static bool	set_append(t_token_list *node)
 		return (false);
 }
 
+static t_token_list	*iterate_to_current_pipe(t_data *data)
+{
+	t_token_list	*current;
+
+	current = data->tokens;
+	while (current != NULL && current->pipe_index <= data->current_pipe)
+		current = current->next;
+	if (current == NULL)
+		ft_error(strerror(errno));
+	// printf("current token:\t%s\n", current->token);
+	return (current);
+}
 /**
  * 	@brief	handles redirec and heredoc depending on the types
  */
-static void	handle_types(t_token_list *head)
+static void	handle_types(t_data *data)
 {
 	t_token_list	*current;
 	bool			append;
 
 	append = false;
-	current = head;
-	while (current != NULL)
+	current = iterate_to_current_pipe(data);
+	while (current != NULL && current->type != PIPE)
 	{
+		// printf("%s, %s\n", current->token,  get_type(current->type));
 		if (current->type == RIN)
 			redirec_input(current);
 		else if (current->type == HIN)
@@ -101,10 +114,9 @@ char	**ft_redirec(char **cmd_line, t_data *data)
 	char	**new_cmd_line;
 	char	*cmd;
 
-	handle_types(data->tokens);
+	handle_types(data);
 	cmd = remove_redirec(cmd_line);
 	new_cmd_line = ft_split(cmd, ',');
-	free_2d_array(cmd_line);
 	free(cmd);
 	return (new_cmd_line);
 }

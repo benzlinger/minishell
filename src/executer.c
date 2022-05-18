@@ -42,13 +42,18 @@ char	**export_cmd(char *cmd)
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
+	char	**new_cmd_line;
 
+	new_cmd_line = NULL;
+	if (redirec_in(cmd_line))
+		new_cmd_line = ft_redirec(cmd_line, data);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (redirec_in(cmd_line))
-			cmd_line = ft_redirec(cmd_line, data);
-		execve(cmd_line[0], cmd_line, data->env_list);
+		if (new_cmd_line == NULL)
+			execve(cmd_line[0], cmd_line, data->env_list);
+		else
+			execve(cmd_line[0], new_cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
@@ -105,6 +110,6 @@ int	msh_executer(t_data *data, char **cmd_line)
 	else
 		exec_not_builtin(cmd_line, data);
 	// FIXME this might leak
-	free_2d_array(cmd_line);
+	//free_2d_array(cmd_line);
 	return (status);
 }

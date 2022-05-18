@@ -69,6 +69,7 @@ typedef struct s_data
 	pid_t			pid;
 	int				status;
 	int				fd[2];
+	int				current_pipe;
 	bool			redirec_exists;
 	bool			heredoc_exists;
 	bool			pipe_exists;

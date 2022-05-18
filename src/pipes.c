@@ -126,6 +126,7 @@ int	pipe_exec(t_data *data)
 			}
 			else
 			{
+				data->current_pipe = i;
 				data->exitstatus = ft_wait(data->pid);
 				close(data->fd[1]);
 				myfd = data->fd[0];
