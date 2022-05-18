@@ -144,7 +144,5 @@ int	check_redirections(t_token_list *head)
 	set_hin(head);
 	set_rin_rout(head);
 	set_flag_types(head);
-	ft_print_list(head);
-	return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

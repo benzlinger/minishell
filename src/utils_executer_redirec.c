@@ -20,6 +20,9 @@ static t_token_list	*iterate_to_current_pipe(t_data *data)
 	current = data->tokens;
 	while (current != NULL && current->pipe_index <= data->current_pipe)
 		current = current->next;
+	// FIXME last pipe wont work
+	if (current == NULL)
+		return (data->tokens);
 	return (current);
 }
 /**
@@ -34,7 +37,6 @@ static void	handle_types(t_data *data)
 	current = iterate_to_current_pipe(data);
 	while (current != NULL && current->type != PIPE)
 	{
-		printf("%s,\t%s\n", get_type(current->type), current->token);
 		if (current->type == RIN)
 			redirec_input(current);
 		else if (current->type == HIN)
@@ -57,7 +59,7 @@ static int	twod_elems(char **cmd_line)
 	i = 0;
 	while (cmd_line[i])
 		i++;
-	return (i * 2);
+	return (i * 4);
 }
 
 // FIXME
