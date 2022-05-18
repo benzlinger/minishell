@@ -5,20 +5,20 @@
  */
 static void	handle_sigint(void)
 {
-	rl_on_new_line();
-	rl_redisplay();
-	// for removing '^C'
-	write(1, "  \b\b\n", 5);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+		rl_on_new_line();
+		rl_redisplay();
+		// for removing '^C'
+		write(1, "  \b\b\n", 5);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 }
 
-// static void	handle_sigint(void)
-// {
-// 	rl_on_new_line();
-// 	write(1, "\n", 1);
-// }
+static void	handle_sigint2(void)
+{
+	rl_on_new_line();
+	write(1, "\n", 1);
+}
 
 /**
  * 	@brief	makes the signal ctrl+'\' do nothing
@@ -42,11 +42,13 @@ static void	handle_sigquit(void)
  * 	@brief	handles incoming signals and executes corresponding functions
  * 	@param	sa: signal code
  */
-static void	signal_handler(int sa)
+static void	signal_handler(int sig, siginfo_t *info, void *context)
 {
-	if (sa == 2)
+	if (sig == 2 && info->si_pid == getpid())
 		handle_sigint();
-	else if (sa == 3)
+	else if (sig == 2)
+		handle_sigint2();
+	else if (sig == 3)
 		handle_sigquit();
 }
 
@@ -57,8 +59,10 @@ void	init_signal_handling(int exit)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = &signal_handler;
-	sa.sa_flags = SA_RESTART;
+	// sa.sa_handler = &signal_handler;
+	// sa.sa_flags = SA_RESTART;
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 }

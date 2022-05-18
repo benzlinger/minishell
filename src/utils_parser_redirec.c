@@ -31,7 +31,7 @@ static void	set_rout(t_token_list *head, int i)
 	current = head;
 	while (current != NULL && current->index != i)
 		current = current->next;
-	if (current->next != NULL)
+	if (current != NULL && current->next != NULL)
 		current->next->type = ROUT;
 }
 
@@ -66,8 +66,8 @@ static void	set_rin_rout(t_token_list *head)
 					current->next->next->type = RIN;
 		if (newpipe && rout_exists(head))
 		{
-			i = get_last_redirec(head);
-			set_rout(head, i);
+			i = get_last_redirec(current);
+			set_rout(current, i);
 			newpipe = false;
 		}
 		if (current->type == PIPE)

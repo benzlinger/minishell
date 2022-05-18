@@ -42,20 +42,25 @@ char	**export_cmd(char *cmd)
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
+	char	**new_cmd_line;
 
+	new_cmd_line = NULL;
+	if (redirec_in(cmd_line))
+		new_cmd_line = ft_redirec(cmd_line, data);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (data->redirec_exists || data->heredoc_exists)
-			cmd_line = ft_redirec(cmd_line, data);
-		execve(cmd_line[0], cmd_line, data->env_list);
+		if (new_cmd_line == NULL)
+			execve(cmd_line[0], cmd_line, data->env_list);
+		else
+			execve(cmd_line[0], new_cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}
 	else if (pid < 0)
 		ft_error(strerror(errno));
 	else
 		data->exitstatus = ft_wait(pid);
-	return (0);
+	return (data->exitstatus);
 }
 
 /**	@brief	parse command for executer without pipes
@@ -71,7 +76,21 @@ int	exec_nopipe(t_data *data)
 		cmd_line = export_cmd(data->command);
 	else
 		cmd_line = ft_split(data->command, ',');
-	return (msh_executer(data, cmd_line));
+	data->status = 1;
+	if (check_builtins(cmd_line[0]))
+		data->exitstatus = msh_executer(data, cmd_line);
+	else
+	{
+		data->pid = fork();
+		if (data->pid == -1)
+			ft_error(strerror(errno));
+		if (data->pid == 0)
+			exit(msh_executer(data, cmd_line));
+		else
+			data->exitstatus = ft_wait(data->pid);
+	}
+	free_2d_array(cmd_line);
+	return (data->status);
 }
 
 /**	@brief	execute builtin commands
@@ -80,11 +99,9 @@ int	exec_nopipe(t_data *data)
  */
 int	msh_executer(t_data *data, char **cmd_line)
 {
-	int		status;
-
-	status = 1;
 	// write(2, cmd_line[0], ft_strlen(cmd_line[0]));
 	// write(2, "\n", 1);
+	data->status = 1;
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
@@ -100,10 +117,11 @@ int	msh_executer(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
 	{
 		write(1, "exit\n", 5);
-		status = 0;
+		data->status = 0;
 	}
 	else
-		exec_not_builtin(cmd_line, data);
-	free_2d_array(cmd_line);
-	return (status);
+		data->exitstatus = exec_not_builtin(cmd_line, data);
+	// FIXME this might leak
+	//free_2d_array(cmd_line);
+	return (data->exitstatus);
 }

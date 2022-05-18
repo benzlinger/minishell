@@ -69,6 +69,8 @@ typedef struct s_data
 	pid_t			pid;
 	int				status;
 	int				fd[2];
+	int				current_pipe;
+	int				err_color;
 	bool			redirec_exists;
 	bool			heredoc_exists;
 	bool			pipe_exists;
@@ -80,9 +82,12 @@ char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data, char **command);
 t_vars			*init_vars(char **env_list);
 void			init_signal_handling(int exit);
-void			msh_compatibility(t_data *data);
+
+/* compatibility */
 bool			redirection_found(t_token_list *head);
 bool			heredoc_found(t_token_list *head);
+bool			redirec_in(char **cmd_line);
+char			*remove_pipes(char **old_cmd);
 
 /* pipe functions */
 int				pipe_exec(t_data *data); //test
@@ -120,6 +125,7 @@ bool			ft_check_eof(char *s);
 int				ft_get_pipe_index(char **prompt, int pos);
 bool			ft_check_quote(char c, char *q);
 char			*ft_delimit_line(char *pline, int i, int j);
+bool			check_builtins(char *s);
 
 /* utils error */
 void			ft_error(char *err_msg);

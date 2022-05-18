@@ -40,22 +40,28 @@ static char	*get_file(void)
  *	@param	status of shell (for colouring)
  *	@return	prompt for shell
  */
-static char	*msh_prompt(int status)
+static char	*msh_prompt(t_data *data)
 {
-	char	*file;
-	char	*prompt;
-	char	*promptline;
-	char	*username;
+	char		*file;
+	char		*prompt;
+	char		*promptline;
+	char		*username;
 
 	file = get_file();
 	file = ft_color_format_str(file, "\e[36m", &file);
 	username = ft_color_format_str(getenv("USER"), "\e[1;36m", NULL);
 	prompt = ft_strjoin(username, file, NULL);
 	promptline = NULL;
-	if (status == 1)
+	if (!data->exitstatus || data->err_color)
+	{
 		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m", NULL);
+		data->err_color = 0;
+	}
 	else
-		promptline = ft_strjoin(prompt, "\e[1;35m 42 \e[0m", NULL);
+	{
+		promptline = ft_strjoin(prompt, "\e[1;95m 42 \e[0m", NULL);
+		data->err_color = 1;
+	}
 	free(file);
 	free(prompt);
 	free(username);
@@ -84,6 +90,7 @@ static t_data	*init_data(char **env_list)
 	data->env_list = env_list;
 	data->exitstatus = 0;
 	data->status = 1;
+	data->err_color = 0;
 	return (data);
 }
 
@@ -100,7 +107,7 @@ static void	msh_loop(t_data *data)
 	status = 1;
 	while (status)
 	{
-		promptline = msh_prompt(status);
+		promptline = msh_prompt(data);
 		data->line = readline(promptline);
 		free(promptline);
 		if (ft_check_eof(data->line) && ft_strlen(data->line))
@@ -108,21 +115,20 @@ static void	msh_loop(t_data *data)
 			add_history(data->line);
 			data->tokens = msh_lexer(data->line);
 			data->command = msh_parser(data);
-			msh_compatibility(data);
 			if (data->command != NULL)
 			{
-				// status = msh_executer(data);
 				status = pipe_exec(data);
 				free(data->command);
+				// ls -l | grep minishell > fileX
 			}
 			ft_free_tokens(&data->tokens);
 		}
+		else
+			data->err_color = 1;
 		free(data->line);
 	}
 	free_vars(data->vars);
 	free(data);
-	// system("leaks minishell");
-	//TODO: ft_exit
 }
 
 /*	1. Loading config files (if any)
