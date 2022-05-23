@@ -48,15 +48,15 @@ static int	check_tokens_via_type(t_data *data)
  * 	@param	head: head of token list
  * 	@return Success or failure
  */
-static int	get_command_types(t_token_list *head)
+static int	get_command_types(t_data *data)
 {
 	t_token_list	*current;
 
-	current = head;
+	current = data->tokens;
 	if (current->type != BUILTIN)
 	{
 		current->type = COMMAND;
-		current->token = type_command(&current->token);
+		current->token = type_command(&current->token, data);
 		if (current->token == NULL)
 			return (EXIT_FAILURE);
 	}
@@ -69,7 +69,7 @@ static int	get_command_types(t_token_list *head)
 			if (current->next->type != BUILTIN)
 			{
 				current->next->type = COMMAND;
-				current->next->token = type_command(&current->next->token);
+				current->next->token = type_command(&current->next->token, data);
 			}
 			if (current->next->token == NULL)
 				return (EXIT_FAILURE);
@@ -90,9 +90,9 @@ char	*msh_parser(t_data *data)
 
 	if (check_tokens_via_type(data) != 0)
 		return (NULL);
-	if (get_command_types(data->tokens) != 0)
+	if (get_command_types(data) != 0)
 		return (NULL);
-  if (check_redirections(data->tokens) != 0)
+	if (check_redirections(data->tokens) != 0)
 		return (NULL);
 	command = ft_list_to_str(data->tokens, ',');
 	return (command);
