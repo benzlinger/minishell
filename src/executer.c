@@ -48,6 +48,8 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	if (redirec_in(cmd_line))
 		new_cmd_line = ft_redirec(cmd_line, data);
 	pid = fork();
+	if (pid == -1)
+		ft_error(strerror(errno));
 	if (pid == 0)
 	{
 		if (new_cmd_line == NULL)
@@ -56,8 +58,6 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 			execve(cmd_line[0], new_cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}
-	else if (pid < 0)
-		ft_error(strerror(errno));
 	else
 		data->exitstatus = ft_wait(pid);
 	return (data->exitstatus);
@@ -89,6 +89,7 @@ int	exec_nopipe(t_data *data)
 		else
 			data->exitstatus = ft_wait(data->pid);
 	}
+	// data->exitstatus = msh_executer(data, cmd_line);
 	free_2d_array(cmd_line);
 	return (data->status);
 }
