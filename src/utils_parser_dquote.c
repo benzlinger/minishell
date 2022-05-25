@@ -13,7 +13,7 @@ bool	envar_exists(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '$' && s[i + 1] != '?')
+		if (s[i] == '$' && s[i + 1] != '?' && s[i + 1] != ' ' && s[i + 1] != '\"')
 			return (true);
 		i++;
 	}

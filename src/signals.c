@@ -5,13 +5,13 @@
  */
 static void	handle_sigint(void)
 {
-		rl_on_new_line();
-		rl_redisplay();
-		// for removing '^C'
-		write(1, "  \b\b\n", 5);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+	rl_on_new_line();
+	rl_redisplay();
+	// for removing '^C'
+	write(1, "  \b\b\n", 5);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 static void	handle_sigint2(void)

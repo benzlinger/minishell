@@ -110,7 +110,7 @@ t_token_list	*iterate_to_current_pipe(t_data *data);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
-char			*type_command(char **s);
+char			*type_command(char **s, t_data *data);
 char			*type_dquote(char **s, t_data *data);
 char			*insert_envar(char **s, t_data *data);
 bool			envar_exists(char *s);
@@ -122,6 +122,7 @@ char			*type_heredoc(char **s, char *token);
 int				has_exitstatus(char *s);
 char			*replace_exitstatus(char *s, t_data *data);
 int				check_redirections(t_token_list *head);
+char			*find_env_var_value(t_data *data, char *name);
 
 /* utils lexer */
 void			remove_token_node(t_token_list *head, t_token_list **node);

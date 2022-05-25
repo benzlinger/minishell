@@ -70,7 +70,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 		close(data->fd[0]);
 		dup2(*myfd, STDIN_FILENO);
 		dup2(data->fd[1], STDOUT_FILENO);
-		data->status = msh_executer(data, cmds[i]);
+		msh_executer(data, cmds[i]);
 		close(data->fd[1]);
 	}
 	else //last pipe (end of command)
@@ -78,7 +78,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 		close(data->fd[0]);
 		close(data->fd[1]);
 		dup2(*myfd, STDIN_FILENO);
-		data->status = msh_executer(data, cmds[i]);
+		msh_executer(data, cmds[i]);
 	}
 	exit(data->exitstatus);
 }

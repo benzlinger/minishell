@@ -59,13 +59,14 @@ static char	*get_envar_name(char *s)
 	return (out);
 }
 
-static int	get_envar_info(char *s, char **val)
+static int	get_envar_info(char *s, char **val, t_data *data)
 {
 	int		size;
 	char	*name;
 
 	name = get_envar_name(s);
-	*val = getenv(name);
+	// *val = getenv(name);
+	*val = find_env_var_value(data, name);
 	size = ft_strlen(s) + ft_strlen(*val) - ft_strlen(name);
 	free(name);
 	return (size);
@@ -87,7 +88,7 @@ char	*insert_envar(char **s, t_data *data)
 		out = replace_exitstatus(*s, data);
 	else
 	{
-		alloc_size = get_envar_info(*s, &envar_value);
+		alloc_size = get_envar_info(*s, &envar_value, data);
 		out = ft_calloc(alloc_size + 1, sizeof(char));
 		if (out == NULL)
 			ft_error(strerror(errno));

@@ -28,6 +28,21 @@ static int	find_right_path(char **paths, char *command)
 	return (-1);
 }
 
+char	*find_env_var_value(t_data *data, char *name)
+{
+	t_vars	*current;
+
+	current = data->vars;
+	while (current)
+	{
+		if (!ft_strncmp(current->name, name, ft_strlen(name) + 1)
+			&& current->value)
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
+}
+
 /**
  * 	@brief	checks if typed-in command is valid
  * 	@param	s: pointer to literal token string of type COMMAND
@@ -35,7 +50,7 @@ static int	find_right_path(char **paths, char *command)
  * 			NULL if no command found
  * 	@NOTE	I removed type != ENVAR conditions but it has no effect whatsoever
  */
-char	*type_command(char **s)
+char	*type_command(char **s, t_data *data)
 {
 	int		right_path;
 	bool	free_path;
@@ -44,7 +59,16 @@ char	*type_command(char **s)
 	char	*tmp;
 
 	path = *s;
-	paths = ft_split(getenv("PATH"), ':');
+	// paths = ft_split(getenv("PATH"), ':');
+	tmp = find_env_var_value(data, "PATH");
+	if (!tmp)
+	{
+		ft_parse_error(*s, ": command not found");
+		free(*s);
+		return (NULL);
+	}
+	paths = ft_split(tmp, ':');
+	tmp = NULL;
 	free_path = false;
 	if (s[0][0] != '/')
 	{
