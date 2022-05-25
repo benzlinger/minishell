@@ -110,23 +110,14 @@ int	exec_nopipe(t_data *data)
 	return (data->status);
 }
 
-/**	@brief	execute builtin commands
- *	@param	data struct containing command and env vars
- *	@return	if function succeeded
- */
-int	msh_executer(t_data *data, char **cmd_line)
+static void	msh_executer_two(t_data *data, char **cmd_line)
 {
 	char	**builtin_cmd_line;
+	char	*tmp;
 
-	data->status = 1;
 	data->builtin_fd = get_builtin_fd(data);
-	if(check_builtins(cmd_line[0]))
-	{
-		// FIXME string of remove_redirec needs to be freed
-		builtin_cmd_line = ft_split(remove_redirec(cmd_line), ',');
-	}
-	else
-		builtin_cmd_line = NULL;
+	tmp = remove_redirec(cmd_line);
+	builtin_cmd_line = ft_split(tmp, ',');
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
@@ -136,7 +127,7 @@ int	msh_executer(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		data->exitstatus = ft_env(data, builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-		ft_export(data, builtin_cmd_line);
+		ft_export(data, builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
@@ -144,12 +135,47 @@ int	msh_executer(t_data *data, char **cmd_line)
 		write(1, "exit\n", 5);
 		data->status = 0;
 	}
+	free(tmp);
+	free_2d_array(builtin_cmd_line);
+}
+
+static void	msh_executer_three(t_data *data, char **cmd_line)
+{
+	int	fd;
+
+	fd = STDOUT_FILENO;
+	if (!ft_strncmp(cmd_line[0], "echo", 4))
+		data->exitstatus = ft_echo(cmd_line, fd);
+	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
+		data->exitstatus = ft_pwd(cmd_line, fd);
+	else if (!ft_strncmp(cmd_line[0], "cd", 2))
+		data->exitstatus = ft_cd(cmd_line);
+	else if (!ft_strncmp(cmd_line[0], "env", 3))
+		data->exitstatus = ft_env(data, cmd_line, fd);
+	else if (!ft_strncmp(cmd_line[0], "export", 6))
+		ft_export(data, cmd_line, fd);
+	else if (!ft_strncmp(cmd_line[0], "unset", 5))
+		data->vars = ft_unset(cmd_line, data);
+	else if (!ft_strncmp(cmd_line[0], "exit", 4))
+	{
+		write(1, "exit\n", 5);
+		data->status = 0;
+	}
+}
+
+/**	@brief	execute builtin commands
+ *	@param	data struct containing command and env vars
+ *	@return	if function succeeded
+ */
+int	msh_executer(t_data *data, char **cmd_line)
+{
+	data->status = 1;
+	if(check_builtins(cmd_line[0]) && redirec_in(cmd_line))
+		msh_executer_two(data, cmd_line);
+	else if (check_builtins(cmd_line[0]))
+		msh_executer_three(data, cmd_line);
 	else
 		data->exitstatus = exec_not_builtin(cmd_line, data);
-	// FIXME this might leak
-	//free_2d_array(cmd_line);
-	if (builtin_cmd_line != NULL)
-		free_2d_array(builtin_cmd_line);
 	if (data->builtin_fd != STDOUT_FILENO)
 		close(data->builtin_fd);
 	return (data->exitstatus);

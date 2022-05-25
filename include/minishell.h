@@ -167,7 +167,7 @@ int				ft_echo(char **cmd_line, int fd);
 int				ft_pwd(char **cmd_line, int fd);
 int				ft_cd(char **cmd_line);
 int				ft_env(t_data *data, char **cmd_line, int fd);
-int				ft_export(t_data *data, char **cmd_line);
+int				ft_export(t_data *data, char **cmd_line, int fd);
 t_vars			*ft_unset(char **cmd_line, t_data *data);
 
 #endif
