@@ -6,7 +6,7 @@ static char	*ft_append(char **old, char *suf)
 	int		i;
 	int		j;
 
-	pre = ft_calloc(ft_strlen(*old) + ft_strlen(suf) + 1, sizeof(char));
+	pre = ft_calloc(ft_strlen(*old) + ft_strlen(suf) + 2, sizeof(char));//FIXME please
 	if (pre == NULL)
 		ft_error(strerror(errno));
 	i = 0;
