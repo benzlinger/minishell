@@ -144,7 +144,6 @@ static void	msh_executer_three(t_data *data, char **cmd_line)
 	int	fd;
 
 	fd = STDOUT_FILENO;
-	data->builtin_fd = STDOUT_FILENO;
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
@@ -171,6 +170,7 @@ static void	msh_executer_three(t_data *data, char **cmd_line)
 int	msh_executer(t_data *data, char **cmd_line)
 {
 	data->status = 1;
+	data->builtin_fd = STDOUT_FILENO;
 	if(check_builtins(cmd_line[0]) && redirec_in(cmd_line))
 		msh_executer_two(data, cmd_line);
 	else if (check_builtins(cmd_line[0]))
