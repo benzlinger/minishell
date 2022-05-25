@@ -45,14 +45,14 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	char	**new_cmd_line;
 
 	new_cmd_line = NULL;
-	if (redirec_in(cmd_line))
-		new_cmd_line = ft_redirec(cmd_line, data);
 	// FIXME doesn't new_cmd_line need to be freed?
 	pid = fork();
 	if (pid == -1)
 		ft_error(strerror(errno));
 	if (pid == 0)
 	{
+		if (redirec_in(cmd_line))
+			new_cmd_line = ft_redirec(cmd_line, data);
 		if (new_cmd_line == NULL)
 			execve(cmd_line[0], cmd_line, data->env_list);
 		else
@@ -68,6 +68,33 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
  *	@param	data datastruct
  *	@return	status for msh_loop
  */
+// int	exec_nopipe(t_data *data)
+// {
+// 	char	**cmd_line;
+
+// 	if (!ft_strncmp(data->command, "export", 6)
+// 		|| !ft_strncmp(data->command, "unset", 5))
+// 		cmd_line = export_cmd(data->command);
+// 	else
+// 		cmd_line = ft_split(data->command, ',');
+// 	data->status = 1;
+// 	if (check_builtins(cmd_line[0]))
+// 		data->exitstatus = msh_executer(data, cmd_line);
+// 	else
+// 	{
+// 		data->pid = fork();
+// 		if (data->pid == -1)
+// 			ft_error(strerror(errno));
+// 		if (data->pid == 0)
+// 			exit(msh_executer(data, cmd_line));
+// 		else
+// 			data->exitstatus = ft_wait(data->pid);
+// 	}
+// 	// data->exitstatus = msh_executer(data, cmd_line);
+// 	free_2d_array(cmd_line);
+// 	return (data->status);
+// }
+
 int	exec_nopipe(t_data *data)
 {
 	char	**cmd_line;
@@ -78,19 +105,7 @@ int	exec_nopipe(t_data *data)
 	else
 		cmd_line = ft_split(data->command, ',');
 	data->status = 1;
-	if (check_builtins(cmd_line[0]))
-		data->exitstatus = msh_executer(data, cmd_line);
-	else
-	{
-		data->pid = fork();
-		if (data->pid == -1)
-			ft_error(strerror(errno));
-		if (data->pid == 0)
-			exit(msh_executer(data, cmd_line));
-		else
-			data->exitstatus = ft_wait(data->pid);
-	}
-	// data->exitstatus = msh_executer(data, cmd_line);
+	msh_executer(data, cmd_line);
 	free_2d_array(cmd_line);
 	return (data->status);
 }
