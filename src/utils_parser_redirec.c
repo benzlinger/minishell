@@ -105,7 +105,7 @@ static int	check_left_redirec(t_token_list *head)
 	while (current->next != NULL)
 	{
 		if (current->type != COMMAND && current->next->token[0] == '<'
-				&& current->next->type != HEREDOC)
+			&& current->next->type != HEREDOC)
 		{
 			ft_parse_error("Invalid redirection syntax near: ", current->token);
 			return (EXIT_FAILURE);
@@ -135,11 +135,35 @@ static void	set_hin(t_token_list *head)
 		current->next->type = HIN;
 }
 
+int	check_redir_syntax(t_token_list *head)
+{
+	t_token_list	*tmp;
+
+	tmp = head;
+	// ft_print_list(tmp);
+	while (tmp)
+	{
+		if (tmp->type == REDIREC)
+		{
+			if (!tmp->next || tmp->next->type == REDIREC
+				|| tmp->next->type == PIPE || tmp->next->type == FLAG)
+			{
+				ft_parse_error("Invalid redirection syntax near: ", tmp->token);
+				return (EXIT_FAILURE);
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	check_redirections(t_token_list *head)
 {
 	if (!redirection_found(head) && !heredoc_found(head))
 		return (EXIT_SUCCESS);
 	if (check_left_redirec(head) != 0)
+		return (EXIT_FAILURE);
+	if (check_redir_syntax(head))
 		return (EXIT_FAILURE);
 	set_hin(head);
 	set_rin_rout(head);
