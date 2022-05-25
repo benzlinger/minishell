@@ -64,6 +64,7 @@ char	*type_command(char **s, t_data *data)
 	if (!tmp)
 	{
 		ft_parse_error(*s, ": command not found");
+		data->exitstatus = 127;
 		free(*s);
 		return (NULL);
 	}
@@ -84,6 +85,7 @@ char	*type_command(char **s, t_data *data)
 	if (access(path, F_OK) != 0)
 	{
 		ft_parse_error(*s, ": command not found");
+		data->exitstatus = 127;
 	//	if (type != ENVAR)
 	//		free(*s);
 		free(*s);
