@@ -96,7 +96,7 @@ char	*get_value(char *s)
  *	@param	head of env variable list
  *	@return	if function scceeded
  */
-int	show_vars(t_vars *head)
+int	show_vars(t_vars *head, int fd)
 {
 	t_vars	*tmp;
 
@@ -108,15 +108,15 @@ int	show_vars(t_vars *head)
 	tmp = head;
 	while (tmp)
 	{
-		write(1, "declare -x ", 11);
-		write(1, tmp->name, ft_strlen(tmp->name));
+		write(fd, "declare -x ", 11);
+		write(fd, tmp->name, ft_strlen(tmp->name));
 		if (tmp->value)
 		{
-			write(1, "=\"", 2);
-			write(1, tmp->value, ft_strlen(tmp->value));
-			write(1, "\"", 1);
+			write(fd, "=\"", 2);
+			write(fd, tmp->value, ft_strlen(tmp->value));
+			write(fd, "\"", 1);
 		}
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);

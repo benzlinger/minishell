@@ -3,7 +3,7 @@
 /**
  * 	@brief	checks if a redirec is a append redirec
  */
-static bool	set_append(t_token_list *node)
+bool	set_append(t_token_list *node)
 {
 	if (node->type != REDIREC)
 		return (false);
@@ -13,7 +13,7 @@ static bool	set_append(t_token_list *node)
 		return (false);
 }
 
-static t_token_list	*iterate_to_current_pipe(t_data *data)
+t_token_list	*iterate_to_current_pipe(t_data *data)
 {
 	t_token_list	*current;
 
@@ -64,7 +64,7 @@ static int	twod_elems(char **cmd_line)
 
 // FIXME
 // somethings going wrong with grep and awk after a pipe
-static char	*remove_redirec(char **cmd_line)
+char	*remove_redirec(char **cmd_line)
 {
 	char	*cmd;
 	int		i;
@@ -79,7 +79,7 @@ static char	*remove_redirec(char **cmd_line)
 	while (cmd_line[i])
 	{
 		k = 0;
-		if (cmd_line[i][k] == '<' || cmd_line[i][k] == '>')
+		while (cmd_line[i] && (cmd_line[i][k] == '<' || cmd_line[i][k] == '>'))
 			i += 2;
 		if (!cmd_line[i])
 			break ;

@@ -98,7 +98,7 @@ int	ft_export(t_data *data, char **cmd_line)
 
 	if (!cmd_line[1])
 	{
-		data->exitstatus = show_vars(data->vars);
+		data->exitstatus = show_vars(data->vars, data->builtin_fd);
 		return (data->exitstatus);
 	}
 	i = 1;

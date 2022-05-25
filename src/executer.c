@@ -47,6 +47,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	new_cmd_line = NULL;
 	if (redirec_in(cmd_line))
 		new_cmd_line = ft_redirec(cmd_line, data);
+	// FIXME doesn't new_cmd_line need to be freed?
 	pid = fork();
 	if (pid == 0)
 	{
@@ -99,19 +100,27 @@ int	exec_nopipe(t_data *data)
  */
 int	msh_executer(t_data *data, char **cmd_line)
 {
-	// write(2, cmd_line[0], ft_strlen(cmd_line[0]));
-	// write(2, "\n", 1);
+	char	**builtin_cmd_line;
+
 	data->status = 1;
+	data->builtin_fd = get_builtin_fd(data);
+	if(check_builtins(cmd_line[0]))
+	{
+		// FIXME string of remove_redirec needs to be freed
+		builtin_cmd_line = ft_split(remove_redirec(cmd_line), ',');
+	}
+	else
+		builtin_cmd_line = NULL;
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
-		data->exitstatus = ft_echo(cmd_line);
+		data->exitstatus = ft_echo(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
-		data->exitstatus = ft_pwd(cmd_line);
+		data->exitstatus = ft_pwd(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
 		data->exitstatus = ft_cd(cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		data->exitstatus = ft_env(data, cmd_line);
+		data->exitstatus = ft_env(data, builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-		ft_export(data, cmd_line);
+		ft_export(data, builtin_cmd_line);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
@@ -123,5 +132,9 @@ int	msh_executer(t_data *data, char **cmd_line)
 		data->exitstatus = exec_not_builtin(cmd_line, data);
 	// FIXME this might leak
 	//free_2d_array(cmd_line);
+	if (builtin_cmd_line != NULL)
+		free_2d_array(builtin_cmd_line);
+	if (data->builtin_fd != STDOUT_FILENO)
+		close(data->builtin_fd);
 	return (data->exitstatus);
 }
