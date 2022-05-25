@@ -89,7 +89,7 @@ t_vars	*init_vars(char **env)
  *	@param	data struct, command line
  *	UNCLEAR: should export test =value work?
  */
-int	ft_export(t_data *data, char **cmd_line)
+int	ft_export(t_data *data, char **cmd_line, int fd)
 {
 	int		i;
 	char	*name;
@@ -98,7 +98,7 @@ int	ft_export(t_data *data, char **cmd_line)
 
 	if (!cmd_line[1])
 	{
-		data->exitstatus = show_vars(data->vars, data->builtin_fd);
+		data->exitstatus = show_vars(data->vars, fd);
 		return (data->exitstatus);
 	}
 	i = 1;
