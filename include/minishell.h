@@ -74,6 +74,7 @@ typedef struct s_data
 	bool			redirec_exists;
 	bool			heredoc_exists;
 	bool			pipe_exists;
+	int				builtin_fd;
 }		t_data;
 
 /* main functions */
@@ -99,9 +100,13 @@ int				ft_wait(int pid);
 char			**ft_redirec(char **cmd_line, t_data *data);
 void			redirec_input(t_token_list *node);
 void			redirec_heredoc_input(t_token_list *node);
+char			*remove_redirec(char **cmd_line);
 void			redirec_output(t_token_list *node, bool append);
 void			truncate_file(t_token_list *node);
 void			create_file(t_token_list *node);
+int				get_builtin_fd(t_data *data);
+bool			set_append(t_token_list *node);
+t_token_list	*iterate_to_current_pipe(t_data *data);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);
@@ -144,7 +149,7 @@ void			free_3d_array(char ***arr);
 int				name_len(char *s);
 char			*get_name(char *s);
 char			*get_value(char *s);
-int				show_vars(t_vars *head);
+int				show_vars(t_vars *head, int fd);
 t_vars			*new_var(char *name, char *value);
 
 /* debug functions */
@@ -157,10 +162,10 @@ int				get_size_2d(char **arr);
 char			*get_type(int type);
 
 /* builtin functions */
-int				ft_echo(char **cmd_line);
-int				ft_pwd(char **cmd_line);
+int				ft_echo(char **cmd_line, int fd);
+int				ft_pwd(char **cmd_line, int fd);
 int				ft_cd(char **cmd_line);
-int				ft_env(t_data *data, char **cmd_line);
+int				ft_env(t_data *data, char **cmd_line, int fd);
 int				ft_export(t_data *data, char **cmd_line);
 t_vars			*ft_unset(char **cmd_line, t_data *data);
 

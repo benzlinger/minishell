@@ -6,14 +6,14 @@
  *	@return	if function succeeded
  *	UNCLEAR	do backslash sequences have to be handled (without -e flag)?
  */
-int	ft_echo(char **cmd_line)
+int	ft_echo(char **cmd_line, int fd)
 {
 	int	i;
 	int	is_flag;
 
 	if (!cmd_line[1])
 	{
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 		return (EXIT_SUCCESS);
 	}
 	is_flag = 0;
@@ -25,13 +25,13 @@ int	ft_echo(char **cmd_line)
 	}
 	while (cmd_line[i])
 	{
-		write(1, cmd_line[i], ft_strlen(cmd_line[i]));
+		write(fd, cmd_line[i], ft_strlen(cmd_line[i]));
 		if (cmd_line[i + 1])
-			write(1, " ", 1);
+			write(fd, " ", 1);
 		i++;
 	}
 	if (!is_flag)
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 	return (EXIT_SUCCESS);
 }
 
@@ -72,7 +72,7 @@ int	ft_cd(char **cmd_line)
 /**	@brief	print name of the working directory
  *	@return	if function succeeded
  */
-int	ft_pwd(char **cmd_line)
+int	ft_pwd(char **cmd_line, int fd)
 {
 	char	*path;
 
@@ -84,8 +84,8 @@ int	ft_pwd(char **cmd_line)
 	path = getcwd(NULL, 0);
 	if (!path)
 		ft_error(strerror(errno));
-	write(1, path, ft_strlen(path));
-	write(1, "\n", 1);
+	write(fd, path, ft_strlen(path));
+	write(fd, "\n", 1);
 	free(path);
 	return (EXIT_SUCCESS);
 }
@@ -94,7 +94,7 @@ int	ft_pwd(char **cmd_line)
  *	@param	head of env list
  *	@return	if function succeeded
  */
-int	ft_env(t_data *data, char **cmd_line)
+int	ft_env(t_data *data, char **cmd_line, int fd)
 {
 	t_vars	*tmp;
 
@@ -110,10 +110,10 @@ int	ft_env(t_data *data, char **cmd_line)
 	{
 		if (tmp->value)
 		{
-			write(1, tmp->name, ft_strlen(tmp->name));
-			write(1, "=", 1);
-			write(1, tmp->value, ft_strlen(tmp->value));
-			write(1, "\n", 1);
+			write(fd, tmp->name, ft_strlen(tmp->name));
+			write(fd, "=", 1);
+			write(fd, tmp->value, ft_strlen(tmp->value));
+			write(fd, "\n", 1);
 		}
 		tmp = tmp->next;
 	}
