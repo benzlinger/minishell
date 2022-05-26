@@ -75,6 +75,7 @@ static t_data	*init_data(char **env_list)
 	char	*value;
 
 	data = malloc(sizeof(t_data));
+	sleep(3);
 	if (!data)
 		ft_error(strerror(errno));
 	if (env_list && env_list[0])
