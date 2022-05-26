@@ -15,6 +15,9 @@
 
 # define ERROR "\e[1;31mError: \e[0m"
 
+//NORM ERROR
+# define PRINT_HERE(){printf("In File: %s In Line: %d\n", __FILE__, __LINE__);}
+
 typedef enum e_type
 {
 	COMMAND,
@@ -107,6 +110,7 @@ void			create_file(t_token_list *node);
 int				get_builtin_fd(t_data *data);
 bool			set_append(t_token_list *node);
 t_token_list	*iterate_to_current_pipe(t_data *data);
+int				countyy(char **cmd_line);
 
 /* utils parser */
 char			*ft_list_to_str(t_token_list *tokens, char c);

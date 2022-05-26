@@ -55,11 +55,9 @@ all: $(NAME)
 $(OBJ_PATH)%.o : $(SRC_PATH)%.c
 	@echo $(Y)Compiling [$@]...$(X)
 	@mkdir -p $(dir $@)
-	@sleep 0.2
 	@printf $(UP)$(CUT)
 	@$(CC) $(CFLAGS) $(LFRC) -c -o $@ $< 
 	@echo $(G)Finished [$@]$(X)
-	@sleep 0.2
 	@printf $(UP)$(CUT)
 
 $(NAME): $(OBJ)
