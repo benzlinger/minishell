@@ -84,7 +84,6 @@ typedef struct s_data
 t_token_list	*msh_lexer(char *line);
 char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data, char **command);
-t_vars			*init_vars(char **env_list);
 void			init_signal_handling(int exit);
 
 /* compatibility */
@@ -156,6 +155,9 @@ char			*get_name(char *s);
 char			*get_value(char *s);
 int				show_vars(t_vars *head, int fd);
 t_vars			*new_var(char *name, char *value);
+int				find_var(char *name, char *value, t_vars *head);
+t_vars			*append_var(char *name, char *value, t_vars *head);
+t_vars			*init_vars(char **env_list);
 
 /* debug functions */
 void			ft_print_list(t_token_list *head);

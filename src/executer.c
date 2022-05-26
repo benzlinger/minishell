@@ -1,44 +1,5 @@
 #include "../include/minishell.h"
 
-/**	@brief	parse commandline for export and unset (special case with = symbol)
- *	@param	cmd command line
- *	@return	command line for export and unset
- */
-char	**export_cmd(char *cmd)
-{
-	char	*ex_cmd;
-	char	**ex_array;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	ex_cmd = malloc(ft_strlen(cmd) + 2);
-	if (!ex_cmd)
-		ft_error(strerror(errno));
-	while (cmd[i])
-	{
-		if (cmd[i] == '=')
-		{
-			ex_cmd[j] = 31;
-			j++;
-		}
-		ex_cmd[j] = cmd[i];
-		i++;
-		j++;
-	}
-	ex_cmd[j] = '\0';
-	ex_array = ft_split(ex_cmd, 31);
-	free(ex_cmd);
-	return (ex_array);
-}
-
-/**	@brief	execute binary commands
- *	-> forks a child to execute (parent waits for child)
- *	@param	cmd_line command line
- *	@param	data data stuct with env vars and exitstatus
- *	@return	if function succeeded
- */
 static int	exec_not_builtin(char **cmd_line, t_data *data)
 {
 	pid_t	pid;
@@ -173,7 +134,7 @@ int	msh_executer(t_data *data, char **cmd_line)
 {
 	data->status = 1;
 	data->builtin_fd = STDOUT_FILENO;
-	if(check_builtins(cmd_line[0]) && redirec_in(cmd_line))
+	if (check_builtins(cmd_line[0]) && redirec_in(cmd_line))
 		msh_executer_two(data, cmd_line);
 	else if (check_builtins(cmd_line[0]))
 		msh_executer_three(data, cmd_line);
