@@ -90,7 +90,7 @@ static void	msh_executer_two(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		data->exitstatus = ft_env(data, builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-		ft_export(data, builtin_cmd_line, data->builtin_fd);
+		ft_export(data, builtin_cmd_line, data->builtin_fd, 0);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
@@ -116,7 +116,7 @@ static void	msh_executer_three(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		data->exitstatus = ft_env(data, cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
-		ft_export(data, cmd_line, fd);
+		ft_export(data, cmd_line, fd, 0);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
