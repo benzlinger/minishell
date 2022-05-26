@@ -58,7 +58,7 @@ void	redirec_heredoc_input(t_token_list *node)
 	else
 		node->fd = open(".tmp.txt", O_RDWR | O_CREAT, 0666);
 	if (node->fd == -1)
-	   ft_error(strerror(errno));
+		ft_error(strerror(errno));
 	write(node->fd, node->token, ft_strlen(node->token));
 	write(node->fd, "\n", sizeof(char));
 	if (close(node->fd) == -1)

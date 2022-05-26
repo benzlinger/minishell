@@ -45,18 +45,20 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	char	**new_cmd_line;
 
 	new_cmd_line = NULL;
-	// FIXME doesn't new_cmd_line need to be freed?
+	// FIXME doesn't new_cmd_line need to be freed? (doesn't leak because in child --> no malloc in parent)
+	// -> maybe bad practice?
 	pid = fork();
 	if (pid == -1)
 		ft_error(strerror(errno));
 	if (pid == 0)
 	{
 		if (redirec_in(cmd_line))
+		{
 			new_cmd_line = ft_redirec(cmd_line, data);
-		if (new_cmd_line == NULL)
-			execve(cmd_line[0], cmd_line, data->env_list);
-		else
 			execve(cmd_line[0], new_cmd_line, data->env_list);
+		}
+		else
+			execve(cmd_line[0], cmd_line, data->env_list);
 		ft_error(strerror(errno));
 	}
 	else
