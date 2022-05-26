@@ -85,6 +85,7 @@ t_token_list	*msh_lexer(char *line);
 char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data, char **command);
 void			init_signal_handling(int exit);
+char			*msh_prompt(t_data *data);
 
 /* compatibility */
 bool			redirection_found(t_token_list *head);
