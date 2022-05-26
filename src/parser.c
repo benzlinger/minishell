@@ -101,6 +101,6 @@ char	*msh_parser(t_data *data)
 		return (NULL);
 	if (check_redirections(data->tokens) != 0)
 		return (NULL);
-	command = ft_list_to_str(data->tokens, ',');
+	command = ft_list_to_str(data->tokens, 31);
 	return (command);
 }

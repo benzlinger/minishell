@@ -89,7 +89,7 @@ char	*remove_redirec(char **cmd_line)
 			j++;
 			k++;
 		}
-		cmd[j] = ',';
+		cmd[j] = 31;
 		j++;
 		i++;
 	}
@@ -115,7 +115,7 @@ char	**ft_redirec(char **cmd_line, t_data *data)
 
 	handle_types(data);
 	cmd = remove_redirec(cmd_line);
-	new_cmd_line = ft_split(cmd, ',');
+	new_cmd_line = ft_split(cmd, 31);
 	free(cmd);
 	return (new_cmd_line);
 }
