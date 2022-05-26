@@ -86,32 +86,6 @@ static int	get_command_types(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-// static char	**ft_list_to_array(t_token_list *head)
-// {
-// 	t_token_list	*tmp;
-// 	char			**cmd_line;
-// 	int				i;
-
-// 	tmp = head;
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// 	cmd_line = malloc(sizeof(char *) * i + 1);
-// 	tmp = head;
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		cmd_line[i] = ft_strdup(tmp->token);
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// 	cmd_line[i] = NULL;
-// 	return (cmd_line);
-// }
-
 /**
  * 	@brief	checks input for errors and returns a rdy-to-run command string
  * 	@param	head: linked list from lexer
@@ -120,7 +94,6 @@ static int	get_command_types(t_data *data)
 char	*msh_parser(t_data *data)
 {
 	char	*command;
-	// char	**cmd_line;
 
 	if (check_tokens_via_type(data) != 0)
 		return (NULL);
@@ -128,7 +101,6 @@ char	*msh_parser(t_data *data)
 		return (NULL);
 	if (check_redirections(data->tokens) != 0)
 		return (NULL);
-	command = ft_list_to_str(data->tokens, ',');
-	// cmd_line = ft_list_to_array(data->tokens);
+	command = ft_list_to_str(data->tokens, 31);
 	return (command);
 }
