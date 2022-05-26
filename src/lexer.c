@@ -70,7 +70,7 @@ t_token_list	*msh_lexer(char *promptline)
 	char			*delimited_line;
 
 	delimited_line = ft_delimit_line(promptline, 0, 0);
-	literal = ft_split(delimited_line, ',');
+	literal = ft_split(delimited_line, 31);
 	head = init_token_list(literal[0]);
 	count = 1;
 	while (literal[count])

@@ -20,7 +20,7 @@ char	**export_cmd(char *cmd)
 	{
 		if (cmd[i] == '=')
 		{
-			ex_cmd[j] = ',';
+			ex_cmd[j] = 31;
 			j++;
 		}
 		ex_cmd[j] = cmd[i];
@@ -28,7 +28,7 @@ char	**export_cmd(char *cmd)
 		j++;
 	}
 	ex_cmd[j] = '\0';
-	ex_array = ft_split(ex_cmd, ',');
+	ex_array = ft_split(ex_cmd, 31);
 	free(ex_cmd);
 	return (ex_array);
 }
@@ -103,7 +103,7 @@ int	exec_nopipe(t_data *data)
 		|| !ft_strncmp(data->command, "unset", 5))
 		cmd_line = export_cmd(data->command);
 	else
-		cmd_line = ft_split(data->command, ',');
+		cmd_line = ft_split(data->command, 31);
 	data->status = 1;
 	msh_executer(data, cmd_line);
 	free_2d_array(cmd_line);
@@ -117,7 +117,7 @@ static void	msh_executer_two(t_data *data, char **cmd_line)
 
 	data->builtin_fd = get_builtin_fd(data);
 	tmp = remove_redirec(cmd_line);
-	builtin_cmd_line = ft_split(tmp, ',');
+	builtin_cmd_line = ft_split(tmp, 31);
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))

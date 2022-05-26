@@ -47,7 +47,7 @@ static char	***get_cmds(char *cmd_line)
 			|| !ft_strncmp(cmd_array[j], "unset", 5))
 			cmds[j] = export_cmd(cmd_array[j]);
 		else
-			cmds[j] = ft_split(cmd_array[j], ',');
+			cmds[j] = ft_split(cmd_array[j], 31);
 		j++;
 	}
 	cmds[j] = NULL;
