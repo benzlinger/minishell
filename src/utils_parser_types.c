@@ -52,11 +52,16 @@ char	*type_squote(char **s)
 		ft_error(strerror(errno));
 	i = 0;
 	j = 1;
-	while (s[0][j] != 39 && s[0][j])
+	while (s[0][j])
 	{
-		out[i] = s[0][j];
-		i++;
-		j++;
+		if (s[0][j] == 39)
+			j++;
+		else
+		{
+			out[i] = s[0][j];
+			i++;
+			j++;
+		}
 	}
 	free(*s);
 	return (out);
