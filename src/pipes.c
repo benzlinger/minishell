@@ -1,5 +1,46 @@
 #include "../include/minishell.h"
 
+static char	**get_cmd_array(t_data *data)
+{
+	char			**cmd_array;
+	t_token_list	*tmp;
+	int				i;
+	int				size;
+
+	tmp = data->tokens;
+	size = 0;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			size++;
+		tmp = tmp->next;
+	}
+	cmd_array = malloc(sizeof(char *) * size + 2);
+	if (!cmd_array)
+		ft_error(strerror(errno));
+	i = 0;
+	while (cmd_array[i])
+	{
+		cmd_array[i] = NULL;
+		i++;
+	}
+	i = 0;
+	tmp = data->tokens;
+	while (i <= size && tmp)
+	{
+		if (tmp->type == PIPE)
+		{
+			tmp = tmp->next;
+			i++;
+		}
+		else
+			cmd_array[i] = my_strjoin(cmd_array[i], tmp->token);
+		tmp = tmp->next;
+	}
+	cmd_array[i] = NULL;
+	return (cmd_array);
+}
+
 /**	@brief	parse commandline with pipes into seperate commands
  *	@param	cmd_line command line
  *	@return	3d array with commands
@@ -110,9 +151,12 @@ int	pipe_exec(t_data *data)
 	int		i;
 	int		ret;
 	int		myfd;
+	char	**test;
 
 	if (has_pipe(data))
 	{
+		// test = get_cmd_array(data);
+		// print_2d_array(test);
 		cmds = get_cmds(data->command);
 		i = 0;
 		myfd = 0;
