@@ -1,25 +1,5 @@
 #include "../include/minishell.h"
 
-/**	@brief	check if command line contains pipes
- *	@param	cmd_line command line
- *	@return	1 if there are pipes, 0 if not
- */
-static int	has_pipe(char *cmd_line)
-{
-	int	i;
-
-	if (!cmd_line)
-		return (0);
-	i = 0;
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == '|' && cmd_line[i + 1])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 /**	@brief	parse commandline with pipes into seperate commands
  *	@param	cmd_line command line
  *	@return	3d array with commands
@@ -83,6 +63,10 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 	exit(data->exitstatus);
 }
 
+/**	@brief	waits for child, gets exit status
+ *	@param	pid pid
+ *	@return	exit status of child
+ */
 int	ft_wait(int pid)
 {
 	int	status;
@@ -96,6 +80,26 @@ int	ft_wait(int pid)
 	return (exit);
 }
 
+/**	@brief	checks if cmd line has pipe (not in quotes)
+ *	@param	data data struct
+ *	@return	if pipe exists
+ */
+static int	has_pipe(t_data *data)
+{
+	t_token_list	*tmp;
+
+	if (!data->tokens)
+		return (0);
+	tmp = data->tokens;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 /**	@brief	check for pipes, and redirects output before execution
  *	@param	data datastruct
  *	@return	status for msh_loop
@@ -107,7 +111,7 @@ int	pipe_exec(t_data *data)
 	int		ret;
 	int		myfd;
 
-	if (has_pipe(data->command))
+	if (has_pipe(data))
 	{
 		cmds = get_cmds(data->command);
 		i = 0;
