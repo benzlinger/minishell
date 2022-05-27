@@ -98,6 +98,7 @@ int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);
 int				ft_wait(int pid);
+char			*my_strjoin(char const *s1, char const *s2);
 
 /* utils executer */
 char			**ft_redirec(char **cmd_line, t_data *data);
