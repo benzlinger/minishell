@@ -33,12 +33,10 @@ static t_data	*init_data(char **env_list)
  *	2. Separate the command string into a programm and arguments
  *	3. Run the parsed command
  */
-static void	msh_loop(t_data *data)
+static void	msh_loop(t_data *data, int status)
 {
-	int		status;
 	char	*promptline;
 
-	status = 1;
 	while (status)
 	{
 		promptline = msh_prompt(data);
@@ -53,7 +51,6 @@ static void	msh_loop(t_data *data)
 			{
 				status = pipe_exec(data);
 				free(data->command);
-				// ls -l | grep minishell > fileX
 			}
 			ft_free_tokens(&data->tokens);
 		}
@@ -61,8 +58,6 @@ static void	msh_loop(t_data *data)
 			data->err_color = 1;
 		free(data->line);
 	}
-	free_vars(data->vars);
-	free(data);
 }
 
 /*	1. Loading config files (if any)
@@ -79,6 +74,9 @@ int	main(int argc, char *argv[], char *envp[])
 	// envp = NULL;
 	data = init_data(envp);
 	init_signal_handling(data->exitstatus); //on ctrl+c exit status should be 1
-	msh_loop(data);
+	msh_loop(data, 1);
+	free_vars(data->vars);
+	free(data);
+	system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

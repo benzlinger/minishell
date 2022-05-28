@@ -34,7 +34,6 @@ int	ft_export(t_data *data, char **cmd_line, int fd, int is_exit)
 		}
 		else
 		{
-			// FIXME are name and value being freed somewhere??
 			name = ft_strdup(cmd_line[i]);
 			append_var(name, NULL, data->vars);
 		}
