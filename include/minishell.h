@@ -142,7 +142,7 @@ void			ft_error(char *err_msg);
 void			ft_exit(int err_code);
 void			ft_exit_eof(int err_code);
 char			*ft_parse_error(char *err_msg1, char *err_msg2);
-void			ft_exec_error(char *err_msg1, t_data *data);
+int				ft_exec_error(char *err_msg1, t_data *data);
 
 /* utils free */
 void			free_2d_array(char **arr);
@@ -172,7 +172,7 @@ char			*get_type(int type);
 /* builtin functions */
 int				ft_echo(char **cmd_line, int fd);
 int				ft_pwd(char **cmd_line, int fd);
-int				ft_cd(char **cmd_line);
+int				ft_cd(char **cmd_line, int ret, char *user);
 int				ft_env(t_data *data, char **cmd_line, int fd);
 int				ft_export(t_data *data, char **cmd_line, int fd, int is_exit);
 t_vars			*ft_unset(char **cmd_line, t_data *data);

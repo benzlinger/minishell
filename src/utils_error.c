@@ -39,13 +39,14 @@ char	*ft_parse_error(char *err_msg1, char *err_msg2)
 	return (NULL);
 }
 
-void	ft_exec_error(char *err_msg1, t_data *data)
+int	ft_exec_error(char *err_msg1, t_data *data)
 {
 	write(2, ERROR, ft_strlen(ERROR));
 	write(2, err_msg1, ft_strlen(err_msg1));
 	write(2, "\n", 1);
 	if (data)
 		data->exitstatus = EXIT_FAILURE;
+	return (EXIT_FAILURE);
 }
 
 /**	
