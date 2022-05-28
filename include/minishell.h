@@ -100,10 +100,11 @@ int				exec_nopipe(t_data *data);
 int				ft_wait(int pid);
 
 /* utils executer */
+void			remove_tmp(t_data *data);
 char			**ft_redirec(char **cmd_line, t_data *data);
 void			redirec_input(t_token_list *node);
 void			redirec_heredoc_input(t_token_list *node);
-char			*remove_redirec(char **cmd_line);
+char			*remove_redirec(char **cmd_line, int i, int j);
 void			redirec_output(t_token_list *node, bool append);
 void			truncate_file(t_token_list *node);
 void			create_file(t_token_list *node);

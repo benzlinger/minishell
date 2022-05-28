@@ -30,13 +30,26 @@ bool	ft_check_quote(char c, char *q)
 	}
 }
 
-/**
- * 	@brief	increments i and j in one line to save some lines (norm)
- */
-static void	ft_increment(int *i, int *j)
+static void	ft_one(int *i, int *j, char **dline, char **pline)
 {
-	*i += 1;
+	char	qchar;
+
+	qchar = pline[0][*i];
+	dline[0][*j] = pline[0][*i];
 	*j += 1;
+	*i += 1;
+	while (!(ft_check_quote(pline[0][*i], &qchar)) && pline[0][*i])
+	{
+		dline[0][*j] = pline[0][*i];
+		*j += 1;
+		*i += 1;
+	}
+	if (pline[0][*i])
+	{
+		dline[0][*j] = pline[0][*i];
+		*j += 1;
+		*i += 1;
+	}
 }
 
 /**
@@ -51,7 +64,6 @@ static void	ft_increment(int *i, int *j)
 char	*ft_delimit_line(char *pline, int i, int j)
 {
 	char	*dline;
-	char	qchar;
 
 	dline = ft_calloc(ft_strlen(pline) + 1, sizeof(char));
 	if (dline == NULL)
@@ -59,28 +71,15 @@ char	*ft_delimit_line(char *pline, int i, int j)
 	while (pline[i])
 	{
 		if (ft_check_quote(pline[i], NULL))
-		{
-			qchar = pline[i];
-			dline[j] = pline[i];
-			ft_increment(&i, &j);
-			while (!(ft_check_quote(pline[i], &qchar)) && pline[i])
-			{
-				dline[j] = pline[i];
-				ft_increment(&i, &j);
-			}
-			if (pline[i])
-			{
-				dline[j] = pline[i];
-				ft_increment(&i, &j);
-			}
-		}
+			ft_one(&i, &j, &dline, &pline);
 		else
 		{
 			if (pline[i] == ' ')
 				dline[j] = 31;
 			else
 				dline[j] = pline[i];
-			ft_increment(&i, &j);
+			i++;
+			j++;
 		}
 	}
 	return (dline);

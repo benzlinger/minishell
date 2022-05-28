@@ -1,5 +1,20 @@
 #include "../include/minishell.h"
 
+char	*find_env_var_value(t_data *data, char *name)
+{
+	t_vars	*current;
+
+	current = data->vars;
+	while (current)
+	{
+		if (!ft_strncmp(current->name, name, ft_strlen(name) + 1)
+			&& current->value)
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
+}
+
 /**	@brief	parse commandline for export and unset (special case with = symbol)
  *	@param	cmd command line
  *	@return	command line for export and unset

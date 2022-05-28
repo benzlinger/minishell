@@ -28,18 +28,39 @@ static int	find_right_path(char **paths, char *command)
 	return (-1);
 }
 
-char	*find_env_var_value(t_data *data, char *name)
+static char	*ft_one(char **s, t_data *data)
 {
-	t_vars	*current;
+	ft_parse_error(*s, ":command not found");
+	data->exitstatus = 127;
+	free(*s);
+	return (NULL);
+}
 
-	current = data->vars;
-	while (current)
+static char	*ft_two(char *tmp, char **paths, char *s, bool *free_path)
+{
+	char	*path;
+	int		right_path;
+
+	tmp = ft_strjoin("/", s, NULL);
+	right_path = find_right_path(paths, tmp);
+	if (right_path != -1)
 	{
-		if (!ft_strncmp(current->name, name, ft_strlen(name) + 1)
-			&& current->value)
-			return (current->value);
-		current = current->next;
+		path = ft_strjoin(paths[right_path], tmp, NULL);
+		*free_path = true;
 	}
+	else
+		path = s;
+	free(tmp);
+	return (path);
+}
+
+static char	*ft_three(char **s, t_data *data, char **paths)
+{
+	ft_parse_error(*s, ": command not found");
+	data->exitstatus = 127;
+	free(*s);
+	if (paths)
+		free_2d_array(paths);
 	return (NULL);
 }
 
@@ -52,53 +73,27 @@ char	*find_env_var_value(t_data *data, char *name)
  */
 char	*type_command(char **s, t_data *data)
 {
-	int		right_path;
 	bool	free_path;
 	char	**paths;
 	char	*path;
 	char	*tmp;
 
 	path = *s;
-	// paths = ft_split(getenv("PATH"), ':');
 	tmp = find_env_var_value(data, "PATH");
 	if (!tmp)
-	{
-		ft_parse_error(*s, ": command not found");
-		data->exitstatus = 127;
-		free(*s);
-		return (NULL);
-	}
+		return (ft_one(s, data));
 	paths = ft_split(tmp, ':');
-	tmp = NULL;
 	free_path = false;
 	if (s[0][0] != '/')
-	{
-		tmp = ft_strjoin("/", *s, NULL);
-		right_path = find_right_path(paths, tmp);
-		if (right_path != -1)
-		{
-			path = ft_strjoin(paths[right_path], tmp, NULL);
-			free_path = true;
-		}
-		free(tmp);
-	}
+		path = ft_two(tmp, paths, *s, &free_path);
 	if (access(path, F_OK) != 0)
 	{
-		ft_parse_error(*s, ": command not found");
-		data->exitstatus = 127;
-	//	if (type != ENVAR)
-	//		free(*s);
-		free(*s);
 		if (free_path)
 			free(path);
-		if (paths)
-			free_2d_array(paths);
-		return (NULL);
+		return (ft_three(s, data, paths));
 	}
 	if (free_path == false)
 		path = ft_strdup(*s);
-	//if (type != ENVAR)
-	//	free(*s);
 	free(*s);
 	free_2d_array(paths);
 	return (path);
