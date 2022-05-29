@@ -13,7 +13,12 @@
 # include <fcntl.h> // system(leaks)
 # include "libft.h"
 
-# define ERROR "\e[1;31mError: \e[0m"
+# define ERROR "\001\033[1;31mError:\002 \001\033[0m\002"
+# define CYAN "\001\033[36m\002"
+# define BCYAN "\001\033[1;36m\002"
+# define YELLOW "\001\033[1;33m\002"
+# define PURPLE "\001\033[1;95m\002"
+# define RESET "\001\033[0m\002"
 
 //NORM ERROR
 # define PRINT_HERE(){printf("In File: %s In Line: %d\n", __FILE__, __LINE__);}

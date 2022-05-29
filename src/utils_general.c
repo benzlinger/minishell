@@ -67,7 +67,7 @@ char	*ft_color_format_str(char *s, char *pre, char **tofree)
 	char	*out;
 	int		j;
 
-	suf = ft_strdup("\e[0m");
+	suf = ft_strdup(RESET);
 	j = ft_strlen(s) + ft_strlen(pre) + ft_strlen(suf);
 	out = ft_calloc(j + 1, sizeof(char));
 	if (out == NULL)

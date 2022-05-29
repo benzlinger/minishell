@@ -54,18 +54,18 @@ char	*msh_prompt(t_data *data)
 	char		*username;
 
 	file = get_file();
-	file = ft_color_format_str(file, "\e[36m", &file);
-	username = ft_color_format_str(getenv("USER"), "\e[1;36m", NULL);
+	file = ft_color_format_str(file, CYAN, &file);
+	username = ft_color_format_str(getenv("USER"), BCYAN, NULL);
 	prompt = ft_strjoin(username, file, NULL);
 	promptline = NULL;
 	if (!data->exitstatus || data->err_color)
 	{
-		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m", NULL);
+		promptline = ft_strjoin(prompt, YELLOW" 42 "RESET, NULL);
 		data->err_color = 0;
 	}
 	else
 	{
-		promptline = ft_strjoin(prompt, "\e[1;95m 42 \e[0m", NULL);
+		promptline = ft_strjoin(prompt, PURPLE" 42 "RESET, NULL);
 		data->err_color = 1;
 	}
 	free(file);
