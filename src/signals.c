@@ -50,6 +50,7 @@ static void	signal_handler(int sig, siginfo_t *info, void *context)
 		handle_sigint2();
 	else if (sig == 3)
 		handle_sigquit();
+	context = NULL;
 }
 
 /**
@@ -65,4 +66,5 @@ void	init_signal_handling(int exit)
 	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
+	exit = 0;
 }

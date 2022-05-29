@@ -73,7 +73,7 @@ int	main(int argc, char *argv[], char *envp[])
 	argv = NULL;
 	// envp = NULL;
 	data = init_data(envp);
-	init_signal_handling(data->exitstatus); //on ctrl+c exit status should be 1
+	init_signal_handling(0);
 	msh_loop(data, 1);
 	free_vars(data->vars);
 	free(data);
