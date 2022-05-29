@@ -39,8 +39,9 @@ SRC =	$(SRC_PATH)main.c						$(SRC_PATH)lexer.c\
 		$(SRC_PATH)utils_executer_redirec.c 	$(SRC_PATH)utils_executer_redirec2.c\
 		$(SRC_PATH)compatibility.c				$(SRC_PATH)utils_executer.c\
 		$(SRC_PATH)utils_export2.c				$(SRC_PATH)prompt.c\
-		$(SRC_PATH)utils_executer_redirec3.c\
-    	$(SRC_PATH)utils_parser_exitstatus.c	$(SRC_PATH)debug.c\
+		$(SRC_PATH)utils_executer_redirec3.c	$(SRC_PATH)utils_parser_redirec2.c\
+    	$(SRC_PATH)utils_parser_exitstatus.c\
+		$(SRC_PATH)debug.c\
 
 # OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))

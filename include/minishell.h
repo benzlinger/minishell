@@ -114,6 +114,10 @@ t_token_list	*iterate_to_current_pipe(t_data *data);
 int				countyy(char **cmd_line);
 
 /* utils parser */
+int				get_last_redirec(t_token_list *head);
+void			set_rout(t_token_list *head, int i);
+bool			rout_exists(t_token_list *head);
+void			set_rin_rout(t_token_list *head);
 char			*ft_list_to_str(t_token_list *tokens, char c);
 char			*type_command(char **s, t_data *data);
 char			*type_dquote(char **s, t_data *data);

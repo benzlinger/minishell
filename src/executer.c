@@ -79,7 +79,7 @@ static void	msh_executer_two(t_data *data, char **cmd_line)
 	char	*tmp;
 
 	data->builtin_fd = get_builtin_fd(data);
-	tmp = remove_redirec(cmd_line);
+	tmp = remove_redirec(cmd_line, 0, 0);
 	builtin_cmd_line = ft_split(tmp, 31);
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
 		data->exitstatus = ft_echo(builtin_cmd_line, data->builtin_fd);
