@@ -7,9 +7,9 @@
  */
 void	ft_exit(int err_code)
 {
-	//system("leaks minishell");
 	// TODO freeing before exit function for clean shutdown
 	// free_vars(data->vars);
+	system("leaks minishell");
 	exit(err_code);
 }
 
@@ -19,7 +19,7 @@ void	ft_exit_eof(int err_code)
 	rl_on_new_line();
 	rl_redisplay();
 	write(1, "exit\n", 5);
-	exit (err_code);
+	ft_exit(err_code);
 }
 
 /**	
@@ -39,13 +39,14 @@ char	*ft_parse_error(char *err_msg1, char *err_msg2)
 	return (NULL);
 }
 
-void	ft_exec_error(char *err_msg1, t_data *data)
+int	ft_exec_error(char *err_msg1, t_data *data)
 {
 	write(2, ERROR, ft_strlen(ERROR));
 	write(2, err_msg1, ft_strlen(err_msg1));
 	write(2, "\n", 1);
 	if (data)
 		data->exitstatus = EXIT_FAILURE;
+	return (EXIT_FAILURE);
 }
 
 /**	

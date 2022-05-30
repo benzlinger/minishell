@@ -20,42 +20,6 @@ static int	has_pipe(char *cmd_line)
 	return (0);
 }
 
-/**	@brief	parse commandline with pipes into seperate commands
- *	@param	cmd_line command line
- *	@return	3d array with commands
- */
-static char	***get_cmds(char *cmd_line)
-{
-	char	**cmd_array;
-	char	***cmds;
-	int		i;
-	int		j;
-
-	cmd_array = ft_split(cmd_line, '|');
-	if (!cmd_array)
-		ft_error(strerror(errno));
-	i = 0;
-	while (cmd_array[i])
-		i++;
-	cmds = malloc(sizeof(char **) * i + 1);
-	if (!cmds)
-		ft_error(strerror(errno));
-	j = 0;
-	while (j < i)
-	{
-		if (!ft_strncmp(cmd_array[j], "export", 6)
-			|| !ft_strncmp(cmd_array[j], "unset", 5))
-			cmds[j] = export_cmd(cmd_array[j]);
-		else
-			cmds[j] = ft_split(cmd_array[j], 31);
-		j++;
-	}
-	cmds[j] = NULL;
-	free_2d_array(cmd_array);
-	i = 0;
-	return (cmds);
-}
-
 /**	@brief	redirecting output to next command after pipe
  * 			--> exits because its a child process
  *	@param	cmds 3d array containing all commands without pipes
@@ -96,7 +60,30 @@ int	ft_wait(int pid)
 	return (exit);
 }
 
-/**	@brief	check for pipes, and redirects output before execution
+static void	ft_one(t_data *data, char ***cmds, int *myfd, int *i)
+{
+	if (pipe(data->fd) == -1)
+		ft_error(strerror(errno));
+	data->pid = fork();
+	if (data->pid == -1)
+		ft_error(strerror(errno));
+	else if (data->pid == 0)
+	{
+		pipe_exec_helper(cmds, data, myfd, *i);
+		ft_error(strerror(errno));
+	}
+	else
+	{
+		data->current_pipe = *i;
+		data->exitstatus = ft_wait(data->pid);
+		close(data->fd[1]);
+		*myfd = data->fd[0];
+	}
+	*i += 1;
+}
+
+/**	
+ * 	@brief	check for pipes, and redirects output before execution
  *	@param	data datastruct
  *	@return	status for msh_loop
  */
@@ -113,26 +100,7 @@ int	pipe_exec(t_data *data)
 		i = 0;
 		myfd = 0;
 		while (cmds[i])
-		{
-			if (pipe(data->fd) == -1)
-				ft_error(strerror(errno));
-			data->pid = fork();
-			if (data->pid == -1)
-				ft_error(strerror(errno));
-			if (data->pid == 0)
-			{
-				pipe_exec_helper(cmds, data, &myfd, i);
-				ft_error(strerror(errno));
-			}
-			else
-			{
-				data->current_pipe = i;
-				data->exitstatus = ft_wait(data->pid);
-				close(data->fd[1]);
-				myfd = data->fd[0];
-			}
-			i++;
-		}
+			ft_one(data, cmds, &myfd, &i);
 		close(data->fd[0]);
 		free_3d_array(cmds);
 		ret = data->status;

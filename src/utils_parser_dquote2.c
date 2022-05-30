@@ -50,7 +50,7 @@ static char	*get_envar_name(char *s)
 		i++;
 	i++;
 	j = 0;
-	while (s[i] != ' ' && s[i])
+	while (s[i] != ' ' && s[i] != ',' && s[i])
 	{
 		out[j] = s[i];
 		i++;

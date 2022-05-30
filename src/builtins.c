@@ -39,33 +39,30 @@ int	ft_echo(char **cmd_line, int fd)
  *	@param	command line from parser
  *	@return	if function scceeded
  */
-int	ft_cd(char **cmd_line)
+int	ft_cd(char **cmd_line, int ret, char *user)
 {
-	int		ret;
 	char	*homedir;
 	char	*path;
 	char	*new_path;
 
 	if (!cmd_line)
 		return (EXIT_FAILURE);
+	homedir = ft_strjoin("/Users/", user, NULL);
 	if (cmd_line[1] && cmd_line[1][0] == '~')
 	{
-		homedir = "/Users/btenzlin";
 		path = ft_substr(cmd_line[1], 1, ft_strlen(cmd_line[1]));
 		new_path = ft_strjoin(homedir, path, NULL);
-		free(path);
 		ret = chdir(new_path);
+		free(path);
 		free(new_path);
 	}
 	else if (!cmd_line[1])
-		ret = chdir("/Users/btenzlin");
+		ret = chdir(homedir);
 	else
 		ret = chdir(cmd_line[1]);
+	free(homedir);
 	if (ret == -1)
-	{
-		ft_exec_error(strerror(errno), NULL);
-		return (EXIT_FAILURE);
-	}
+		return (ft_exec_error(strerror(errno), NULL));
 	return (EXIT_SUCCESS);
 }
 
