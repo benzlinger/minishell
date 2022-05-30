@@ -53,20 +53,20 @@ static int	remove_quotes(char *old, char *new)
  * 	@param	s: string to handle
  * 	@return	double quotes count in string s
  */
-static int	quote_count(char *s)
+int	quote_count(char *s, char c)
 {
 	int	i;
-	int	dq_count;
+	int	qcount;
 
 	i = 0;
-	dq_count = 0;
+	qcount = 0;
 	while (s[i])
 	{
-		if (s[i] == '"')
-			dq_count++;
+		if (s[i] == c)
+			qcount++;
 		i++;
 	}
-	return (dq_count);
+	return (qcount);
 }
 
 /**
@@ -81,7 +81,7 @@ static char	*handle_quotes(char *s)
 	out = ft_calloc(ft_strlen(s), sizeof(char));
 	if (out == NULL)
 		ft_error(strerror(errno));
-	if (quote_count(s) % 2 != 0)
+	if (quote_count(s, '"') % 2 != 0)
 	{
 		free(out);
 		return (ft_parse_error("odd amount of double quotes", NULL));

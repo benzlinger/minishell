@@ -139,6 +139,7 @@ int				has_exitstatus(char *s);
 char			*replace_exitstatus(char *s, t_data *data);
 int				check_redirections(t_token_list *head);
 char			*find_env_var_value(t_data *data, char *name);
+int				quote_count(char *s, char c);
 
 /* utils lexer */
 void			remove_token_node(t_token_list *head, t_token_list **node);
