@@ -54,7 +54,10 @@ char	*type_squote(char **s)
 	j = 1;
 	while (s[0][j] != 39 && s[0][j])
 	{
-		out[i] = s[0][j];
+		if (s[0][j] == '|')
+			out[i] = 26;
+		else
+			out[i] = s[0][j];
 		i++;
 		j++;
 	}

@@ -38,7 +38,10 @@ static int	remove_quotes(char *old, char *new)
 	{
 		while (old[i] == '"')
 			i++;
-		new[j] = old[i];
+		if (old[i] == '|')
+			new[j] = 26;
+		else
+			new[j] = old[i];
 		i++;
 		j++;
 	}

@@ -104,6 +104,7 @@ int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);
 int				ft_wait(int pid);
+void			check_for_substitute_char(char **cmd_array);
 
 /* utils executer */
 void			remove_tmp(t_data *data);
