@@ -48,8 +48,10 @@ static void	signal_handler(int sig, siginfo_t *info, void *context)
 		handle_sigint();
 	else if (sig == 2)
 		handle_sigint2();
-	else if (sig == 3)
+	else if (sig == 3 && info->si_pid == getpid())
 		handle_sigquit();
+	else if (sig == 3)
+		write(1, "Quit: 3\n", 8);
 	context = NULL;
 }
 
