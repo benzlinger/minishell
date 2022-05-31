@@ -39,9 +39,6 @@ int	type_redirec(char *s)
  * 	@brief	removes single quotes
  * 	@param	pointer to literal token string of type SQUOTE
  * 	@return	string without singlequotes
- * 	@NOTE	Very little testing was done
- * 		also I'm not entirly sure if removing the single quotes was
- * 		all that needed to be done
  */
 char	*type_squote(char **s)
 {
@@ -49,6 +46,11 @@ char	*type_squote(char **s)
 	int		i;
 	int		j;
 
+	if (quote_count(*s, '\'') % 2 != 0)
+	{
+		free(*s);
+		return (ft_parse_error("odd amount of single quotes", NULL));
+	}
 	out = ft_calloc(ft_strlen(*s) + 1, sizeof(char));
 	if (out == NULL)
 		ft_error(strerror(errno));
@@ -56,7 +58,10 @@ char	*type_squote(char **s)
 	j = 1;
 	while (s[0][j] != 39 && s[0][j])
 	{
-		out[i] = s[0][j];
+		if (s[0][j] == '|')
+			out[i] = 26;
+		else
+			out[i] = s[0][j];
 		i++;
 		j++;
 	}

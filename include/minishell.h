@@ -106,6 +106,7 @@ int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);
 int				ft_wait(int pid);
+void			check_for_substitute_char(char **cmd_array);
 
 /* utils executer */
 void			remove_tmp(t_data *data);
@@ -139,6 +140,7 @@ int				has_exitstatus(char *s);
 char			*replace_exitstatus(char *s);
 int				check_redirections(t_token_list *head);
 char			*find_env_var_value(t_data *data, char *name);
+int				quote_count(char *s, char c);
 
 /* utils lexer */
 void			remove_token_node(t_token_list *head, t_token_list **node);
