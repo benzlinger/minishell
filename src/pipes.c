@@ -1,5 +1,42 @@
 #include "../include/minishell.h"
 
+
+/**	@brief	parse commandline with pipes into seperate commands
+ *	@param	cmd_line command line
+ *	@return	3d array with commands
+ */
+static char	***get_cmds(char *cmd_line)
+{
+	char	**cmd_array;
+	char	***cmds;
+	int		i;
+	int		j;
+
+	cmd_array = ft_split(cmd_line, '|');
+	if (!cmd_array)
+		ft_error(strerror(errno));
+	i = 0;
+	while (cmd_array[i])
+		i++;
+	cmds = malloc(sizeof(char **) * i + 1);
+	if (!cmds)
+		ft_error(strerror(errno));
+	j = 0;
+	while (j < i)
+	{
+		if (!ft_strncmp(cmd_array[j], "export", 6)
+			|| !ft_strncmp(cmd_array[j], "unset", 5))
+			cmds[j] = export_cmd(cmd_array[j]);
+		else
+			cmds[j] = ft_split(cmd_array[j], 31);
+		j++;
+	}
+	cmds[j] = NULL;
+	free_2d_array(cmd_array);
+	i = 0;
+	return (cmds);
+}
+
 /**	@brief	check if command line contains pipes
  *	@param	cmd_line command line
  *	@return	1 if there are pipes, 0 if not
@@ -47,6 +84,10 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 	exit(data->exitstatus);
 }
 
+/**	@brief	waits for child, gets exit status
+ *	@param	pid pid
+ *	@return	exit status of child
+ */
 int	ft_wait(int pid)
 {
 	int	status;
@@ -59,6 +100,26 @@ int	ft_wait(int pid)
 		exit = 130;
 	return (exit);
 }
+
+/**	@brief	checks if cmd line has pipe (not in quotes)
+ *	@param	data data struct
+ *	@return	if pipe exists
+ */
+// static int	has_pipe(t_data *data)
+// {
+// 	t_token_list	*tmp;
+
+// 	if (!data->tokens)
+// 		return (0);
+// 	tmp = data->tokens;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type == PIPE)
+// 			return (1);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
 
 static void	ft_one(t_data *data, char ***cmds, int *myfd, int *i)
 {
@@ -94,7 +155,7 @@ int	pipe_exec(t_data *data)
 	int		ret;
 	int		myfd;
 
-	if (has_pipe(data->command))
+	if (has_pipe(data))
 	{
 		cmds = get_cmds(data->command);
 		i = 0;

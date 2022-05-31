@@ -81,3 +81,32 @@ char	*ft_color_format_str(char *s, char *pre, char **tofree)
 	free(suf);
 	return (out);
 }
+
+char	*my_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+	int		count1;
+	int		count2;
+
+	if (!s1 && !s2)
+		return (0);
+	str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+		return (0);
+	count1 = 0;
+	while (s1 && s1[count1])
+	{
+		str[count1] = s1[count1];
+		count1++;
+	}
+	count2 = 0;
+	while (s2 && s2[count2])
+	{
+		str[count1] = s2[count2];
+		count1++;
+		count2++;
+	}
+	str[count1] = '\0';
+	free((char *)s1);
+	return (str);
+}

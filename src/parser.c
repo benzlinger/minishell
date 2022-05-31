@@ -9,9 +9,10 @@ static int	check_tokens_via_type2(t_token_list *cur)
 			ft_parse_error("invalid heredoc syntax near: ", cur->token);
 			return (EXIT_FAILURE);
 		}
-		if (!cur->next)
+		if (!cur->next || cur->next->type == HEREDOC
+			|| cur->next->type == PIPE || cur->next->type == REDIREC)
 		{
-			ft_parse_error("Please enter a delimiter after: ", cur->token);
+			ft_parse_error("Invalid or missing delimiter after: ", cur->token);
 			return (EXIT_FAILURE);
 		}
 		cur->next->token = type_heredoc(&cur->next->token, cur->next->token);
