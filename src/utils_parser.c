@@ -1,5 +1,18 @@
 #include "../include/minishell.h"
 
+void	set_token_type(t_token_list *head)
+{
+	t_token_list	*current;
+
+	current = head;
+	while (current != NULL)
+	{
+		if (current->type == HEREDOC)
+			current->next->type = TOKEN;
+		current = current->next;
+	}
+}
+
 /**
  * 	@brief	gets size for allocating command string
  * 	@param	tokens: linked list from lexer

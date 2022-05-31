@@ -114,6 +114,7 @@ char	*msh_parser(t_data *data)
 {
 	char	*command;
 
+	set_token_type(data->tokens);
 	if (check_tokens_via_type(data) != 0)
 		return (NULL);
 	if (get_command_types(data) != 0)
