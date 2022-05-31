@@ -101,7 +101,6 @@ bool			redirec_in(char **cmd_line);
 char			*remove_pipes(char **old_cmd);
 
 /* pipe functions */
-char			***get_cmds(char *cmd_line);
 int				pipe_exec(t_data *data); //test
 char			**export_cmd(char *cmd);
 int				exec_nopipe(t_data *data);

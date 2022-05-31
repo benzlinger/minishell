@@ -160,7 +160,7 @@ int	pipe_exec(t_data *data)
 	int		ret;
 	int		myfd;
 
-	if (has_pipe(data))
+	if (has_pipe(data->command))
 	{
 		cmds = get_cmds(data->command);
 		i = 0;
