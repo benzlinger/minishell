@@ -32,6 +32,7 @@ static int	check_left_redirec(t_token_list *head)
 			&& current->next->type != HEREDOC)
 		{
 			ft_parse_error("Invalid redirection syntax near: ", current->token);
+			g_exitstatus = 258;
 			return (EXIT_FAILURE);
 		}
 		if (current->token[0] == '<' && current->type != HEREDOC)
@@ -40,6 +41,7 @@ static int	check_left_redirec(t_token_list *head)
 			{
 				current = current->next;
 				ft_parse_error(current->token, ": No such file or directory");
+				g_exitstatus = 1;
 				return (EXIT_FAILURE);
 			}
 		}
@@ -73,6 +75,7 @@ static int	check_redir_syntax(t_token_list *head)
 				|| tmp->next->type == PIPE || tmp->next->type == FLAG)
 			{
 				ft_parse_error("Invalid redirection syntax near: ", tmp->token);
+				g_exitstatus = 258;
 				return (EXIT_FAILURE);
 			}
 		}

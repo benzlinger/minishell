@@ -56,7 +56,7 @@ static char	*replace_helper(char *s, char *exit, int new_size)
 	return (new);
 }
 
-char	*replace_exitstatus(char *s, t_data *data)
+char	*replace_exitstatus(char *s)
 {
 	int		i;
 	int		j;
@@ -64,7 +64,7 @@ char	*replace_exitstatus(char *s, t_data *data)
 	char	*exit;
 	char	*new;
 
-	exit = ft_itoa(data->exitstatus);
+	exit = ft_itoa(g_exitstatus);
 	size = ft_strlen(exit);
 	i = 0;
 	j = 0;

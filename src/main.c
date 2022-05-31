@@ -22,7 +22,7 @@ static t_data	*init_data(char **env_list)
 	if (!data->vars)
 		ft_exec_error("Init failed.", NULL);
 	data->env_list = env_list;
-	data->exitstatus = 0;
+	g_exitstatus = 0;
 	data->status = 1;
 	data->err_color = 0;
 	return (data);
@@ -73,7 +73,7 @@ int	main(int argc, char *argv[], char *envp[])
 	argv = NULL;
 	// envp = NULL;
 	data = init_data(envp);
-	init_signal_handling(0);
+	init_signal_handling();
 	msh_loop(data, 1);
 	free_vars(data->vars);
 	free(data);

@@ -58,7 +58,7 @@ char	*msh_prompt(t_data *data)
 	username = ft_color_format_str(getenv("USER"), BCYAN, NULL);
 	prompt = ft_strjoin(username, file, NULL);
 	promptline = NULL;
-	if (!data->exitstatus || data->err_color)
+	if (!g_exitstatus || data->err_color)
 	{
 		promptline = ft_strjoin(prompt, YELLOW" 42 "RESET, NULL);
 		data->err_color = 0;

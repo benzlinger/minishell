@@ -21,7 +21,7 @@ int	ft_export(t_data *data, char **cmd_line, int fd, int is_exit)
 	char	*value;
 
 	if (!cmd_line[1])
-		data->exitstatus = show_vars(data->vars, fd);
+		g_exitstatus = show_vars(data->vars, fd);
 	i = 0;
 	while (++i && cmd_line[i])
 	{
@@ -38,7 +38,7 @@ int	ft_export(t_data *data, char **cmd_line, int fd, int is_exit)
 			append_var(name, NULL, data->vars);
 		}
 		if (!is_exit)
-			data->exitstatus = EXIT_SUCCESS;
+			g_exitstatus = EXIT_SUCCESS;
 	}
-	return (data->exitstatus);
+	return (g_exitstatus);
 }
