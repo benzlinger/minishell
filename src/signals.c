@@ -47,7 +47,7 @@ static void	signal_handler(int sig, siginfo_t *info, void *context)
 	if (sig == 2 && info->si_pid == getpid())
 		handle_sigint();
 	else if (sig == 2)
-		handle_sigint2();
+		write(1, "\n", 1);
 	else if (sig == 3 && info->si_pid == getpid())
 		handle_sigquit();
 	else if (sig == 3)
@@ -63,8 +63,8 @@ void	init_signal_handling(int exit)
 	struct sigaction	sa;
 
 	// sa.sa_handler = &signal_handler;
-	// sa.sa_flags = SA_RESTART;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_flags = SA_RESTART;
+	// sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
