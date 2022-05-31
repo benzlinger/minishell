@@ -44,7 +44,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 		dup2(*myfd, STDIN_FILENO);
 		msh_executer(data, cmds[i]);
 	}
-	exit(data->exitstatus);
+	exit(g_exitstatus);
 }
 
 int	ft_wait(int pid)
@@ -56,7 +56,12 @@ int	ft_wait(int pid)
 	if (WIFEXITED(status))
 		exit = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
-		exit = 130;
+	{
+		if (WTERMSIG(status) == 2)
+			exit = 130;
+		else
+			exit = 131;
+	}
 	return (exit);
 }
 
@@ -75,7 +80,7 @@ static void	ft_one(t_data *data, char ***cmds, int *myfd, int *i)
 	else
 	{
 		data->current_pipe = *i;
-		data->exitstatus = ft_wait(data->pid);
+		g_exitstatus = ft_wait(data->pid);
 		close(data->fd[1]);
 		*myfd = data->fd[0];
 	}

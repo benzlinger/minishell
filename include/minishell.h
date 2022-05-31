@@ -20,6 +20,8 @@
 # define PURPLE "\001\033[1;95m\002"
 # define RESET "\001\033[0m\002"
 
+int	g_exitstatus; //VERIFY: if necessary
+
 //NORM ERROR
 # define PRINT_HERE(){printf("In File: %s In Line: %d\n", __FILE__, __LINE__);}
 
@@ -89,7 +91,7 @@ typedef struct s_data
 t_token_list	*msh_lexer(char *line);
 char			*msh_parser(t_data *data);
 int				msh_executer(t_data *data, char **command);
-void			init_signal_handling(int exit);
+void			init_signal_handling(void);
 char			*msh_prompt(t_data *data);
 
 /* compatibility */
@@ -132,10 +134,9 @@ bool			envar_exists(char *s);
 int				type_pipe(char *s);
 int				type_redirec(char *s);
 char			*type_squote(char **s);
-char			*type_envar(char **s);
 char			*type_heredoc(char **s, char *token);
 int				has_exitstatus(char *s);
-char			*replace_exitstatus(char *s, t_data *data);
+char			*replace_exitstatus(char *s);
 int				check_redirections(t_token_list *head);
 char			*find_env_var_value(t_data *data, char *name);
 

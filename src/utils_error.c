@@ -45,7 +45,7 @@ int	ft_exec_error(char *err_msg1, t_data *data)
 	write(2, err_msg1, ft_strlen(err_msg1));
 	write(2, "\n", 1);
 	if (data)
-		data->exitstatus = EXIT_FAILURE;
+		g_exitstatus = EXIT_FAILURE;
 	return (EXIT_FAILURE);
 }
 

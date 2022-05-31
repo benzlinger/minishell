@@ -7,6 +7,7 @@ static int	check_tokens_via_type2(t_token_list *cur)
 		if (!cur->next)
 		{
 			ft_parse_error("Please enter a delimiter after: ", cur->token);
+			g_exitstatus = 258;
 			return (EXIT_FAILURE);
 		}
 		cur->next->token = type_heredoc(&cur->next->token, cur->next->token);
@@ -56,6 +57,7 @@ static int	ft_one(t_token_list *node, t_data *data)
 		if (node->next == NULL || node->next->type == PIPE)
 		{
 			ft_parse_error("invalid pipe syntax", NULL);
+			g_exitstatus = 258;
 			return (EXIT_FAILURE);
 		}
 		if (node->next->type != BUILTIN)

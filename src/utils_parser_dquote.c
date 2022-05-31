@@ -81,6 +81,7 @@ static char	*handle_quotes(char *s)
 	if (quote_count(s) % 2 != 0)
 	{
 		free(out);
+		g_exitstatus = 1;
 		return (ft_parse_error("odd amount of double quotes", NULL));
 	}
 	if (remove_quotes(s, out) != 0)
@@ -104,7 +105,7 @@ char	*type_dquote(char **s, t_data *data)
 		return (NULL);
 	}
 	if (has_exitstatus(out))
-		out = replace_exitstatus(out, data);
+		out = replace_exitstatus(out);
 	if (envar_exists(*s))
 		out = insert_envar(&out, data);
 	if (out == NULL)

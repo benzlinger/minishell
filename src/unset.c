@@ -56,7 +56,7 @@ t_vars	*ft_unset(char **cmd_line, t_data *data)
 		{
 			data->vars = del_var(cmd_line[i], data->vars);
 			if (!is_exit)
-				data->exitstatus = EXIT_SUCCESS;
+				g_exitstatus = EXIT_SUCCESS;
 		}
 		i++;
 	}

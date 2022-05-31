@@ -23,8 +23,8 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 		ft_error(strerror(errno));
 	}
 	else
-		data->exitstatus = ft_wait(pid);
-	return (data->exitstatus);
+		g_exitstatus = ft_wait(pid);
+	return (g_exitstatus);
 }
 
 /**	@brief	parse command for executer without pipes
@@ -42,7 +42,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 // 		cmd_line = ft_split(data->command, ',');
 // 	data->status = 1;
 // 	if (check_builtins(cmd_line[0]))
-// 		data->exitstatus = msh_executer(data, cmd_line);
+// 		g_exitstatus = msh_executer(data, cmd_line);
 // 	else
 // 	{
 // 		data->pid = fork();
@@ -51,9 +51,9 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 // 		if (data->pid == 0)
 // 			exit(msh_executer(data, cmd_line));
 // 		else
-// 			data->exitstatus = ft_wait(data->pid);
+// 			g_exitstatus = ft_wait(data->pid);
 // 	}
-// 	// data->exitstatus = msh_executer(data, cmd_line);
+// 	// g_exitstatus = msh_executer(data, cmd_line);
 // 	free_2d_array(cmd_line);
 // 	return (data->status);
 // }
@@ -82,13 +82,13 @@ static void	msh_executer_two(t_data *data, char **cmd_line)
 	tmp = remove_redirec(cmd_line, 0, 0);
 	builtin_cmd_line = ft_split(tmp, 31);
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
-		data->exitstatus = ft_echo(builtin_cmd_line, data->builtin_fd);
+		g_exitstatus = ft_echo(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
-		data->exitstatus = ft_pwd(builtin_cmd_line, data->builtin_fd);
+		g_exitstatus = ft_pwd(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		data->exitstatus = ft_cd(cmd_line, 0, getenv("USER"));
+		g_exitstatus = ft_cd(cmd_line, 0, getenv("USER"));
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		data->exitstatus = ft_env(data, builtin_cmd_line, data->builtin_fd);
+		g_exitstatus = ft_env(data, builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 		ft_export(data, builtin_cmd_line, data->builtin_fd, 0);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
@@ -108,13 +108,13 @@ static void	msh_executer_three(t_data *data, char **cmd_line)
 
 	fd = STDOUT_FILENO;
 	if (!ft_strncmp(cmd_line[0], "echo", 4))
-		data->exitstatus = ft_echo(cmd_line, fd);
+		g_exitstatus = ft_echo(cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
-		data->exitstatus = ft_pwd(cmd_line, fd);
+		g_exitstatus = ft_pwd(cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		data->exitstatus = ft_cd(cmd_line, 0, getenv("USER"));
+		g_exitstatus = ft_cd(cmd_line, 0, getenv("USER"));
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
-		data->exitstatus = ft_env(data, cmd_line, fd);
+		g_exitstatus = ft_env(data, cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
 		ft_export(data, cmd_line, fd, 0);
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
@@ -139,8 +139,8 @@ int	msh_executer(t_data *data, char **cmd_line)
 	else if (check_builtins(cmd_line[0]))
 		msh_executer_three(data, cmd_line);
 	else
-		data->exitstatus = exec_not_builtin(cmd_line, data);
+		g_exitstatus = exec_not_builtin(cmd_line, data);
 	if (data->builtin_fd != STDOUT_FILENO)
 		close(data->builtin_fd);
-	return (data->exitstatus);
+	return (g_exitstatus);
 }

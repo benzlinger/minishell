@@ -12,12 +12,7 @@ static void	handle_sigint(void)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-static void	handle_sigint2(void)
-{
-	rl_on_new_line();
-	write(1, "\n", 1);
+	g_exitstatus = 1;
 }
 
 /**
@@ -26,16 +21,13 @@ static void	handle_sigint2(void)
  */
 static void	handle_sigquit(void)
 {
-	int	pid;
-
-	pid = getpid();
 	rl_on_new_line();
 	//printf("\nPID: %d\n", pid);
 	//system("leaks minishell");
 	rl_redisplay();
 	// for removing '^\'
 	write(1, "  \b\b", 4);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 }
 
 /**
@@ -58,7 +50,7 @@ static void	signal_handler(int sig, siginfo_t *info, void *context)
 /**
  * 	@brief	initializes signal handling
  */
-void	init_signal_handling(int exit)
+void	init_signal_handling(void)
 {
 	struct sigaction	sa;
 
@@ -68,5 +60,4 @@ void	init_signal_handling(int exit)
 	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-	exit = 0;
 }

@@ -28,10 +28,10 @@ static int	find_right_path(char **paths, char *command)
 	return (-1);
 }
 
-static char	*ft_one(char **s, t_data *data)
+static char	*ft_one(char **s)
 {
 	ft_parse_error(*s, ":command not found");
-	data->exitstatus = 127;
+	g_exitstatus = 127;
 	free(*s);
 	return (NULL);
 }
@@ -54,10 +54,10 @@ static char	*ft_two(char *tmp, char **paths, char *s, bool *free_path)
 	return (path);
 }
 
-static char	*ft_three(char **s, t_data *data, char **paths)
+static char	*ft_three(char **s, char **paths)
 {
 	ft_parse_error(*s, ": command not found");
-	data->exitstatus = 127;
+	g_exitstatus = 127;
 	free(*s);
 	if (paths)
 		free_2d_array(paths);
@@ -81,7 +81,7 @@ char	*type_command(char **s, t_data *data)
 	path = *s;
 	tmp = find_env_var_value(data, "PATH");
 	if (!tmp)
-		return (ft_one(s, data));
+		return (ft_one(s));
 	paths = ft_split(tmp, ':');
 	free_path = false;
 	if (s[0][0] != '/')
@@ -90,7 +90,7 @@ char	*type_command(char **s, t_data *data)
 	{
 		if (free_path)
 			free(path);
-		return (ft_three(s, data, paths));
+		return (ft_three(s, paths));
 	}
 	if (free_path == false)
 		path = ft_strdup(*s);
