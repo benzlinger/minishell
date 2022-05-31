@@ -2,72 +2,6 @@
 
 //echo " and echo "' leak
 
-/**	@brief	get current file
- *	@return	current file
- */
-static char	*get_file(void)
-{
-	char	*file;
-	char	*dir;
-	char	**split_dir;
-	int		i;
-
-	dir = getcwd(NULL, 0);
-	if (!dir)
-		ft_error(strerror(errno));
-	if (!ft_strncmp(dir, "/", ft_strlen(dir) + 1))
-		file = ft_strdup("/");
-	else
-	{
-		split_dir = ft_split(dir, '/');
-		i = 0;
-		while (split_dir[i])
-			i++;
-		i--;
-		file = ft_strjoin("-", split_dir[i], NULL);
-		while (split_dir[i] && i >= 0)
-		{
-			free(split_dir[i]);
-			i--;
-		}
-		free(split_dir);
-	}
-	free(dir);
-	return (file);
-}
-
-/**	@brief	get username + current directory to be used as prompt
- *	@param	status of shell (for colouring)
- *	@return	prompt for shell
- */
-static char	*msh_prompt(t_data *data)
-{
-	char		*file;
-	char		*prompt;
-	char		*promptline;
-	char		*username;
-
-	file = get_file();
-	file = ft_color_format_str(file, "\e[36m", &file);
-	username = ft_color_format_str(getenv("USER"), "\e[1;36m", NULL);
-	prompt = ft_strjoin(username, file, NULL);
-	promptline = NULL;
-	if (!data->exitstatus || data->err_color)
-	{
-		promptline = ft_strjoin(prompt, "\e[1;33m 42 \e[0m", NULL);
-		data->err_color = 0;
-	}
-	else
-	{
-		promptline = ft_strjoin(prompt, "\e[1;95m 42 \e[0m", NULL);
-		data->err_color = 1;
-	}
-	free(file);
-	free(prompt);
-	free(username);
-	return (promptline);
-}
-
 static t_data	*init_data(char **env_list)
 {
 	t_data	*data;
@@ -99,12 +33,10 @@ static t_data	*init_data(char **env_list)
  *	2. Separate the command string into a programm and arguments
  *	3. Run the parsed command
  */
-static void	msh_loop(t_data *data)
+static void	msh_loop(t_data *data, int status)
 {
-	int		status;
 	char	*promptline;
 
-	status = 1;
 	while (status)
 	{
 		promptline = msh_prompt(data);
@@ -119,7 +51,6 @@ static void	msh_loop(t_data *data)
 			{
 				status = pipe_exec(data);
 				free(data->command);
-				// ls -l | grep minishell > fileX
 			}
 			ft_free_tokens(&data->tokens);
 		}
@@ -127,8 +58,6 @@ static void	msh_loop(t_data *data)
 			data->err_color = 1;
 		free(data->line);
 	}
-	free_vars(data->vars);
-	free(data);
 }
 
 /*	1. Loading config files (if any)
@@ -144,7 +73,10 @@ int	main(int argc, char *argv[], char *envp[])
 	argv = NULL;
 	// envp = NULL;
 	data = init_data(envp);
-	init_signal_handling(data->exitstatus); //on ctrl+c exit status should be 1
-	msh_loop(data);
+	init_signal_handling(0);
+	msh_loop(data, 1);
+	free_vars(data->vars);
+	free(data);
+	system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

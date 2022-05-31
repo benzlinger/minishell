@@ -4,6 +4,11 @@ static int	check_tokens_via_type2(t_token_list *cur)
 {
 	if (cur->type == HEREDOC)
 	{
+		if (strncmp(cur->token, "<<", 3) != 0)
+		{
+			ft_parse_error("invalid heredoc syntax near: ", cur->token);
+			return (EXIT_FAILURE);
+		}
 		if (!cur->next || cur->next->type == HEREDOC
 			|| cur->next->type == PIPE || cur->next->type == REDIREC)
 		{
@@ -50,6 +55,26 @@ static int	check_tokens_via_type(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+static int	ft_one(t_token_list *node, t_data *data)
+{
+	if (node->type == PIPE)
+	{
+		if (node->next == NULL || node->next->type == PIPE)
+		{
+			ft_parse_error("invalid pipe syntax", NULL);
+			return (EXIT_FAILURE);
+		}
+		if (node->next->type != BUILTIN)
+		{
+			node->next->type = COMMAND;
+			node->next->token = type_command(&node->next->token, data);
+		}
+		if (node->next->token == NULL)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 /**
  * 	@brief	the very first token and every token after a pipe gets
  * 			converted to COMMAND unless it's a BUILTIN
@@ -70,18 +95,8 @@ static int	get_command_types(t_data *data)
 	}
 	while (current != NULL)
 	{
-		if (current->type == PIPE)
-		{
-			if (current->next == NULL || current->next->type == PIPE)
-				return ((int)ft_parse_error("invalid pipe syntax", NULL) + 1);
-			if (current->next->type != BUILTIN)
-			{
-				current->next->type = COMMAND;
-				current->next->token = type_command(&current->next->token, data);
-			}
-			if (current->next->token == NULL)
-				return (EXIT_FAILURE);
-		}
+		if (ft_one(current, data) != 0)
+			return (EXIT_FAILURE);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);

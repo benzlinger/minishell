@@ -1,5 +1,6 @@
 #include "../include/minishell.h"
 
+
 /**	@brief	parse commandline with pipes into seperate commands
  *	@param	cmd_line command line
  *	@return	3d array with commands
@@ -34,6 +35,26 @@ static char	***get_cmds(char *cmd_line)
 	free_2d_array(cmd_array);
 	i = 0;
 	return (cmds);
+}
+
+/**	@brief	check if command line contains pipes
+ *	@param	cmd_line command line
+ *	@return	1 if there are pipes, 0 if not
+ */
+static int	has_pipe(char *cmd_line)
+{
+	int	i;
+
+	if (!cmd_line)
+		return (0);
+	i = 0;
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == '|' && cmd_line[i + 1])
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 /**	@brief	redirecting output to next command after pipe
@@ -84,23 +105,46 @@ int	ft_wait(int pid)
  *	@param	data data struct
  *	@return	if pipe exists
  */
-static int	has_pipe(t_data *data)
-{
-	t_token_list	*tmp;
+// static int	has_pipe(t_data *data)
+// {
+// 	t_token_list	*tmp;
 
-	if (!data->tokens)
-		return (0);
-	tmp = data->tokens;
-	while (tmp)
+// 	if (!data->tokens)
+// 		return (0);
+// 	tmp = data->tokens;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type == PIPE)
+// 			return (1);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
+
+static void	ft_one(t_data *data, char ***cmds, int *myfd, int *i)
+{
+	if (pipe(data->fd) == -1)
+		ft_error(strerror(errno));
+	data->pid = fork();
+	if (data->pid == -1)
+		ft_error(strerror(errno));
+	else if (data->pid == 0)
 	{
-		if (tmp->type == PIPE)
-			return (1);
-		tmp = tmp->next;
+		pipe_exec_helper(cmds, data, myfd, *i);
+		ft_error(strerror(errno));
 	}
-	return (0);
+	else
+	{
+		data->current_pipe = *i;
+		data->exitstatus = ft_wait(data->pid);
+		close(data->fd[1]);
+		*myfd = data->fd[0];
+	}
+	*i += 1;
 }
 
-/**	@brief	check for pipes, and redirects output before execution
+/**	
+ * 	@brief	check for pipes, and redirects output before execution
  *	@param	data datastruct
  *	@return	status for msh_loop
  */
@@ -117,26 +161,7 @@ int	pipe_exec(t_data *data)
 		i = 0;
 		myfd = 0;
 		while (cmds[i])
-		{
-			if (pipe(data->fd) == -1)
-				ft_error(strerror(errno));
-			data->pid = fork();
-			if (data->pid == -1)
-				ft_error(strerror(errno));
-			if (data->pid == 0)
-			{
-				pipe_exec_helper(cmds, data, &myfd, i);
-				ft_error(strerror(errno));
-			}
-			else
-			{
-				data->current_pipe = i;
-				data->exitstatus = ft_wait(data->pid);
-				close(data->fd[1]);
-				myfd = data->fd[0];
-			}
-			i++;
-		}
+			ft_one(data, cmds, &myfd, &i);
 		close(data->fd[0]);
 		free_3d_array(cmds);
 		ret = data->status;

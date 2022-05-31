@@ -16,12 +16,25 @@ int	has_exitstatus(char *s)
 	return (0);
 }
 
+static void	ft_one(char *exit, char **new, int *i, int *j)
+{
+	int	k;
+
+	k = 0;
+	while (exit[k])
+	{
+		new[0][*j] = exit[k];
+		*j += 1;
+		k++;
+	}
+	*i += 2;
+}
+
 static char	*replace_helper(char *s, char *exit, int new_size)
 {
 	char	*new;
 	int		i;
 	int		j;
-	int		k;
 
 	new = malloc(new_size + 1);
 	if (!new)
@@ -31,16 +44,7 @@ static char	*replace_helper(char *s, char *exit, int new_size)
 	while (s[i])
 	{
 		if (s[i] == '$' && s[i + 1] == '?')
-		{
-			k = 0;
-			while (exit[k])
-			{
-				new[j] = exit[k];
-				j++;
-				k++;
-			}
-			i += 2;
-		}
+			ft_one(exit, &new, &i, &j);
 		else
 		{
 			new[j] = s[i];
