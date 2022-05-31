@@ -45,6 +45,11 @@ static int	remove_quotes(char *old, char *new)
 		i++;
 		j++;
 	}
+	if (quote_count(new, '\'') % 2 != 0)
+	{
+		ft_parse_error("odd amount of single quotes", NULL);
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -88,7 +93,10 @@ static char	*handle_quotes(char *s)
 		return (ft_parse_error("odd amount of double quotes", NULL));
 	}
 	if (remove_quotes(s, out) != 0)
+	{
+		free(out);
 		return (NULL);
+	}
 	return (out);
 }
 
