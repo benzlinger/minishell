@@ -4,6 +4,11 @@ static int	check_tokens_via_type2(t_token_list *cur)
 {
 	if (cur->type == HEREDOC)
 	{
+		if (strncmp(cur->token, "<<", 3) != 0)
+		{
+			ft_parse_error("invalid heredoc syntax near: ", cur->token);
+			return (EXIT_FAILURE);
+		}
 		if (!cur->next)
 		{
 			ft_parse_error("Please enter a delimiter after: ", cur->token);

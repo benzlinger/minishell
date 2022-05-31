@@ -27,37 +27,6 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	return (data->exitstatus);
 }
 
-/**	@brief	parse command for executer without pipes
- *	@param	data datastruct
- *	@return	status for msh_loop
- */
-// int	exec_nopipe(t_data *data)
-// {
-// 	char	**cmd_line;
-
-// 	if (!ft_strncmp(data->command, "export", 6)
-// 		|| !ft_strncmp(data->command, "unset", 5))
-// 		cmd_line = export_cmd(data->command);
-// 	else
-// 		cmd_line = ft_split(data->command, ',');
-// 	data->status = 1;
-// 	if (check_builtins(cmd_line[0]))
-// 		data->exitstatus = msh_executer(data, cmd_line);
-// 	else
-// 	{
-// 		data->pid = fork();
-// 		if (data->pid == -1)
-// 			ft_error(strerror(errno));
-// 		if (data->pid == 0)
-// 			exit(msh_executer(data, cmd_line));
-// 		else
-// 			data->exitstatus = ft_wait(data->pid);
-// 	}
-// 	// data->exitstatus = msh_executer(data, cmd_line);
-// 	free_2d_array(cmd_line);
-// 	return (data->status);
-// }
-
 int	exec_nopipe(t_data *data)
 {
 	char	**cmd_line;
@@ -67,6 +36,7 @@ int	exec_nopipe(t_data *data)
 		cmd_line = export_cmd(data->command);
 	else
 		cmd_line = ft_split(data->command, 31);
+	check_for_substitute_char(cmd_line);
 	data->status = 1;
 	msh_executer(data, cmd_line);
 	free_2d_array(cmd_line);
