@@ -6,7 +6,7 @@
 /*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:09:43 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:10:19 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:23:41 by rsiebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,28 +88,6 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 		msh_executer(data, cmds[i]);
 	}
 	exit(g_exitstatus);
-}
-
-/**	@brief	waits for child, gets exit status
- *	@param	pid pid
- *	@return	exit status of child
- */
-int	ft_wait(int pid)
-{
-	int	status;
-	int	exit;
-
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		exit = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == 2)
-			exit = 130;
-		else
-			exit = 131;
-	}
-	return (exit);
 }
 
 static void	ft_one(t_data *data, char ***cmds, int *myfd, int *i)

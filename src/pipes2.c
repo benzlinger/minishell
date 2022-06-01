@@ -6,11 +6,33 @@
 /*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:10:26 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:10:28 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:23:28 by rsiebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/**	@brief	waits for child, gets exit status
+ *	@param	pid pid
+ *	@return	exit status of child
+ */
+int	ft_wait(int pid)
+{
+	int	status;
+	int	exit;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 2)
+			exit = 130;
+		else
+			exit = 131;
+	}
+	return (exit);
+}
 
 static int	ft_one(char **cmd_array, char ***cmds, int j)
 {

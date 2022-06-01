@@ -6,7 +6,7 @@
 /*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:16:03 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:16:05 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:24:21 by rsiebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_append(char **old, char *suf)
 	int		i;
 	int		j;
 
-	pre = ft_calloc(ft_strlen(*old) + ft_strlen(suf) + 2, sizeof(char));//FIXME please
+	pre = ft_calloc(ft_strlen(*old) + ft_strlen(suf) + 2, sizeof(char));
 	if (pre == NULL)
 		ft_error(strerror(errno));
 	i = 0;
