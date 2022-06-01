@@ -62,10 +62,10 @@ void	print_vars(t_vars *head)
 	}
 }
 
-void	ft_leaks(void)
-{
-	system("leaks minishell");
-}
+// void	ft_leaks(void)
+// {
+// 	system("leaks minishell");
+// }
 
 void	print_2d_array(char **array)
 {
