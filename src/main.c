@@ -77,6 +77,6 @@ int	main(int argc, char *argv[], char *envp[])
 	msh_loop(data, 1);
 	free_vars(data->vars);
 	free(data);
-	system("leaks minishell");
+	// system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

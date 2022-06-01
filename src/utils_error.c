@@ -9,7 +9,7 @@ void	ft_exit(int err_code)
 {
 	// TODO freeing before exit function for clean shutdown
 	// free_vars(data->vars);
-	system("leaks minishell");
+	// system("leaks minishell");
 	exit(err_code);
 }
 
