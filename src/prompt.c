@@ -41,6 +41,13 @@ static char	*get_file(void)
 	return (file);
 }
 
+static void	free_prompt(char *file, char *prompt, char *username)
+{
+	free(file);
+	free(prompt);
+	free(username);
+}
+
 /**	
  * 	@brief	get username + current directory to be used as prompt
  *	@param	status of shell (for colouring)
@@ -52,12 +59,15 @@ char	*msh_prompt(t_data *data)
 	char		*prompt;
 	char		*promptline;
 	char		*username;
+	char		*user;
 
 	file = get_file();
 	file = ft_color_format_str(file, CYAN, &file);
-	username = ft_color_format_str(getenv("USER"), BCYAN, NULL);
+	user = find_env_var_value(data, "USER");
+	if (!user)
+		user = "no_user";
+	username = ft_color_format_str(user, BCYAN, NULL);
 	prompt = ft_strjoin(username, file, NULL);
-	promptline = NULL;
 	if (!g_exitstatus || data->err_color)
 	{
 		promptline = ft_strjoin(prompt, YELLOW" 42 "RESET, NULL);
@@ -68,8 +78,6 @@ char	*msh_prompt(t_data *data)
 		promptline = ft_strjoin(prompt, PURPLE" 42 "RESET, NULL);
 		data->err_color = 1;
 	}
-	free(file);
-	free(prompt);
-	free(username);
+	free_prompt(file, prompt, username);
 	return (promptline);
 }

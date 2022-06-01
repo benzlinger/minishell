@@ -57,7 +57,7 @@ static void	msh_executer_two(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
 		g_exitstatus = ft_pwd(builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		g_exitstatus = ft_cd(cmd_line, 0, getenv("USER"));
+		g_exitstatus = ft_cd(cmd_line, 0, find_env_var_value(data, "USER"));
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		g_exitstatus = ft_env(data, builtin_cmd_line, data->builtin_fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))
@@ -83,7 +83,7 @@ static void	msh_executer_three(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "pwd", 3))
 		g_exitstatus = ft_pwd(cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "cd", 2))
-		g_exitstatus = ft_cd(cmd_line, 0, getenv("USER"));
+		g_exitstatus = ft_cd(cmd_line, 0, find_env_var_value(data, "USER"));
 	else if (!ft_strncmp(cmd_line[0], "env", 3))
 		g_exitstatus = ft_env(data, cmd_line, fd);
 	else if (!ft_strncmp(cmd_line[0], "export", 6))

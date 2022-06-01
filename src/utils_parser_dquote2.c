@@ -24,7 +24,7 @@ static void	insert_envar_value(char *s, char **out, char *val)
 		i++;
 		j++;
 	}
-	while (s[i] != ' ' && s[i] != '=' && s[i] != ',' && s[i])
+	while (s[i] != ' ' && s[i] != '=' && s[i] != ',' && s[i] != 39 && s[i])
 		i++;
 	k = 0;
 	while (val != NULL && val[k])
@@ -50,7 +50,7 @@ static char	*get_envar_name(char *s)
 		i++;
 	i++;
 	j = 0;
-	while (s[i] != ' ' && s[i] != '=' && s[i] != ',' && s[i])
+	while (s[i] != ' ' && s[i] != '=' && s[i] != ',' && s[i] != 39 && s[i])
 	{
 		out[j] = s[i];
 		i++;
