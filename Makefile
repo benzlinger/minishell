@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/06/01 18:21:15 by btenzlin          #+#    #+#              #
+#    Updated: 2022/06/01 18:21:17 by btenzlin         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # EXECUTABLE
 NAME = ./minishell
 
@@ -7,7 +19,7 @@ LFRC = -I$$HOME/.brew/opt/readline/include
 
 # FLAGS
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 # COLORS
 Y = "\033[33m"
@@ -40,8 +52,8 @@ SRC =	$(SRC_PATH)main.c						$(SRC_PATH)lexer.c\
 		$(SRC_PATH)compatibility.c				$(SRC_PATH)utils_executer.c\
 		$(SRC_PATH)utils_export2.c				$(SRC_PATH)prompt.c\
 		$(SRC_PATH)utils_executer_redirec3.c	$(SRC_PATH)utils_parser_redirec2.c\
-    	$(SRC_PATH)utils_parser_exitstatus.c	$(SRC_PATH)pipes2.c\
-		$(SRC_PATH)debug.c\
+		$(SRC_PATH)utils_parser_exitstatus.c	$(SRC_PATH)pipes2.c\
+		$(SRC_PATH)utils_signals.c\
 
 # OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))

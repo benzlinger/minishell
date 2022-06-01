@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:22:40 by btenzlin          #+#    #+#             */
+/*   Updated: 2022/06/01 18:23:30 by btenzlin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -20,10 +32,7 @@
 # define PURPLE "\001\033[1;95m\002"
 # define RESET "\001\033[0m\002"
 
-int	g_exitstatus; //VERIFY: if necessary
-
-//NORM ERROR
-# define PRINT_HERE(){printf("In File: %s In Line: %d\n", __FILE__, __LINE__);}
+int	g_exitstatus;
 
 typedef enum e_type
 {
