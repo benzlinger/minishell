@@ -47,6 +47,8 @@ int	ft_cd(char **cmd_line, int ret, char *user)
 
 	if (!cmd_line)
 		return (EXIT_FAILURE);
+	if (!user)
+		user = "no_user";
 	homedir = ft_strjoin("/Users/", user, NULL);
 	if (cmd_line[1] && cmd_line[1][0] == '~')
 	{
