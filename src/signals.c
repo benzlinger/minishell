@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:26:48 by btenzlin          #+#    #+#             */
+/*   Updated: 2022/06/01 18:27:49 by btenzlin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 /**
@@ -7,7 +19,6 @@ static void	handle_sigint(void)
 {
 	rl_on_new_line();
 	rl_redisplay();
-	// for removing '^C'
 	write(1, "  \b\b\n", 5);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -22,12 +33,8 @@ static void	handle_sigint(void)
 static void	handle_sigquit(void)
 {
 	rl_on_new_line();
-	//printf("\nPID: %d\n", pid);
-	//system("leaks minishell");
 	rl_redisplay();
-	// for removing '^\'
 	write(1, "  \b\b", 4);
-	// rl_replace_line("", 0);
 }
 
 /**
@@ -51,9 +58,7 @@ void	init_signal_handling(void)
 {
 	struct sigaction	sa;
 
-	// sa.sa_handler = &signal_handler;
 	sa.sa_flags = SA_RESTART;
-	// sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
