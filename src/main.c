@@ -39,6 +39,7 @@ static void	msh_loop(t_data *data, int status)
 
 	while (status)
 	{
+		init_signal_handling();
 		promptline = msh_prompt(data);
 		data->line = readline(promptline);
 		free(promptline);
@@ -73,7 +74,6 @@ int	main(int argc, char *argv[], char *envp[])
 	argv = NULL;
 	// envp = NULL;
 	data = init_data(envp);
-	init_signal_handling();
 	msh_loop(data, 1);
 	free_vars(data->vars);
 	free(data);

@@ -11,6 +11,7 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	pid = fork();
 	if (pid == -1)
 		ft_error(strerror(errno));
+	init_child_handling();
 	if (pid == 0)
 	{
 		if (redirec_in(cmd_line))

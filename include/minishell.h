@@ -120,6 +120,7 @@ int				get_builtin_fd(t_data *data);
 bool			set_append(t_token_list *node);
 t_token_list	*iterate_to_current_pipe(t_data *data);
 int				countyy(char **cmd_line);
+void			init_child_handling(void);
 
 /* utils parser */
 int				get_last_redirec(t_token_list *head);
