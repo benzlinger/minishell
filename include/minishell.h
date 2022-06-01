@@ -41,6 +41,7 @@ typedef enum e_type
 	TRUNC,
 	CREAT,
 	HIN,
+	TOKEN,
 	UNKNOWN
 }		t_type;
 
@@ -141,6 +142,7 @@ char			*replace_exitstatus(char *s);
 int				check_redirections(t_token_list *head);
 char			*find_env_var_value(t_data *data, char *name);
 int				quote_count(char *s, char c);
+void			set_token_type(t_token_list *head);
 
 /* utils lexer */
 void			remove_token_node(t_token_list *head, t_token_list **node);
