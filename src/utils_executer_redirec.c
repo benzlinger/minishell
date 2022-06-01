@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_executer_redirec.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:12:24 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:12:31 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 /**
@@ -20,7 +32,6 @@ t_token_list	*iterate_to_current_pipe(t_data *data)
 	current = data->tokens;
 	while (current != NULL && current->pipe_index <= data->current_pipe)
 		current = current->next;
-	// FIXME last pipe wont work
 	if (current == NULL)
 		return (data->tokens);
 	return (current);

@@ -1,6 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:09:13 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:09:24 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//echo " and echo "' leak
+#include "../include/minishell.h"
 
 static t_data	*init_data(char **env_list)
 {
@@ -72,11 +82,9 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc != 1)
 		ft_error(strerror(E2BIG));
 	argv = NULL;
-	// envp = NULL;
 	data = init_data(envp);
 	msh_loop(data, 1);
 	free_vars(data->vars);
 	free(data);
-	// system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

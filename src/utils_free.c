@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:13:41 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:13:48 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 /**
@@ -8,8 +20,6 @@ void	ft_free_tokens(t_token_list **tokens)
 {
 	while (tokens[0] != NULL)
 	{
-		//if (tokens[0]->type != ENVAR && tokens[0]->type != ENVARU)
-		//	free(tokens[0]->token);
 		free(tokens[0]->token);
 		free(*tokens);
 		*tokens = tokens[0]->next;

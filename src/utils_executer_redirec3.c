@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_executer_redirec3.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:12:58 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:13:01 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-// FIXME
-// somethings going wrong with grep and awk after a pipe
 char	*remove_redirec(char **cmd_line, int i, int j)
 {
 	char	*cmd;

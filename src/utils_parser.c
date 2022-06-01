@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:14:55 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:18:22 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	set_token_type(t_token_list *head)
@@ -7,7 +19,7 @@ void	set_token_type(t_token_list *head)
 	current = head;
 	while (current != NULL)
 	{
-		if (current->type == HEREDOC)
+		if (current->next != NULL && current->type == HEREDOC)
 			current->next->type = TOKEN;
 		current = current->next;
 	}

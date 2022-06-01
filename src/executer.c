@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:08:33 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:08:40 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static int	exec_not_builtin(char **cmd_line, t_data *data)
@@ -6,8 +18,6 @@ static int	exec_not_builtin(char **cmd_line, t_data *data)
 	char	**new_cmd_line;
 
 	new_cmd_line = NULL;
-	// FIXME doesn't new_cmd_line need to be freed? (doesn't leak because in child --> no malloc in parent)
-	// -> maybe bad practice?
 	pid = fork();
 	if (pid == -1)
 		ft_error(strerror(errno));

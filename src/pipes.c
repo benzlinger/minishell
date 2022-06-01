@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:09:43 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:10:19 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 /**	@brief	parse commandline with pipes into seperate commands
@@ -60,7 +72,7 @@ static int	has_pipe(char *cmd_line)
  */
 static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 {
-	if (cmds[i + 1]) //first or middle pipe
+	if (cmds[i + 1])
 	{
 		close(data->fd[0]);
 		dup2(*myfd, STDIN_FILENO);
@@ -68,7 +80,7 @@ static void	pipe_exec_helper(char ***cmds, t_data *data, int *myfd, int i)
 		msh_executer(data, cmds[i]);
 		close(data->fd[1]);
 	}
-	else //last pipe (end of command)
+	else
 	{
 		close(data->fd[0]);
 		close(data->fd[1]);
@@ -99,26 +111,6 @@ int	ft_wait(int pid)
 	}
 	return (exit);
 }
-
-/**	@brief	checks if cmd line has pipe (not in quotes)
- *	@param	data data struct
- *	@return	if pipe exists
- */
-// static int	has_pipe(t_data *data)
-// {
-// 	t_token_list	*tmp;
-
-// 	if (!data->tokens)
-// 		return (0);
-// 	tmp = data->tokens;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == PIPE)
-// 			return (1);
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
 
 static void	ft_one(t_data *data, char ***cmds, int *myfd, int *i)
 {

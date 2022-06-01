@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser_redirec.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:16:14 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:16:21 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static void	set_flag_types(t_token_list *head)
@@ -66,7 +78,6 @@ static int	check_redir_syntax(t_token_list *head)
 	t_token_list	*tmp;
 
 	tmp = head;
-	// ft_print_list(tmp);
 	while (tmp)
 	{
 		if (tmp->type == REDIREC)

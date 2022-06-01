@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_error.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:11:19 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:12:02 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 /**
@@ -7,9 +19,6 @@
  */
 void	ft_exit(int err_code)
 {
-	// TODO freeing before exit function for clean shutdown
-	// free_vars(data->vars);
-	// system("leaks minishell");
 	exit(err_code);
 }
 

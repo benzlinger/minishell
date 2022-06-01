@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser_dquote2.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:15:36 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:15:41 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static void	insert_envar_value2(char *s, char **out, int i, int j)
@@ -65,7 +77,6 @@ static int	get_envar_info(char *s, char **val, t_data *data)
 	char	*name;
 
 	name = get_envar_name(s);
-	// *val = getenv(name);
 	*val = find_env_var_value(data, name);
 	size = ft_strlen(s) + ft_strlen(*val) - ft_strlen(name);
 	free(name);

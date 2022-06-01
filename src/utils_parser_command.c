@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser_command.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 18:15:07 by rsiebert          #+#    #+#             */
+/*   Updated: 2022/06/01 18:15:19 by rsiebert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 /**
@@ -69,7 +81,6 @@ static char	*ft_three(char **s, char **paths)
  * 	@param	s: pointer to literal token string of type COMMAND
  * 	@return path to the command e.g. "/bin/ls"
  * 			NULL if no command found
- * 	@NOTE	I removed type != ENVAR conditions but it has no effect whatsoever
  */
 char	*type_command(char **s, t_data *data)
 {
