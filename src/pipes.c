@@ -1,6 +1,5 @@
 #include "../include/minishell.h"
 
-
 /**	@brief	parse commandline with pipes into seperate commands
  *	@param	cmd_line command line
  *	@return	3d array with commands
