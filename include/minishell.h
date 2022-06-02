@@ -6,7 +6,7 @@
 /*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:22:40 by btenzlin          #+#    #+#             */
-/*   Updated: 2022/06/01 18:23:30 by btenzlin         ###   ########.fr       */
+/*   Updated: 2022/06/02 10:42:16 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,5 +201,6 @@ int				ft_cd(char **cmd_line, int ret, char *user);
 int				ft_env(t_data *data, char **cmd_line, int fd);
 int				ft_export(t_data *data, char **cmd_line, int fd, int is_exit);
 t_vars			*ft_unset(char **cmd_line, t_data *data);
+int				ft_exit_builtin(char **cmd_line);
 
 #endif

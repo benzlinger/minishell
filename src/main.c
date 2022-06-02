@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:09:13 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:09:24 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/02 10:58:13 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,5 @@ int	main(int argc, char *argv[], char *envp[])
 	msh_loop(data, 1);
 	free_vars(data->vars);
 	free(data);
-	return (EXIT_SUCCESS);
+	return (g_exitstatus);
 }

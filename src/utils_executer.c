@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   utils_executer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:12:10 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:12:14 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/02 10:46:45 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	ft_exit_builtin(char **cmd_line)
+{
+	int	i;
+
+	write(1, "exit\n", 5);
+	i = 0;
+	if (cmd_line[1])
+	{
+		while (cmd_line[1][i])
+		{
+			if (!ft_isdigit(cmd_line[1][i]))
+			{
+				ft_exec_error("numeric arguments required", NULL);
+				return (0);
+			}
+			i++;
+		}
+		if (cmd_line[2] && ft_strlen(cmd_line[2]))
+		{
+			g_exitstatus = 1;
+			ft_exec_error("too many arguments", NULL);
+			return (1);
+		}
+		g_exitstatus = ft_atoi(cmd_line[1]);
+	}
+	return (0);
+}
 
 static int	open_rout_file(t_token_list *node, bool append)
 {

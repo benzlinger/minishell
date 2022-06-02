@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:11:19 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:12:02 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/02 10:57:54 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ft_exit_eof(int err_code)
 	rl_on_new_line();
 	rl_redisplay();
 	write(1, "exit\n", 5);
-	ft_exit(err_code);
+	err_code = 0;
+	ft_exit(g_exitstatus);
 }
 
 /**	

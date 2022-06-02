@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:08:00 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:08:17 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/02 10:27:57 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static int	check_flag(char *s)
+{
+	int	i;
+
+	if (!s)
+		return (0);
+	i = 1;
+	while (s[i])
+	{
+		if (s[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 /**
  * 	@brief	recode of linux echo function
@@ -30,7 +46,8 @@ int	ft_echo(char **cmd_line, int fd)
 	}
 	is_flag = 0;
 	i = 1;
-	while (cmd_line[i] && !ft_strncmp(cmd_line[i], "-n", 2))
+	while (cmd_line[i] && !ft_strncmp(cmd_line[i], "-n", 2)
+		&& check_flag(cmd_line[i]))
 	{
 		is_flag = 1;
 		i++;

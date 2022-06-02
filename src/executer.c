@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:08:33 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:08:40 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/02 10:41:16 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,7 @@ static void	msh_executer_three(t_data *data, char **cmd_line)
 	else if (!ft_strncmp(cmd_line[0], "unset", 5))
 		data->vars = ft_unset(cmd_line, data);
 	else if (!ft_strncmp(cmd_line[0], "exit", 4))
-	{
-		write(1, "exit\n", 5);
-		data->status = 0;
-	}
+		data->status = ft_exit_builtin(cmd_line);
 }
 
 /**	@brief	execute builtin commands
