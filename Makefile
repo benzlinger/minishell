@@ -6,7 +6,7 @@
 #    By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/01 18:21:15 by btenzlin          #+#    #+#              #
-#    Updated: 2022/06/02 10:44:21 by btenzlin         ###   ########.fr        #
+#    Updated: 2022/06/02 14:03:06 by btenzlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ SRC =	$(SRC_PATH)main.c						$(SRC_PATH)lexer.c\
 		$(SRC_PATH)utils_export2.c				$(SRC_PATH)prompt.c\
 		$(SRC_PATH)utils_executer_redirec3.c	$(SRC_PATH)utils_parser_redirec2.c\
 		$(SRC_PATH)utils_parser_exitstatus.c	$(SRC_PATH)pipes2.c\
-		$(SRC_PATH)utils_signals.c				$(SRC_PATH)debug.c\
+		$(SRC_PATH)utils_signals.c\
 
 # OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))

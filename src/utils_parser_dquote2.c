@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parser_dquote2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsiebert <rsiebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btenzlin <btenzlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:15:36 by rsiebert          #+#    #+#             */
-/*   Updated: 2022/06/01 18:15:41 by rsiebert         ###   ########.fr       */
+/*   Updated: 2022/06/02 13:58:00 by btenzlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	insert_envar_value(char *s, char **out, char *val)
 		i++;
 		j++;
 	}
-	while (s[i] != ' ' && s[i] != '=' && s[i] != ',' && s[i] != 39 && s[i])
+	while ((ft_isalnum(s[i]) || s[i] == '$') && s[i])
 		i++;
 	k = 0;
 	while (val != NULL && val[k])
@@ -62,7 +62,7 @@ static char	*get_envar_name(char *s)
 		i++;
 	i++;
 	j = 0;
-	while (s[i] != ' ' && s[i] != '=' && s[i] != ',' && s[i] != 39 && s[i])
+	while (ft_isalnum(s[i]) && s[i])
 	{
 		out[j] = s[i];
 		i++;
