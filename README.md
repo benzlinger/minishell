@@ -1,6 +1,6 @@
 # minishell
 
-[group project with [@benzlinger](https://github.com/benzlinger)]
+[group project with [@cptbboy](https://github.com/cptbboy)]
 
 This project was about creating a simple shell. We learned a lot about processes and file descriptors.
 
